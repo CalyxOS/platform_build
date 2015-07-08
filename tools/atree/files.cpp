@@ -339,11 +339,15 @@ locate(FileRecord* rec, const vector<string>& search)
     }
 
     int err;
-
+    string full;
     for (vector<string>::const_iterator it=search.begin();
                 it!=search.end(); it++) {
-        string full = path_append(*it, rec->sourceName);
         struct stat st;
+        if (rec->sourceName.length() != 0 && rec->sourceName[0] == '/')
+            full = rec->sourceName;
+        else
+            full = path_append(*it, rec->sourceName);
+
         err = stat(full.c_str(), &st);
         if (err == 0) {
             rec->sourceBase = *it;
@@ -356,7 +360,7 @@ locate(FileRecord* rec, const vector<string>& search)
     }
 
     fprintf(stderr, "%s:%d: couldn't locate source file: %s\n",
-                rec->listFile.c_str(), rec->listLine, rec->sourceName.c_str());
+                rec->listFile.c_str(), rec->listLine, full.c_str());
     return 1;
 }
 
