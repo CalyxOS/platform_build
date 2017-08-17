@@ -1182,6 +1182,9 @@ ifneq ($(CALYX_BUILD),)
 ## We need to be sure the global selinux policies are included
 ## last, to avoid accidental resetting by device configs
 $(eval include vendor/calyx/sepolicy/common/sepolicy.mk)
+
+# Rules for QCOM targets
+-include vendor/calyx/build/core/qcom_target.mk
 endif
 
 include $(BUILD_SYSTEM)/dumpvar.mk
