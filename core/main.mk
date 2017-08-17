@@ -468,6 +468,12 @@ ADDITIONAL_SYSTEM_PROPERTIES += net.bt.name=Android
 # This property is set by flashing debug boot image, so default to false.
 ADDITIONAL_SYSTEM_PROPERTIES += ro.force.debuggable=0
 
+ifneq ($(CALYX_BUILD),)
+# ------------------------------------------------------------
+# Include vendor specific additions to build properties
+-include vendor/calyx/build/core/main.mk
+endif
+
 # ------------------------------------------------------------
 # Define a function that, given a list of module tags, returns
 # non-empty if that module should be installed in /system.
