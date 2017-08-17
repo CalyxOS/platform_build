@@ -467,6 +467,12 @@ BUILD_WITHOUT_PV := true
 
 ADDITIONAL_SYSTEM_PROPERTIES += net.bt.name=Android
 
+ifneq ($(CALYX_BUILD),)
+# ------------------------------------------------------------
+# Include vendor specific additions to build properties
+-include vendor/calyx/build/core/main.mk
+endif
+
 # ------------------------------------------------------------
 # Define a function that, given a list of module tags, returns
 # non-empty if that module should be installed in /system.
