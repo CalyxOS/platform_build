@@ -3676,6 +3676,12 @@ OTATOOLS_DEPS += \
   $(sort $(shell find external/vboot_reference/tests/devkeys -type f))
 endif
 
+# CalyxOS
+OTATOOLS_DEPS += \
+  device/common/clear-factory-images-variables.sh \
+  device/common/generate-factory-images-common.sh \
+  vendor/calyx/scripts/release.sh
+
 $(BUILT_OTATOOLS_PACKAGE): $(OTATOOLS) $(OTATOOLS_DEPS) $(OTATOOLS_RELEASETOOLS) $(SOONG_ZIP)
 	@echo "Package OTA tools: $@"
 	$(hide) rm -rf $@ $(zip_root)
