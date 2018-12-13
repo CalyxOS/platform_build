@@ -4204,6 +4204,18 @@ INTERNAL_OTATOOLS_RELEASETOOLS := \
   $(sort $(shell find build/make/tools/releasetools -name "*.pyc" -prune -o \
       \( -type f -o -type l \) -print))
 
+ifneq ($(CALYX_BUILD),)
+INTERNAL_OTATOOLS_PACKAGE_FILES += \
+  device/common/clear-factory-images-variables.sh \
+  device/common/generate-factory-images-common.sh \
+  vendor/calyx/scripts/generate_delta.sh \
+  vendor/calyx/scripts/generate_metadata.py \
+  vendor/calyx/scripts/release.sh \
+  vendor/calyx/scripts/sign-app.sh \
+  vendor/calyx/scripts/sign-trichrome.sh \
+  vendor/calyx/scripts/metadata
+endif
+
 BUILT_OTATOOLS_PACKAGE := $(PRODUCT_OUT)/otatools.zip
 $(BUILT_OTATOOLS_PACKAGE): PRIVATE_ZIP_ROOT := $(call intermediates-dir-for,PACKAGING,otatools)/otatools
 $(BUILT_OTATOOLS_PACKAGE): PRIVATE_OTATOOLS_PACKAGE_FILES := $(INTERNAL_OTATOOLS_PACKAGE_FILES)
