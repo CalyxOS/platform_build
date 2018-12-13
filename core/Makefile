@@ -4204,6 +4204,12 @@ INTERNAL_OTATOOLS_RELEASETOOLS := \
   $(sort $(shell find build/make/tools/releasetools -name "*.pyc" -prune -o \
       \( -type f -o -type l \) -print))
 
+# CalyxOS
+INTERNAL_OTATOOLS_PACKAGE_FILES += \
+  device/common/clear-factory-images-variables.sh \
+  device/common/generate-factory-images-common.sh \
+  vendor/calyx/scripts/release.sh
+
 BUILT_OTATOOLS_PACKAGE := $(PRODUCT_OUT)/otatools.zip
 $(BUILT_OTATOOLS_PACKAGE): PRIVATE_ZIP_ROOT := $(call intermediates-dir-for,PACKAGING,otatools)/otatools
 $(BUILT_OTATOOLS_PACKAGE): PRIVATE_OTATOOLS_PACKAGE_FILES := $(INTERNAL_OTATOOLS_PACKAGE_FILES)
