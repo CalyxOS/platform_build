@@ -4208,6 +4208,8 @@ INTERNAL_OTATOOLS_RELEASETOOLS := \
 INTERNAL_OTATOOLS_PACKAGE_FILES += \
   device/common/clear-factory-images-variables.sh \
   device/common/generate-factory-images-common.sh \
+  vendor/calyx/scripts/generate_delta.sh \
+  vendor/calyx/scripts/generate_metadata.py \
   vendor/calyx/scripts/release.sh
 
 BUILT_OTATOOLS_PACKAGE := $(PRODUCT_OUT)/otatools.zip
