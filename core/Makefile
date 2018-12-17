@@ -3680,6 +3680,8 @@ endif
 OTATOOLS_DEPS += \
   device/common/clear-factory-images-variables.sh \
   device/common/generate-factory-images-common.sh \
+  vendor/calyx/scripts/generate_delta.sh \
+  vendor/calyx/scripts/generate_metadata.py \
   vendor/calyx/scripts/release.sh
 
 $(BUILT_OTATOOLS_PACKAGE): $(OTATOOLS) $(OTATOOLS_DEPS) $(OTATOOLS_RELEASETOOLS) $(SOONG_ZIP)
