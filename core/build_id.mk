@@ -18,4 +18,10 @@
 # (like "CRB01").  It must be a single word, and is
 # capitalized by convention.
 
+ifneq (,$(filter calyx_barbet calyx_bramble calyx_redfin,$(TARGET_PRODUCT)))
+BUILD_ID=SP1A.211105.003
+else ifneq (,$(filter calyx_sunfish calyx_coral calyx_flame calyx_bonito calyx_sargo,$(TARGET_PRODUCT)))
+BUILD_ID=SP1A.211105.002
+else
 BUILD_ID=SD1A.210817.037
+endif
