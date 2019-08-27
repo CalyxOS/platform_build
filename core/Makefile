@@ -4210,7 +4210,9 @@ INTERNAL_OTATOOLS_PACKAGE_FILES += \
   device/common/generate-factory-images-common.sh \
   vendor/calyx/scripts/generate_delta.sh \
   vendor/calyx/scripts/generate_metadata.py \
-  vendor/calyx/scripts/release.sh
+  vendor/calyx/scripts/release.sh \
+  vendor/calyx/scripts/sign-app.sh \
+  vendor/calyx/scripts/metadata
 
 BUILT_OTATOOLS_PACKAGE := $(PRODUCT_OUT)/otatools.zip
 $(BUILT_OTATOOLS_PACKAGE): PRIVATE_ZIP_ROOT := $(call intermediates-dir-for,PACKAGING,otatools)/otatools
