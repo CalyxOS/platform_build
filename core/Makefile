@@ -2447,7 +2447,9 @@ OTATOOLS_DEPS += \
   device/common/generate-factory-images-common.sh \
   vendor/calyx/scripts/generate_delta.sh \
   vendor/calyx/scripts/generate_metadata.py \
-  vendor/calyx/scripts/release.sh
+  vendor/calyx/scripts/release.sh \
+  vendor/calyx/scripts/sign-app.sh \
+  vendor/calyx/scripts/metadata
 
 $(BUILT_OTATOOLS_PACKAGE): $(OTATOOLS) $(OTATOOLS_DEPS) $(OTATOOLS_RELEASETOOLS) | $(ACP)
 	@echo "Package OTA tools: $@"
