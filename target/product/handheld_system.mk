@@ -47,6 +47,7 @@ PRODUCT_PACKAGES += \
     DocumentsUI \
     DownloadProviderUi \
     EasterEgg \
+    ExactCalculator \
     ExternalStorageProvider \
     FusedLocation \
     InputDevices \
