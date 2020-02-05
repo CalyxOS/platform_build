@@ -4212,6 +4212,7 @@ INTERNAL_OTATOOLS_PACKAGE_FILES += \
   vendor/calyx/scripts/generate_metadata.py \
   vendor/calyx/scripts/release.sh \
   vendor/calyx/scripts/sign-app.sh \
+  vendor/calyx/scripts/sign-trichrome.sh \
   vendor/calyx/scripts/metadata
 
 BUILT_OTATOOLS_PACKAGE := $(PRODUCT_OUT)/otatools.zip
