@@ -3641,6 +3641,10 @@ OTATOOLS += \
   $(HOST_LIBRARY_PATH)/libfec$(HOST_SHLIB_SUFFIX) \
   $(HOST_LIBRARY_PATH)/libsquashfs_utils$(HOST_SHLIB_SUFFIX)
 
+# CalyxOS
+OTATOOLS += \
+  $(HOST_OUT_EXECUTABLES)/apksigner \
+  $(HOST_OUT_JAVA_LIBRARIES)/apksigner.jar
 
 .PHONY: otatools
 otatools: $(OTATOOLS)
