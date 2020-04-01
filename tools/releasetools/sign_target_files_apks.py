@@ -514,7 +514,8 @@ def ProcessTargetFiles(input_tf_zip, output_tf_zip, misc_info,
 
   for info in input_tf_zip.infolist():
     filename = info.filename
-    if filename.startswith("IMAGES/"):
+    if filename.startswith("IMAGES/") and not \
+      (filename.endswith("vendor.img") or filename.endswith("vendor_dlkm.img")):
       continue
 
     # Skip OTA-specific images (e.g. split super images), which will be
@@ -1385,7 +1386,7 @@ def main(argv):
   common.ZipClose(output_zip)
 
   # Skip building userdata.img and cache.img when signing the target files.
-  new_args = ["--is_signing"]
+  new_args = ["--is_signing", "--add_missing"]
   # add_img_to_target_files builds the system image from scratch, so the
   # recovery patch is guaranteed to be regenerated there.
   if OPTIONS.rebuild_recovery:
