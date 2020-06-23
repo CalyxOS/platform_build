@@ -103,6 +103,10 @@ Usage:  sign_target_files_apks [flags] input_target_files output_target_files
       Specify any additional args that are needed to AVB-sign the image
       (e.g. "--signing_helper /path/to/helper"). The args will be appended to
       the existing ones in info dict.
+
+  --otatest <build incremental>
+      Create an additional zip for OTA update testing, with the build date bumped
+      by 1 and the build's incremental version is replaced by the argument provided.
 """
 
 from __future__ import print_function
@@ -150,6 +154,7 @@ OPTIONS.tag_changes = ("-test-keys", "-dev-keys", "+release-keys")
 OPTIONS.avb_keys = {}
 OPTIONS.avb_algorithms = {}
 OPTIONS.avb_extra_args = {}
+OPTIONS.otatest = ""
 
 
 def GetApkCerts(certmap):
@@ -695,6 +700,10 @@ def RewriteProps(data):
         if len(value) > 1 and value[-1].endswith("-keys"):
           value.pop()
         value = " ".join(value)
+      elif key.startswith("ro.") and key.endswith(".build.date.utc") and OPTIONS.otatest:
+        value = str(int(value) + 1)
+      elif key.startswith("ro.") and key.endswith(".build.version.incremental") and OPTIONS.otatest:
+        value = OPTIONS.otatest
       line = key + "=" + value
     if line != original_line:
       print("  replace: ", original_line)
@@ -1127,6 +1136,8 @@ def main(argv):
       OPTIONS.avb_extra_args['vbmeta_vendor'] = a
     elif o == "--avb_apex_extra_args":
       OPTIONS.avb_extra_args['apex'] = a
+    elif o == "--otatest":
+      OPTIONS.otatest = a
     else:
       return False
     return True
@@ -1170,6 +1181,7 @@ def main(argv):
           "avb_vbmeta_vendor_algorithm=",
           "avb_vbmeta_vendor_key=",
           "avb_vbmeta_vendor_extra_args=",
+          "otatest="
       ],
       extra_option_handler=option_handler)
 
