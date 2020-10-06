@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "82e93dcf_f3d147a6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2020-10-06T18:38:47Z",
+      "side": 1,
+      "message": "I\u0027ve definitely come a long way.",
+      "revId": "3c77b4dd7a14f8af861b911120f4c164b5543ae4",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0",
+      "unresolved": true
+    }
+  ]
+}
