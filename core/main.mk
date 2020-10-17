@@ -1121,6 +1121,18 @@ $(if $(strip $(1)), \
 )
 endef
 
+# Warns if the given list is non-empty, and prints it entries (stripping PRODUCT_OUT).
+# $(1): list of files to print
+# $(2): heading to print on failure
+define maybe-print-list-and-warn
+$(if $(strip $(1)), \
+  $(warning $(2)) \
+  $(info Offending entries:) \
+  $(foreach e,$(sort $(1)),$(info    $(patsubst $(PRODUCT_OUT)/%,%,$(e)))) \
+  $(warning Build would have failed, but for now it has not. You should fix this!) \
+)
+endef
+
 ifdef FULL_BUILD
   ifneq (true,$(ALLOW_MISSING_DEPENDENCIES))
     # Check to ensure that all modules in PRODUCT_PACKAGES exist (opt in per product)
@@ -1229,7 +1241,7 @@ $(call dist-for-goals,droidcore,$(CERTIFICATE_VIOLATION_MODULES_FILENAME))
     $(eval offending_files := $(filter-out $(allowed_patterns),$(files_in_requirement))) \
     $(eval enforcement := $(PRODUCT_ENFORCE_ARTIFACT_PATH_REQUIREMENTS)) \
     $(if $(enforcement),\
-      $(call maybe-print-list-and-error,$(offending_files),\
+      $(call maybe-print-list-and-warn,$(offending_files),\
         $(INTERNAL_PRODUCT) produces files inside $(makefile)s artifact path requirement. \
         $(PRODUCT_ARTIFACT_PATH_REQUIREMENT_HINT)) \
       $(eval unused_allowed := $(if $(filter true strict,$(enforcement)),\
