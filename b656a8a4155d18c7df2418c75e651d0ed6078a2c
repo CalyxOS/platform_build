@@ -16,6 +16,24 @@
       "revId": "b656a8a4155d18c7df2418c75e651d0ed6078a2c",
       "serverId": "35266860-6252-469c-a67d-185064479fc0",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e553ba05_663fc2d9",
+        "filename": "target/product/aosp_product.mk",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000004
+      },
+      "writtenOn": "2020-11-10T19:52:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "46f70159_8b6ea348",
+      "revId": "b656a8a4155d18c7df2418c75e651d0ed6078a2c",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0",
+      "unresolved": false
     }
   ]
 }
