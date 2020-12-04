@@ -1233,6 +1233,12 @@ dont_bother_goals := out \
     vbmetaimage-nodeps \
     product-graph dump-products
 
+ifneq ($(CALYX_BUILD),)
+## We need to be sure the global selinux policies are included
+## last, to avoid accidental resetting by device configs
+$(eval include vendor/calyx/sepolicy/common/sepolicy.mk)
+endif
+
 ifeq ($(CALLED_FROM_SETUP),true)
 include $(BUILD_SYSTEM)/ninja_config.mk
 include $(BUILD_SYSTEM)/soong_config.mk
@@ -1244,10 +1250,6 @@ DEFAULT_DATA_OUT_MODULES := ltp $(ltp_packages) $(kselftest_modules)
 .KATI_READONLY := DEFAULT_DATA_OUT_MODULES
 
 ifneq ($(CALYX_BUILD),)
-## We need to be sure the global selinux policies are included
-## last, to avoid accidental resetting by device configs
-$(eval include vendor/calyx/sepolicy/common/sepolicy.mk)
-
 # Include any vendor specific config.mk file
 -include vendor/*/build/core/config.mk
 endif
