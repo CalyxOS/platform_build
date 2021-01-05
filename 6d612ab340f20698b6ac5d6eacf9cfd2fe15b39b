@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b0ebaf8_e889fa20",
+        "filename": "core/build_id.mk",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-01-05T11:13:49Z",
+      "side": 1,
+      "message": "Not sure about this, we either do this, or edit vendor/google_devices to not make it error out on a different build id",
+      "revId": "6d612ab340f20698b6ac5d6eacf9cfd2fe15b39b",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0",
+      "unresolved": true
+    }
+  ]
+}
