@@ -16,6 +16,24 @@
       "revId": "6d612ab340f20698b6ac5d6eacf9cfd2fe15b39b",
       "serverId": "35266860-6252-469c-a67d-185064479fc0",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90ed638f_00f850dd",
+        "filename": "core/build_id.mk",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000004
+      },
+      "writtenOn": "2021-01-05T20:17:35Z",
+      "side": 1,
+      "message": "Ideally we should modify vendor so we don\u0027t have to manually edit this file every month",
+      "parentUuid": "2b0ebaf8_e889fa20",
+      "revId": "6d612ab340f20698b6ac5d6eacf9cfd2fe15b39b",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0",
+      "unresolved": true
     }
   ]
 }
