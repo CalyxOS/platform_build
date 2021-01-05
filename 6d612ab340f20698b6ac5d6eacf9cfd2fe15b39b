@@ -34,6 +34,24 @@
       "revId": "6d612ab340f20698b6ac5d6eacf9cfd2fe15b39b",
       "serverId": "35266860-6252-469c-a67d-185064479fc0",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71330a97_d56ec58c",
+        "filename": "core/build_id.mk",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-01-05T20:21:12Z",
+      "side": 1,
+      "message": "Yeah, but we may end up needing this change for other Pixels anyway, at which point it doesn\u0027t make too big of a difference.",
+      "parentUuid": "90ed638f_00f850dd",
+      "revId": "6d612ab340f20698b6ac5d6eacf9cfd2fe15b39b",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0",
+      "unresolved": true
     }
   ]
 }
