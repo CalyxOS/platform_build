@@ -18,8 +18,4 @@
 # (like "CRB01").  It must be a single word, and is
 # capitalized by convention.
 
-ifneq (,$(filter calyx_taimen calyx_walleye,$(TARGET_PRODUCT)))
-BUILD_ID=RP1A.201005.004.A1
-else
 BUILD_ID=RQ1A.210205.004
-endif
