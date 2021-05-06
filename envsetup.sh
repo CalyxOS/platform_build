@@ -786,6 +786,13 @@ function lunch()
       echo "Hint: next time you can simply run 'lunch $selection'"
     fi
 
+    local uses_qcom_hardware=$(get_build_var BOARD_USES_QCOM_HARDWARE)
+    if [ "$uses_qcom_hardware" = true ]; then
+      export INLINE_KERNEL_BUILDING=true
+    else
+      unset INLINE_KERNEL_BUILDING
+    fi
+
     [[ -n "${ANDROID_QUIET_BUILD:-}" ]] || echo
 
     fixup_common_out_dir
