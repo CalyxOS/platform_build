@@ -672,6 +672,13 @@ function lunch()
     fi
     export TARGET_BUILD_TYPE=release
 
+    local uses_qcom_hardware=$(get_build_var BOARD_USES_QCOM_HARDWARE)
+    if [ "$uses_qcom_hardware" = true ]; then
+      export INLINE_KERNEL_BUILDING=true
+    else
+      unset INLINE_KERNEL_BUILDING
+    fi
+
     echo
 
     fixup_common_out_dir
