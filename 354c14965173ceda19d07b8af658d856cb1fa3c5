@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "58f63007_05743835",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-05-25T20:50:16Z",
+      "side": 1,
+      "message": "Still works with plain old \u0027out\u0027 I hope.",
+      "revId": "354c14965173ceda19d07b8af658d856cb1fa3c5",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    }
+  ]
+}
