@@ -4431,6 +4431,17 @@ INTERNAL_OTATOOLS_PACKAGE_FILES += \
   vendor/calyx/scripts/sign-app.sh \
   vendor/calyx/scripts/sign-trichrome.sh \
   vendor/calyx/scripts/metadata
+
+# Only for key creation
+INTERNAL_OTATOOLS_KEYS_PACKAGE_FILES := \
+  $(INTERNAL_OTATOOLS_PACKAGE_FILES) \
+  development/tools/make_key \
+  vendor/calyx/scripts/mkcommonkeys.sh \
+  vendor/calyx/scripts/mkkey.sh \
+  vendor/calyx/scripts/mkkeys.sh \
+  vendor/calyx/scripts/mkkeystore.sh \
+  vendor/calyx/scripts/updatecommonkeys.sh \
+  vendor/calyx/scripts/updatekeys.sh
 endif
 
 BUILT_OTATOOLS_PACKAGE := $(PRODUCT_OUT)/otatools.zip
@@ -4449,6 +4460,23 @@ $(BUILT_OTATOOLS_PACKAGE): $(SOONG_ZIP) $(ZIP2ZIP)
 
 .PHONY: otatools-package
 otatools-package: $(BUILT_OTATOOLS_PACKAGE)
+
+BUILT_OTATOOLS_KEYS_PACKAGE := $(PRODUCT_OUT)/otatools-keys.zip
+$(BUILT_OTATOOLS_KEYS_PACKAGE): PRIVATE_ZIP_ROOT := $(call intermediates-dir-for,PACKAGING,otatools-keys)/otatools-keys
+$(BUILT_OTATOOLS_KEYS_PACKAGE): PRIVATE_OTATOOLS_KEYS_PACKAGE_FILES := $(INTERNAL_OTATOOLS_KEYS_PACKAGE_FILES)
+$(BUILT_OTATOOLS_KEYS_PACKAGE): PRIVATE_OTATOOLS_KEYS_RELEASETOOLS := $(INTERNAL_OTATOOLS_RELEASETOOLS)
+$(BUILT_OTATOOLS_KEYS_PACKAGE): $(INTERNAL_OTATOOLS_KEYS_PACKAGE_FILES) $(INTERNAL_OTATOOLS_RELEASETOOLS)
+$(BUILT_OTATOOLS_KEYS_PACKAGE): $(SOONG_ZIP) $(ZIP2ZIP)
+	@echo "Package OTA tools (keys): $@"
+	rm -rf $@ $(PRIVATE_ZIP_ROOT)
+	mkdir -p $(dir $@)
+	$(call copy-files-with-structure,$(PRIVATE_OTATOOLS_KEYS_PACKAGE_FILES),$(HOST_OUT)/,$(PRIVATE_ZIP_ROOT))
+	$(call copy-files-with-structure,$(PRIVATE_OTATOOLS_KEYS_RELEASETOOLS),build/make/tools/,$(PRIVATE_ZIP_ROOT))
+	cp $(SOONG_ZIP) $(ZIP2ZIP) $(MERGE_ZIPS) $(PRIVATE_ZIP_ROOT)/bin/
+	$(SOONG_ZIP) -o $@ -C $(PRIVATE_ZIP_ROOT) -D $(PRIVATE_ZIP_ROOT)
+
+.PHONY: otatools-keys-package
+otatools-keys-package: $(BUILT_OTATOOLS_KEYS_PACKAGE)
 
 endif # build_otatools_package
 
