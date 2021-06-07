@@ -4219,8 +4219,12 @@ INTERNAL_OTATOOLS_PACKAGE_FILES += \
 INTERNAL_OTATOOLS_KEYS_PACKAGE_FILES := \
   $(INTERNAL_OTATOOLS_PACKAGE_FILES) \
   development/tools/make_key \
+  vendor/calyx/scripts/mkcommonkeys.sh \
   vendor/calyx/scripts/mkkey.sh \
-  vendor/calyx/scripts/mkkeys.sh
+  vendor/calyx/scripts/mkkeys.sh \
+  vendor/calyx/scripts/mkkeystore.sh \
+  vendor/calyx/scripts/updatecommonkeys.sh \
+  vendor/calyx/scripts/updatekeys.sh
 endif
 
 BUILT_OTATOOLS_PACKAGE := $(PRODUCT_OUT)/otatools.zip
