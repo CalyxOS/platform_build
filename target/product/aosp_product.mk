@@ -34,7 +34,7 @@ PRODUCT_PACKAGES += \
     preinstalled-packages-platform-aosp-product.xml \
     WallpaperPicker \
 
-ifeq ($(CALYX_BUILD),)
+ifneq ($(TARGET_EXCLUDE_GENERIC_CONFIGS),)
 # Telephony:
 #   Provide a APN configuration to GSI product
 PRODUCT_COPY_FILES += \
