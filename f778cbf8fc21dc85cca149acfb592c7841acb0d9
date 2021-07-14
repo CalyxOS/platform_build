@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "172ef04e_d469735f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-07-14T19:21:01Z",
+      "side": 1,
+      "message": "4487: Override CallLogBackup | https://review.calyxos.org/c/CalyxOS/platform_packages_providers_ContactsProvider/+/4487\n\nshould work the same.",
+      "revId": "f778cbf8fc21dc85cca149acfb592c7841acb0d9",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    }
+  ]
+}
