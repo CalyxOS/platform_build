@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "009cf01a_3a8fe082",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-08-25T23:15:22Z",
+      "side": 1,
+      "message": "Wouldn\u0027t it be easier to do it the other way around?\n\nAlso need to double-check apns-conf.xml to make sure this is actually working.",
+      "revId": "214d8fc249e814b3044d626bfd7d37e94d87367f",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    }
+  ]
+}
