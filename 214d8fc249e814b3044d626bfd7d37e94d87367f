@@ -16,6 +16,23 @@
       "message": "Wouldn\u0027t it be easier to do it the other way around?\n\nAlso need to double-check apns-conf.xml to make sure this is actually working.",
       "revId": "214d8fc249e814b3044d626bfd7d37e94d87367f",
       "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff4ef31c_446b0184",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000004
+      },
+      "writtenOn": "2021-08-27T10:30:30Z",
+      "side": 1,
+      "message": "I didn\u0027t want to change AOSP defaults, we can just leave it for now though for 11",
+      "revId": "214d8fc249e814b3044d626bfd7d37e94d87367f",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
     }
   ]
 }
