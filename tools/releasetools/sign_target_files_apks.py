@@ -580,6 +580,12 @@ def ProcessTargetFiles(input_tf_zip, output_tf_zip, misc_info,
       new_data = ReplaceCerts(data.decode())
       common.ZipWriteStr(output_tf_zip, out_info, new_data)
 
+    elif filename in("PRODUCT/etc/microg.xml"
+                     "PRODUCT/etc/org.fdroid.fdroid.privileged/whitelist.xml",):
+      print("Rewriting %s with new keys." % (filename,))
+      new_data = ReplaceFingerprints(data.decode())
+      common.ZipWriteStr(output_tf_zip, out_info, new_data)
+
     # Ask add_img_to_target_files to rebuild the recovery patch if needed.
     elif filename in ("SYSTEM/recovery-from-boot.p",
                       "VENDOR/recovery-from-boot.p",
@@ -738,6 +744,47 @@ def ReplaceCerts(data):
   signatures = [signer.attrib['signature'] for signer in root.findall('signer')]
   assert len(signatures) == len(set(signatures)), \
       "Found duplicate entries after cert replacement: {}".format(data)
+
+  return data
+
+
+def ReplaceFingerprints(data):
+  """Replaces all the occurences of X.509 cert fingerprints with the new ones.
+
+  The mapping info is read from OPTIONS.key_map. Non-existent certificate will
+  be skipped. After the replacement, it additionally checks for duplicate
+  entries, which would otherwise fail the policy loading code in
+  frameworks/base/services/core/java/com/android/server/pm/SELinuxMMAC.java.
+
+  Args:
+    data: Input string that contains a set of X.509 certs.
+
+  Returns:
+    A string after the replacement.
+
+  Raises:
+    AssertionError: On finding duplicate entries.
+  """
+  for old, new in OPTIONS.key_map.items():
+    if OPTIONS.verbose:
+      print("    Replacing %s.x509.pem with %s.x509.pem" % (old, new))
+
+    try:
+      with open(old + ".x509.pem") as old_fp:
+        old_fingerprint = common.ExtractFingerprint(old_fp.read()).decode().lower()
+      with open(new + ".x509.pem") as new_fp:
+        new_fingerprint = common.ExtractFingerprint(new_fp.read()).decode().lower()
+    except IOError as e:
+      if OPTIONS.verbose or e.errno != errno.ENOENT:
+        print("    Error accessing %s: %s.\nSkip replacing %s.x509.pem's fingerprint with "
+              "%s.x509.pem's fingerprint." % (e.filename, e.strerror, old, new))
+      continue
+
+    (data, num) = re.subn(old_fingerprint, new_fingerprint, data, flags=re.IGNORECASE)
+
+    if OPTIONS.verbose:
+      print("    Replaced %d occurence(s) of %s.x509.pem's fingerprint with %s.x509.pem's fingerprint" % (
+          num, old, new))
 
   return data
 
