@@ -3411,6 +3411,25 @@ def ParseCertificate(data):
   return cert
 
 
+def ExtractFingerprint(cert):
+  """Extracts the SHA256 Fingerprint from the given certificate file.
+
+  Args:
+    cert: The certificate filename.
+
+  Returns:
+    The fingerprint string, and without the colon.
+
+  Raises:
+    AssertionError: On non-zero return from 'openssl'.
+  """
+  cmd = ['openssl', 'x509', '-sha256', '-fingerprint', '-noout', '-in', cert]
+  proc = Run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+  fingerprint, stderrdata = proc.communicate()
+  assert proc.returncode == 0, \
+      'Failed to dump public key from certificate: %s\n%s' % (cert, stderrdata)
+  return fingerprint.split('=')[1].replace(':', '')
+
 def ExtractPublicKey(cert):
   """Extracts the public key (PEM-encoded) from the given certificate file.
 
