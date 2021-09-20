@@ -839,6 +839,47 @@ def ReplaceCerts(data):
   return data
 
 
+def ReplaceFingerprints(data):
+  """Replaces all the occurences of X.509 cert fingerprints with the new ones.
+
+  The mapping info is read from OPTIONS.key_map. Non-existent certificate will
+  be skipped. After the replacement, it additionally checks for duplicate
+  entries, which would otherwise fail the policy loading code in
+  frameworks/base/services/core/java/com/android/server/pm/SELinuxMMAC.java.
+
+  Args:
+    data: Input string that contains a set of X.509 certs.
+
+  Returns:
+    A string after the replacement.
+
+  Raises:
+    AssertionError: On finding duplicate entries.
+  """
+  for old, new in OPTIONS.key_map.items():
+    if OPTIONS.verbose:
+      print("    Replacing %s.x509.pem with %s.x509.pem" % (old, new))
+
+    try:
+      with open(old + ".x509.pem") as old_fp:
+        old_sha256 = common.ExtractFingerprint(old + ".x509.pem")
+      with open(new + ".x509.pem") as new_fp:
+        new_sha256 = common.ExtractFingerprint(new + ".x509.pem")
+    except IOError as e:
+      if OPTIONS.verbose or e.errno != errno.ENOENT:
+        print("    Error accessing %s: %s.\nSkip replacing %s.x509.pem with "
+              "%s.x509.pem." % (e.filename, e.strerror, old, new))
+      continue
+
+    (data, num) = re.subn(old_sha256, new_sha256, data, flags=re.IGNORECASE)
+
+    if OPTIONS.verbose:
+      print("    Replaced %d occurence(s) of %s.x509.pem's fingerprint: %s with "
+            " %s.x509.pem's fingerprint: %s" % (num, old, old_sha256, new, new_sha256))
+
+  return data
+
+
 def EditTags(tags):
   """Applies the edits to the tag string as specified in OPTIONS.tag_changes.
 
