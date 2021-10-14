@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "09b54722_30f7a4b2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-10-14T13:36:51Z",
+      "side": 1,
+      "message": "Hold, till we figure out best way to do kernel builds for all devices, both pixels and qcom.",
+      "revId": "741966c66ddc0fe03bece86034b171e5c9fd4ec4",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    }
+  ]
+}
