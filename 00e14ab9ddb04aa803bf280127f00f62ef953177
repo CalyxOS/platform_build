@@ -16,6 +16,24 @@
       "message": "Do you do this manually?\n\nI did squash and then included the output.",
       "revId": "00e14ab9ddb04aa803bf280127f00f62ef953177",
       "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "96381dbc_95a99e47",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-01-04T00:35:32Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e9f0f4ea_7906ac01",
+      "revId": "00e14ab9ddb04aa803bf280127f00f62ef953177",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
     }
   ]
 }
