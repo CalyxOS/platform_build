@@ -833,6 +833,9 @@ def RewriteProps(data):
         value = value.split()
         if len(value) > 1 and value[-1].endswith("-keys"):
           value.pop()
+        if OPTIONS.otatest:
+          value.push("otatest")
+          value.push(OPTIONS.otatest)
         value = " ".join(value)
       elif key.startswith("ro.") and key.endswith(".build.date.utc") and OPTIONS.otatest:
         value = str(int(value) + 1)
