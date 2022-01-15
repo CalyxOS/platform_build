@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "751e8dc3_36c754e5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-01-15T01:52:17Z",
+      "side": 1,
+      "message": "  replace:  ro.build.display.id\u003dSQ1A.220105.002 test-keys                                                                                                                                                                                                      \n     with:  ro.build.display.id\u003dSQ1A.220105.002 otatest testing2 ",
+      "revId": "06dfbdd319e70880967e6632a8719763482a5d3a",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    }
+  ]
+}
