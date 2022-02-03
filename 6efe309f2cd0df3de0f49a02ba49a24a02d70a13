@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "208df720_0ad146a5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-02-03T19:09:58Z",
+      "side": 1,
+      "message": "322998: fixup! core: Allow overriding device/model/name properties | https://review.lineageos.org/c/LineageOS/android_build/+/322998",
+      "revId": "6efe309f2cd0df3de0f49a02ba49a24a02d70a13",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    }
+  ]
+}
