@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "716ad119_b1041b68",
+        "filename": "tools/releasetools/sign_target_files_apks.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 609,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-02-11T20:29:25Z",
+      "side": 1,
+      "message": "Should do the microg.xml part in a follow up change.",
+      "revId": "c6e3b63b0ffd315e0ad8259bfe374c27742064a2",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    }
+  ]
+}
