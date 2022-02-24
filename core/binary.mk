@@ -54,10 +54,15 @@ ifneq (,$(findstring $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr,$(LOCAL_ADDITION
   LOCAL_ADDITIONAL_DEPENDENCIES := $(patsubst $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr,,$(LOCAL_ADDITIONAL_DEPENDENCIES))
 endif
 
-# Replace generated_kernel_headers with device_kernel_headers when not building inline
 ifneq ($(INLINE_KERNEL_BUILDING),true)
+  # Replace generated_kernel_headers with device_kernel_headers when not building inline
   ifneq (,$(findstring generated_kernel_headers,$(LOCAL_HEADER_LIBRARIES)))
     LOCAL_HEADER_LIBRARIES := $(patsubst generated_kernel_headers,device_kernel_headers,$(LOCAL_HEADER_LIBRARIES))
+  endif
+
+  # Replace qti_kernel_headers with device_kernel_headers when not building inline
+  ifneq (,$(findstring qti_kernel_headers,$(LOCAL_HEADER_LIBRARIES)))
+    LOCAL_HEADER_LIBRARIES := $(patsubst qti_kernel_headers,device_kernel_headers,$(LOCAL_HEADER_LIBRARIES))
   endif
 endif
 
