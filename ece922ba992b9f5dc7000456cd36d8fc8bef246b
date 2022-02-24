@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d320c3de_f1ddb21b",
+        "filename": "envsetup.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 726,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-02-24T10:24:15Z",
+      "side": 1,
+      "message": "Let\u0027s change this to\nexport INLINE_KERNEL_BUILDING\u003dfalse",
+      "revId": "ece922ba992b9f5dc7000456cd36d8fc8bef246b",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    }
+  ]
+}
