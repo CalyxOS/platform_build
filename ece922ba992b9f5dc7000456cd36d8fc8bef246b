@@ -16,6 +16,24 @@
       "message": "Let\u0027s change this to\nexport INLINE_KERNEL_BUILDING\u003dfalse",
       "revId": "ece922ba992b9f5dc7000456cd36d8fc8bef246b",
       "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0685558b_e0899f97",
+        "filename": "envsetup.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 726,
+      "author": {
+        "id": 1000004
+      },
+      "writtenOn": "2022-03-03T18:35:32Z",
+      "side": 1,
+      "message": "I did it this way to match the export style above and I don\u0027t see any issue with `unset`, it\u0027s been working fine since 11.",
+      "parentUuid": "d320c3de_f1ddb21b",
+      "revId": "ece922ba992b9f5dc7000456cd36d8fc8bef246b",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
     }
   ]
 }
