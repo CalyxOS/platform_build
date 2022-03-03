@@ -34,6 +34,24 @@
       "parentUuid": "d320c3de_f1ddb21b",
       "revId": "ece922ba992b9f5dc7000456cd36d8fc8bef246b",
       "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2c88e72_0e095ab3",
+        "filename": "envsetup.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 726,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-03-03T18:56:29Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "0685558b_e0899f97",
+      "revId": "ece922ba992b9f5dc7000456cd36d8fc8bef246b",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
     }
   ]
 }
