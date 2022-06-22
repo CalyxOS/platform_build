@@ -450,6 +450,20 @@ def SignApk(data, keyname, pw, platform_api_level, codename_to_api_level_map,
     unsigned.close()
     unsigned = uncompressed
 
+  # Trichrome APKs include a hardcoded fingerprint for the TrichromeLibrary
+  # which is put in during build time
+  if apk_name in ("TrichromeChrome.apk",
+                  "TrichromeWebView.apk":
+    trichrome = tempfile.NamedTemporaryFile()
+    trichrome_in = zipfile.ZipFile(unsigned, 'r')
+    trichrome_out = zipfile.ZipFile(trichrome, 'w')
+
+    for info in trichrome_in.infolist():
+      data = trichrome_in.read(info.filename)
+      if info.filename == 'AndroidManifest.xml':
+        data = ReplaceFingerprints(data.decode())
+      trichrome_out.writestr(data)
+
   signed = tempfile.NamedTemporaryFile(suffix='_' + apk_name)
 
   # For pre-N builds, don't upgrade to SHA-256 JAR signatures based on the APK's
