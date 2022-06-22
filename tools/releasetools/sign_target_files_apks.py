@@ -635,6 +635,11 @@ def ProcessTargetFiles(input_tf_zip, output_tf_zip, misc_info,
       new_data = ReplaceCerts(data.decode())
       common.ZipWriteStr(output_tf_zip, out_info, new_data)
 
+    elif filename == "PRODUCT/etc/microg.xml":
+      print("Rewriting %s with new keys." % (filename,))
+      new_data = ReplaceFingerprints(data.decode())
+      common.ZipWriteStr(output_tf_zip, out_info, new_data)
+
     # Ask add_img_to_target_files to rebuild the recovery patch if needed.
     elif filename in ("SYSTEM/recovery-from-boot.p",
                       "VENDOR/recovery-from-boot.p",
