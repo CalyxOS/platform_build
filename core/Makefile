@@ -5256,7 +5256,6 @@ INTERNAL_OTATOOLS_PACKAGE_FILES += \
   vendor/calyx/scripts/generate_metadata.py \
   vendor/calyx/scripts/release.sh \
   vendor/calyx/scripts/sign-app.sh \
-  vendor/calyx/scripts/sign-trichrome.sh \
   vendor/calyx/scripts/metadata
 
 # Only for key creation
@@ -5266,7 +5265,6 @@ INTERNAL_OTATOOLS_KEYS_PACKAGE_FILES := \
   vendor/calyx/scripts/mkcommonkeys.sh \
   vendor/calyx/scripts/mkkey.sh \
   vendor/calyx/scripts/mkkeys.sh \
-  vendor/calyx/scripts/mkkeystore.sh \
   vendor/calyx/scripts/updatecommonkeys.sh \
   vendor/calyx/scripts/updatekeys.sh
 endif
