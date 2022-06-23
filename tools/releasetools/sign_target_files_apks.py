@@ -450,6 +450,14 @@ def SignApk(data, keyname, pw, platform_api_level, codename_to_api_level_map,
     unsigned.close()
     unsigned = uncompressed
 
+  # Trichrome APKs include a hardcoded fingerprint for TrichromeLibrary
+  if apk_name in ("TrichromeChrome.apk",
+                  "TrichromeWebView.apk"):
+    new_apk = tempfile.NamedTemporaryFile(suffix='_' + apk_name)
+    ReplaceTrichromeLibraryFingerprint(unsigned.name, new_apk.name, keyname)
+    unsigned.close()
+    unsigned = new_apk
+
   signed = tempfile.NamedTemporaryFile(suffix='_' + apk_name)
 
   # For pre-N builds, don't upgrade to SHA-256 JAR signatures based on the APK's
@@ -831,6 +839,49 @@ def ReplaceFingerprints(data):
 
   return data
 
+
+def ReplaceTrichromeLibraryFingerprint(unsigned, new_apk, keyname):
+  """Replaces all the occurences of X.509 cert fingerprints with the new ones.
+
+  The mapping info is read from OPTIONS.key_map. Non-existent certificate will
+  be skipped.
+
+  Args:
+    unsigned: Path of unsigned apk
+    new_apk: Path of new temporary file
+    keyname: Key used to sign apk
+
+  Raises:
+    AssertionError: On non-zero return from 'chromium_trichrome_patcher'.
+  """
+  for old, new in OPTIONS.key_map.items():
+    # Skip any keys we don't care about
+    if (new != keyname):
+      continue
+
+    if OPTIONS.verbose:
+      print("    Replacing %s.x509.pem with %s.x509.pem" % (old, new))
+
+    try:
+      with open(old + ".x509.pem") as old_fp:
+        old_sha256 = common.ExtractFingerprint(old + ".x509.pem").lower().rstrip()
+      with open(new + ".x509.pem") as new_fp:
+        new_sha256 = common.ExtractFingerprint(new + ".x509.pem").lower().rstrip()
+    except IOError as e:
+      if OPTIONS.verbose or e.errno != errno.ENOENT:
+        print("    Error accessing %s: %s.\nSkip replacing %s.x509.pem with "
+              "%s.x509.pem." % (e.filename, e.strerror, old, new))
+      continue
+
+    cmd = ['chromium_trichrome_patcher', unsigned, new_apk, old_sha256, new_sha256]
+    proc = common.Run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    fingerprint, stderrdata = proc.communicate()
+    assert proc.returncode == 0, \
+        'Failed to patch Trichrome APK %s\n%s' % (unsigned, stderrdata)
+
+    if OPTIONS.verbose:
+      print("    Replaced %s.x509.pem's fingerprint: %s with %s.x509.pem's fingerprint: %s"
+            % (old, old_sha256, new, new_sha256))
 
 def EditTags(tags):
   """Applies the edits to the tag string as specified in OPTIONS.tag_changes.
