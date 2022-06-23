@@ -5980,6 +5980,11 @@ INTERNAL_OTATOOLS_MODULES += \
   resize2fs \
   soong_zip \
 
+ifneq ($(CALYX_BUILD),)
+INTERNAL_OTATOOLS_MODULES += \
+  chromium_trichrome_patcher
+endif
+
 INTERNAL_OTATOOLS_FILES := \
   $(filter $(HOST_OUT)/%,$(call module-installed-files,$(INTERNAL_OTATOOLS_MODULES)))
 
