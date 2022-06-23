@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6389ae6d_f12d985c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-06-23T23:47:31Z",
+      "side": 1,
+      "message": "This is cursed.\n\nDoesn\u0027t work in releasetools, can\u0027t even find the string.\n\nExact same binary works fine when called externally, on the same APK as well.\n\nGiven that it\u0027s totally external now and just a subprocess call, I don\u0027t know 😭",
+      "revId": "a8a19abfdd041b5a1c3cacb75d7c22f98042328c",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    }
+  ]
+}
