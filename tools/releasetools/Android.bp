@@ -334,6 +334,23 @@ python_defaults {
 }
 
 python_binary_host {
+    name: "chromium_trichrome_patcher",
+    srcs: [
+        "chromium_trichrome_patcher.py",
+    ],
+    version: {
+        py2: {
+            enabled: false,
+            embedded_launcher: false,
+        },
+        py3: {
+            enabled: true,
+            embedded_launcher: true,
+        },
+    },
+}
+
+python_binary_host {
     name: "add_img_to_target_files",
     defaults: [
         "releasetools_binary_defaults",
