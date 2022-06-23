@@ -4383,6 +4383,11 @@ INTERNAL_OTATOOLS_MODULES += \
   vboot_signer
 endif
 
+ifneq ($(CALYX_BUILD),)
+INTERNAL_OTATOOLS_MODULES += \
+  chromium_trichrome_patcher
+endif
+
 INTERNAL_OTATOOLS_FILES := \
   $(filter $(HOST_OUT)/%,$(call module-installed-files,$(INTERNAL_OTATOOLS_MODULES)))
 
