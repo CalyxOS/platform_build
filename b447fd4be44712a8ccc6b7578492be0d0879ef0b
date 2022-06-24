@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0117c434_7dd938e5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-06-24T14:01:08Z",
+      "side": 1,
+      "message": "With `-v`\n\n```\nsigning: TrichromeChrome.apk                                   (keys/sunfish/../common/chromium)                                                                                                                                                                                                                                                   \n    Replacing external/calyx/chromium/certs/chromium.x509.pem with keys/sunfish/../common/chromium.x509.pem                                                                                                                                                                                                                                            \n    Replaced external/calyx/chromium/certs/chromium.x509.pem\u0027s fingerprint: d674c702c9415fb3b6ee9a1a80b8c45ad6ea5395379eb21f51122938c15f6be8 with keys/sunfish/../common/chromium.x509.pem\u0027s fingerprint: ddf40eb01a77ce7722b4a30be6cd5df6876d308a7341d1282596f521e83ae36e                                                                             \n    signing: TrichromeLibrary.apk                                  (keys/sunfish/../common/chromium)                                                                                                                                                                                                                                                   \n    signing: TrichromeWebView.apk                                  (keys/sunfish/../common/chromium)                                                                                                                                                                                                                                                   \n    Replacing external/calyx/chromium/certs/chromium.x509.pem with keys/sunfish/../common/chromium.x509.pem                                                                                                                                                                                                                                            \n    Replaced external/calyx/chromium/certs/chromium.x509.pem\u0027s fingerprint: d674c702c9415fb3b6ee9a1a80b8c45ad6ea5395379eb21f51122938c15f6be8 with keys/sunfish/../common/chromium.x509.pem\u0027s fingerprint: ddf40eb01a77ce7722b4a30be6cd5df6876d308a7341d1282596f521e83ae36e\n```",
+      "revId": "b447fd4be44712a8ccc6b7578492be0d0879ef0b",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    }
+  ]
+}
