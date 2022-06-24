@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8bbb3fd6_ec75dc2c",
+        "filename": "tools/releasetools/chromium_trichrome_patcher.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000004
+      },
+      "writtenOn": "2022-06-24T21:38:05Z",
+      "side": 1,
+      "message": "Add SPDX license header?",
+      "revId": "012f4027c91523cb3ee35286cb8ddaef908f0130",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    }
+  ]
+}
