@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b52f8234_1a94cb0b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-06-24T14:02:21Z",
+      "side": 1,
+      "message": "Not needed yet. Harmless though and doesn\u0027t do anything.",
+      "revId": "16fc6c8aab14543929225c0328f54b4eb8444764",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    }
+  ]
+}
