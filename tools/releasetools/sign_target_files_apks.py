@@ -873,11 +873,20 @@ def ReplaceTrichromeLibraryFingerprint(unsigned, new_apk, keyname):
               "%s.x509.pem." % (e.filename, e.strerror, old, new))
       continue
 
-    cmd = ['chromium_trichrome_patcher', unsigned, new_apk, old_sha256, new_sha256]
+    patched_apk = tempfile.NamedTemporaryFile(suffix='_' + apk_name)
+
+    cmd = ['chromium_trichrome_patcher', unsigned, patched_apk, old_sha256, new_sha256]
     proc = common.Run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     fingerprint, stderrdata = proc.communicate()
     assert proc.returncode == 0, \
         'Failed to patch Trichrome APK %s\n%s' % (unsigned, stderrdata)
+
+    cmd = ['zipalign', '-p', '-f', '-z', '4', patched_apk, new_apk]
+    proc = common.Run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    fingerprint, stderrdata = proc.communicate()
+    patched_apk.close()
+    assert proc.returncode == 0, \
+        'Failed to zipalign Trichrome APK %s\n%s' % (patched_apk, stderrdata)
 
     if OPTIONS.verbose:
       print("    Replaced %s.x509.pem's fingerprint: %s with %s.x509.pem's fingerprint: %s"
