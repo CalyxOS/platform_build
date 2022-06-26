@@ -454,7 +454,7 @@ def SignApk(data, keyname, pw, platform_api_level, codename_to_api_level_map,
   if apk_name in ("TrichromeChrome.apk",
                   "TrichromeWebView.apk"):
     new_apk = tempfile.NamedTemporaryFile(suffix='_' + apk_name)
-    ReplaceTrichromeLibraryFingerprint(unsigned.name, new_apk.name, keyname)
+    ReplaceTrichromeLibraryFingerprint(unsigned.name, new_apk.name, keyname, apk_name)
     unsigned.close()
     unsigned = new_apk
 
@@ -840,7 +840,7 @@ def ReplaceFingerprints(data):
   return data
 
 
-def ReplaceTrichromeLibraryFingerprint(unsigned, new_apk, keyname):
+def ReplaceTrichromeLibraryFingerprint(unsigned, new_apk, keyname, apk_name):
   """Replaces all the occurences of X.509 cert fingerprints with the new ones.
 
   The mapping info is read from OPTIONS.key_map. Non-existent certificate will
@@ -850,6 +850,7 @@ def ReplaceTrichromeLibraryFingerprint(unsigned, new_apk, keyname):
     unsigned: Path of unsigned apk
     new_apk: Path of new temporary file
     keyname: Key used to sign apk
+    apk_name: Name of Trichrome apk
 
   Raises:
     AssertionError: On non-zero return from 'chromium_trichrome_patcher'.
@@ -873,11 +874,20 @@ def ReplaceTrichromeLibraryFingerprint(unsigned, new_apk, keyname):
               "%s.x509.pem." % (e.filename, e.strerror, old, new))
       continue
 
-    cmd = ['chromium_trichrome_patcher', unsigned, new_apk, old_sha256, new_sha256]
+    patched_apk = tempfile.NamedTemporaryFile(suffix='_' + apk_name)
+
+    cmd = ['chromium_trichrome_patcher', unsigned, patched_apk.name, old_sha256, new_sha256]
     proc = common.Run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     fingerprint, stderrdata = proc.communicate()
     assert proc.returncode == 0, \
         'Failed to patch Trichrome APK %s\n%s' % (unsigned, stderrdata)
+
+    cmd = ['zipalign', '-p', '-f', '-z', '4', patched_apk.name, new_apk]
+    proc = common.Run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    fingerprint, stderrdata = proc.communicate()
+    patched_apk.close()
+    assert proc.returncode == 0, \
+        'Failed to zipalign Trichrome APK %s\n%s' % (patched_apk, stderrdata)
 
     if OPTIONS.verbose:
       print("    Replaced %s.x509.pem's fingerprint: %s with %s.x509.pem's fingerprint: %s"
