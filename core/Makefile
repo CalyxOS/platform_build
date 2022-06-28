@@ -5068,6 +5068,12 @@ INTERNAL_OTATOOLS_PACKAGE_FILES += \
   vendor/calyx/scripts/sign-app.sh \
   vendor/calyx/scripts/metadata
 
+INTERNAL_OTATOOLS_PACKAGE_FILES += \
+  $(sort $(shell find external/calyx -type f -name "*.x509.pem" -o -name "*.pk8"))
+
+INTERNAL_OTATOOLS_PACKAGE_FILES += \
+  $(sort $(shell find prebuilts/calyx -type f -name "*.x509.pem" -o -name "*.pk8"))
+
 # Only for key creation
 INTERNAL_OTATOOLS_KEYS_PACKAGE_FILES := \
   $(INTERNAL_OTATOOLS_PACKAGE_FILES) \
