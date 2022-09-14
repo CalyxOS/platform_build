@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "949c4c75_b942811d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-09-14T19:16:47Z",
+      "side": 1,
+      "message": "Didn\u0027t do bluetooth here as well since it\u0027s a copy. This is a new key added here.",
+      "revId": "003458845c1c7776e1b73b9f672def0ab480290a",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    }
+  ]
+}
