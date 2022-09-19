@@ -38,6 +38,10 @@ def mangle_build_prop(prop_list):
       else:
         val = val + ",adb"
       prop_list.put("persist.sys.usb.config", val)
+  if not prop_list.get_value("persist.sys.max_profiles"):
+    prop_list.put("persist.sys.max_profiles", "16")
+  if not prop_list.get_value("fw.max_users"):
+    prop_list.put("fw.max_users", "32")
 
 def validate_grf_props(prop_list, sdk_version):
   """Validate GRF properties if exist.
