@@ -857,14 +857,14 @@ function tapas()
         return
     fi
 
-    local product=aosp_arm
+    local product=calyx_arm
     case $arch in
-      x86)    product=aosp_x86;;
-      arm64)  product=aosp_arm64;;
-      x86_64) product=aosp_x86_64;;
+      x86)    product=calyx_x86;;
+      arm64)  product=calyx_arm64;;
+      x86_64) product=calyx_x86_64;;
     esac
     if [ -n "$keys" ]; then
-        product=${product/aosp_/aosp_${keys}_}
+        product=${product/calyx_/calyx_${keys}_}
     fi;
 
     if [ -z "$variant" ]; then
