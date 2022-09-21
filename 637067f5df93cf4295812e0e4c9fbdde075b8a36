@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3be5cae4_53c5cef4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000062
+      },
+      "writtenOn": "2022-09-21T15:23:48Z",
+      "side": 1,
+      "message": "There is somewhere else to do this for users (config.xml or something?), and for profiles it can be set in config_user_types.xml. That still needs to be verified though, and then this can be abandoned.",
+      "revId": "637067f5df93cf4295812e0e4c9fbdde075b8a36",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    }
+  ]
+}
