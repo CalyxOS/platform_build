@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa5c971a_be10a8fe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-09-25T20:09:36Z",
+      "side": 1,
+      "message": "Test: `get_build_var PLATFORM_SECURITY_PATCH_TIMESTAMP` before and after.",
+      "revId": "62fa1a595cbb57a0dfbd80bb4302dfa1a483358d",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    }
+  ]
+}
