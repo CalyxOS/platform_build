@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "65f029c3_21109064",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-11-18T22:18:27Z",
+      "side": 1,
+      "message": "This will also need: 2186991: Make recovery/fastbootd USB VID/PID configurable. | https://android-review.googlesource.com/c/platform/bootable/recovery/+/2186991\n\n",
+      "revId": "386de8a6c856bbb33adc9abc1104b91dd53a8666",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    }
+  ]
+}
