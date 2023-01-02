@@ -65,6 +65,9 @@ def main(argv):
       dom = parseString(data)
       package_name = dom.documentElement.getAttribute('package')
 
+  if package_name == "org.lineageos.aperture":
+    package_name = "org.calyxos.aperture"
+
   with open(args.output, 'w+') as f:
     f.write(ANDROID_MANIFEST_TEMPLATE % (package_name, partition, package_name, priority))
     f.close()
