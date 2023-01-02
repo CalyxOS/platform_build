@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8bfdb5f_f83d58db",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-01-02T19:50:26Z",
+      "side": 1,
+      "message": "I certainly don\u0027t want to spend too much time on this.",
+      "revId": "d124d540d2de9059857e581b93e2abba85248fec",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    }
+  ]
+}
