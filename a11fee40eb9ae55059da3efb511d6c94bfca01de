@@ -34,6 +34,23 @@
       "parentUuid": "b8aaa84f_a439e036",
       "revId": "a11fee40eb9ae55059da3efb511d6c94bfca01de",
       "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2df283e8_febff92a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000004
+      },
+      "writtenOn": "2023-01-02T20:09:23Z",
+      "side": 1,
+      "message": "Camera2 overrides Aperture, like in lineage",
+      "revId": "a11fee40eb9ae55059da3efb511d6c94bfca01de",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
     }
   ]
 }
