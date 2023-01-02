@@ -16,6 +16,24 @@
       "message": "don\u0027t we have override for Camera2?",
       "revId": "a11fee40eb9ae55059da3efb511d6c94bfca01de",
       "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "85551915_2f7ad173",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-01-02T20:08:56Z",
+      "side": 1,
+      "message": "Nope. I did add one to `Camera2Icon` though.",
+      "parentUuid": "b8aaa84f_a439e036",
+      "revId": "a11fee40eb9ae55059da3efb511d6c94bfca01de",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
     }
   ]
 }
