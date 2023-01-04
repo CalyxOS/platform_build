@@ -16,6 +16,23 @@
       "message": "I certainly don\u0027t want to spend too much time on this.",
       "revId": "d124d540d2de9059857e581b93e2abba85248fec",
       "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39f4381b_8e792371",
+        "filename": "tools/generate-enforce-rro-android-manifest.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-01-04T16:15:45Z",
+      "side": 1,
+      "message": "com.android.camera2",
+      "revId": "d124d540d2de9059857e581b93e2abba85248fec",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
     }
   ]
 }
