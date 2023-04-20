@@ -121,6 +121,23 @@
       "message": "This would avoid the whole dance we did at 13014: Bump version to get everyone back in sync | https://review.calyxos.org/c/CalyxOS/platform_packages_apps_Dialer/+/13014",
       "revId": "8380834a1fabacd17b6b5f8b521dad7fa521476a",
       "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b212ee30_61db00d5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-04-20T13:40:57Z",
+      "side": 1,
+      "message": "`build/make/core/aapt2.mk:126: error: BUILD_NUMBER is obsolete. See https://android.googlesource.com/platform/build/+/master/Changes.md#BUILD_NUMBER. `",
+      "revId": "8380834a1fabacd17b6b5f8b521dad7fa521476a",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
     }
   ]
 }
