@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "35f1831c_1b2e260d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-04-20T13:20:19Z",
+      "side": 1,
+      "message": "Untested.\n\nAlso, TODO See if any handling is needed at all for `aapt`",
+      "revId": "8380834a1fabacd17b6b5f8b521dad7fa521476a",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    }
+  ]
+}
