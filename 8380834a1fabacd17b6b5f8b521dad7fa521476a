@@ -34,6 +34,24 @@
       "parentUuid": "35f1831c_1b2e260d",
       "revId": "8380834a1fabacd17b6b5f8b521dad7fa521476a",
       "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d749eae_519c985d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-04-20T13:22:25Z",
+      "side": 1,
+      "message": "`aapt` also has a `--version-code` flag.\n\nSoong: soong/java/aar.go `linkFlags \u003d append(linkFlags, \"--version-code\", ctx.Config().PlatformSdkVersion().String())`",
+      "parentUuid": "f55cda4a_0862ce38",
+      "revId": "8380834a1fabacd17b6b5f8b521dad7fa521476a",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
     }
   ]
 }
