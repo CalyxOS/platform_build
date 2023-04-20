@@ -52,6 +52,23 @@
       "parentUuid": "f55cda4a_0862ce38",
       "revId": "8380834a1fabacd17b6b5f8b521dad7fa521476a",
       "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "027644dd_425a8e9f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-04-20T13:22:47Z",
+      "side": 1,
+      "message": "We can also try to set version Name to something more meaningful if feasible while we\u0027re at it. e.g. versionName",
+      "revId": "8380834a1fabacd17b6b5f8b521dad7fa521476a",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
     }
   ]
 }
