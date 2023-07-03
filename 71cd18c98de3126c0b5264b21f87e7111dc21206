@@ -16,6 +16,23 @@
       "message": "Test:\n`\n$ get_build_var PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION\n30\n`\n\nF-Droid is 25. Need to see which other default apps are lower. microG?",
       "revId": "71cd18c98de3126c0b5264b21f87e7111dc21206",
       "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb061818_6f1afe6b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-07-03T20:39:48Z",
+      "side": 1,
+      "message": "Let\u0027s do this in 14 and make sure we get as many things updated as possible.",
+      "revId": "71cd18c98de3126c0b5264b21f87e7111dc21206",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
     }
   ]
 }
