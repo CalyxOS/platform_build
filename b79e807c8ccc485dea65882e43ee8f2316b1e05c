@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "63fcce26_1cd3d8f5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000062
+      },
+      "writtenOn": "2023-08-31T19:26:02Z",
+      "side": 1,
+      "message": "Squashed also with https://review.calyxos.org/c/CalyxOS/platform_build/+/19309 (as shown in updated commit message)",
+      "revId": "b79e807c8ccc485dea65882e43ee8f2316b1e05c",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    }
+  ]
+}
