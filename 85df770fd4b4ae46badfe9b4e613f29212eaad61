@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e3551ad_8e5b1787",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-09-15T19:50:36Z",
+      "side": 1,
+      "message": "One thing to note here is that this should set the platform security patch timestamp, which is used for rollback index on pixels\n\nCurrent latest stock for modern pixels is 2023-08-05\n14 could be either 2023-09-05, or 2023-10-05.\n\nIn either case, 2023-09-01 here would be fine.",
+      "revId": "85df770fd4b4ae46badfe9b4e613f29212eaad61",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    }
+  ]
+}
