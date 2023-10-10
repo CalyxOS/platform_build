@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9fea8bc5_f3212e50",
+        "filename": "core/sysprop.mk",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-10-10T00:19:07Z",
+      "side": 1,
+      "message": "Removing this line makes it work",
+      "revId": "3bbb7e318be0c942a45a711ba19557f60338f024",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    }
+  ]
+}
