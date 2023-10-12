@@ -16,6 +16,24 @@
       "message": "Should be moved to vendor, can skip for now",
       "revId": "26b9c6377838da5f4f8d9392626688d6617d7740",
       "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "735576c2_598b69e3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-10-12T23:45:41Z",
+      "side": 1,
+      "message": "Ok",
+      "parentUuid": "dbc097fb_5039bb12",
+      "revId": "26b9c6377838da5f4f8d9392626688d6617d7740",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
     }
   ]
 }
