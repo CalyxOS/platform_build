@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "145bdfed_3f49c2d8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-10-14T22:32:06Z",
+      "side": 1,
+      "message": "Merged in 21186: Fix OOB write in BuildHuffmanTable. | https://review.calyxos.org/c/CalyxOS/platform_external_webp/+/21186",
+      "revId": "32c0de320b98ba18267f808a12f503e1c1dc3332",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    }
+  ]
+}
