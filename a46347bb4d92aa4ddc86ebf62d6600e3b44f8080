@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1444646b_2924fd84",
+        "filename": "core/version_defaults.mk",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-11-07T09:02:50Z",
+      "side": 1,
+      "message": "8: r12: 2023-11-01\ngs: r14: 2023-11-01\nqcom: r13: 2023-11-05",
+      "revId": "a46347bb4d92aa4ddc86ebf62d6600e3b44f8080",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    }
+  ]
+}
