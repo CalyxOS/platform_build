@@ -16,6 +16,24 @@
       "message": "Still needed?",
       "revId": "b011c9956997726a4fff8fe5596f679710046bef",
       "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1873677d_9997968b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000004
+      },
+      "writtenOn": "2023-11-16T11:33:28Z",
+      "side": 1,
+      "message": "Still needed for inline kernel build",
+      "parentUuid": "4806e560_7a182b29",
+      "revId": "b011c9956997726a4fff8fe5596f679710046bef",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
     }
   ]
 }
