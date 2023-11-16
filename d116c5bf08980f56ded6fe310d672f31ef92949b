@@ -16,6 +16,24 @@
       "message": "No longer needed?",
       "revId": "d116c5bf08980f56ded6fe310d672f31ef92949b",
       "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4736f8c_a2b29a8e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000004
+      },
+      "writtenOn": "2023-11-16T11:33:58Z",
+      "side": 1,
+      "message": "I adapted the original commit to match what we need now.",
+      "parentUuid": "588b90c4_fa13de9f",
+      "revId": "d116c5bf08980f56ded6fe310d672f31ef92949b",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
     }
   ]
 }
