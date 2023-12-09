@@ -22,6 +22,30 @@
       },
       "revId": "d21cb72c9c134240dc1ff6006876c7f1a14b8407",
       "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c573964_bfe40efb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-12-09T23:39:45Z",
+      "side": 1,
+      "message": "Links are live, https://android.googlesource.com/platform/packages/modules/Bluetooth/+/7b30443dac7bb9138275c909549110191bcbcae9\n\nThis is included in 23440: Merge tag \u0027android-security-13.0.0_r12\u0027 into staging/android13_merge-android-security-13.0.0_r12 | https://review.calyxos.org/c/CalyxOS/platform_packages_modules_Bluetooth/+/23440",
+      "parentUuid": "b2405326_61aeacf4",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 55
+      },
+      "revId": "d21cb72c9c134240dc1ff6006876c7f1a14b8407",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
     }
   ]
 }
