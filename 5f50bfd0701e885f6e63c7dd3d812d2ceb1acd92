@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44b86299_bebb06a3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000004
+      },
+      "writtenOn": "2024-02-08T22:12:33Z",
+      "side": 1,
+      "message": "This has no commit link in the bulletin and the bug ID has no hits",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 68
+      },
+      "revId": "5f50bfd0701e885f6e63c7dd3d812d2ceb1acd92",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    }
+  ]
+}
