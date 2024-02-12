@@ -22,6 +22,30 @@
       },
       "revId": "5f50bfd0701e885f6e63c7dd3d812d2ceb1acd92",
       "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "616b4ecd_34750e2a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-02-12T18:39:16Z",
+      "side": 1,
+      "message": "Still no links. Let\u0027s just skip it, skip this commit, and ship the rest.",
+      "parentUuid": "44b86299_bebb06a3",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 68
+      },
+      "revId": "5f50bfd0701e885f6e63c7dd3d812d2ceb1acd92",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
     }
   ]
 }
