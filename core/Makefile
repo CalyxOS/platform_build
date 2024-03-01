@@ -6317,6 +6317,7 @@ endif
 	$(hide) find $(zip_root)/META | sort >$@.list
 	$(hide) find $(zip_root) -path $(zip_root)/META -prune -o -print | sort >>$@.list
 	$(hide) $(SOONG_ZIP) -d -o $@ -C $(zip_root) -r $@.list
+	$(hide) ln -f $(BUILT_TARGET_FILES_PACKAGE) $(PRODUCT_OUT)/$(basename $(BUILT_TARGET_FILES_PACKAGE)).zip
 
 .PHONY: target-files-package
 target-files-package: $(BUILT_TARGET_FILES_PACKAGE)
