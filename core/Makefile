@@ -5295,7 +5295,7 @@ $(BUILT_OTATOOLS_PACKAGE): $(SOONG_ZIP) $(ZIP2ZIP)
 	$(call copy-files-with-structure,$(PRIVATE_OTATOOLS_RELEASETOOLS),build/make/tools/,$(PRIVATE_ZIP_ROOT))
 	cp $(SOONG_ZIP) $(ZIP2ZIP) $(MERGE_ZIPS) $(PRIVATE_ZIP_ROOT)/bin/
 	$(SOONG_ZIP) -o $@ -C $(PRIVATE_ZIP_ROOT) -D $(PRIVATE_ZIP_ROOT)
-	$(hide) ln -f $(BUILT_OTATOOLS_PACKAGE) $(PRODUCT_OUT)/$(TARGET_PRODUCT)-otatools-$(BUILD_NUMBER_FROM_FILE).zip
+$(hide) ln -f $(BUILT_OTATOOLS_PACKAGE) $(PRODUCT_OUT)/$(TARGET_PRODUCT)-otatools-$(BUILD_NUMBER_FROM_FILE).zip
 
 $(call declare-1p-container,$(BUILT_OTATOOLS_PACKAGE),build)
 $(call declare-container-license-deps,$(INTERNAL_OTATOOLS_PACKAGE_FILES) $(INTERNAL_OTATOOLS_RELEASETOOLS),$(BUILT_OTATOOLS_PACKAGE):)
@@ -5320,7 +5320,7 @@ $(BUILT_OTATOOLS_KEYS_PACKAGE): $(SOONG_ZIP) $(ZIP2ZIP)
 	$(call copy-files-with-structure,$(PRIVATE_OTATOOLS_KEYS_RELEASETOOLS),build/make/tools/,$(PRIVATE_ZIP_ROOT))
 	cp $(SOONG_ZIP) $(ZIP2ZIP) $(MERGE_ZIPS) $(PRIVATE_ZIP_ROOT)/bin/
 	$(SOONG_ZIP) -o $@ -C $(PRIVATE_ZIP_ROOT) -D $(PRIVATE_ZIP_ROOT)
-	$(hide) ln -f $(BUILT_OTATOOLS_KEYS_PACKAGE) $(PRODUCT_OUT)/$(TARGET_PRODUCT)-otatools-keys-$(BUILD_NUMBER_FROM_FILE).zip
+$(hide) ln -f $(BUILT_OTATOOLS_KEYS_PACKAGE) $(PRODUCT_OUT)/$(TARGET_PRODUCT)-otatools-keys-$(BUILD_NUMBER_FROM_FILE).zip
 
 .PHONY: otatools-keys-package
 otatools-keys-package: $(BUILT_OTATOOLS_KEYS_PACKAGE)
@@ -6317,6 +6317,7 @@ endif
 	$(hide) find $(zip_root)/META | sort >$@.list
 	$(hide) find $(zip_root) -path $(zip_root)/META -prune -o -print | sort >>$@.list
 	$(hide) $(SOONG_ZIP) -d -o $@ -C $(zip_root) -r $@.list
+  $(hide) ln -f $(BUILT_TARGET_FILES_PACKAGE) $(PRODUCT_OUT)/$(name).zip
 
 .PHONY: target-files-package
 target-files-package: $(BUILT_TARGET_FILES_PACKAGE)
