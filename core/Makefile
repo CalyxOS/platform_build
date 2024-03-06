@@ -5580,7 +5580,18 @@ INTERNAL_OTATOOLS_PACKAGE_FILES += \
 ifneq (,$(wildcard packages/modules))
 INTERNAL_OTATOOLS_PACKAGE_FILES += \
   $(sort $(shell find packages/modules -type f -name "*.x509.pem" -o -name "*.pk8" -o -name \
-      "key.pem"))
+      "key.pem" -o -name "com.android.vndk.pem"))
+endif
+
+ifneq (,$(wildcard packages/providers))
+INTERNAL_OTATOOLS_PACKAGE_FILES += \
+  $(sort $(shell find packages/providers -type f -name "*.x509.pem" -o -name "*.pk8"))
+endif
+
+ifneq (,$(wildcard hardware/interfaces/apexkey))
+INTERNAL_OTATOOLS_PACKAGE_FILES += \
+  $(sort $(shell find hardware/interfaces/apexkey -type f -name "*.pk8" -o -name "*.pem" -o -name \
+      "*.avbpubkey"))
 endif
 
 ifneq (,$(wildcard device))
