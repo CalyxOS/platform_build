@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "08d60e26_ba34e608",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-03-06T15:33:28Z",
+      "side": 1,
+      "message": "otapackage is broken but will fix that afterwards",
+      "revId": "6bd960cb61ccd58b4956ffab1d0a8e6631bfd1d4",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    }
+  ]
+}
