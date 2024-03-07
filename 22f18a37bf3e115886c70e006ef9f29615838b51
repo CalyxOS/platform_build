@@ -16,6 +16,24 @@
       "message": "lol, so is -eng not actually faster then? I didn\u0027t end up trying it.",
       "revId": "22f18a37bf3e115886c70e006ef9f29615838b51",
       "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae9c8012_ec31ba48",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-03-07T21:53:19Z",
+      "side": 1,
+      "message": "Compile time? idk\n\nRuntime? Definitely a pain for us, not needed.\n\nWe really only use it for early device bringup.",
+      "parentUuid": "3f300243_3785799e",
+      "revId": "22f18a37bf3e115886c70e006ef9f29615838b51",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
     }
   ]
 }
