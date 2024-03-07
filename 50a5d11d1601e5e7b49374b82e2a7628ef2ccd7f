@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3f6b796_0a17ac72",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-03-07T11:25:39Z",
+      "side": 1,
+      "message": "Does this work now?\n\nShould try to set a different value in device and check props in $OUT",
+      "revId": "50a5d11d1601e5e7b49374b82e2a7628ef2ccd7f",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    }
+  ]
+}
