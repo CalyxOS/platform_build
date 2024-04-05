@@ -16,6 +16,23 @@
       "message": "Works as in I verified the value before and after using `avbtool`, and saw the replacement print in the output.\n\nStill need an on-device test",
       "revId": "6ff572e097a2180d55c62954a880d1233732d70d",
       "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "46bf1b3c_24ed775e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-04-05T23:36:31Z",
+      "side": 1,
+      "message": "`ro.build.version.incremental` will be blank unless otatest is set, will rework that logic.",
+      "revId": "6ff572e097a2180d55c62954a880d1233732d70d",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
     }
   ]
 }
