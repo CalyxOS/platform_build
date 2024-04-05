@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3837f695_b85e345c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-04-05T23:31:20Z",
+      "side": 1,
+      "message": "Works as in I verified the value before and after using `avbtool`, and saw the replacement print in the output.\n\nStill need an on-device test",
+      "revId": "6ff572e097a2180d55c62954a880d1233732d70d",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    }
+  ]
+}
