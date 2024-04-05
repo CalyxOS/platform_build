@@ -178,6 +178,9 @@ Usage:  sign_target_files_apks [flags] input_target_files output_target_files
   --otatest <build incremental>
       Create an additional zip for OTA update testing, with the build date bumped
       by 1 and the build's incremental version is replaced by the argument provided.
+
+  --avb_rollback_index_override <value>
+      Override the AVB rollback index with the given value.
 """
 
 from __future__ import print_function
@@ -236,6 +239,7 @@ OPTIONS.allow_gsi_debug_sepolicy = False
 OPTIONS.override_apk_keys = None
 OPTIONS.override_apex_keys = None
 OPTIONS.otatest = ""
+OPTIONS.avb_rollback_index_override = ""
 
 
 AVB_FOOTER_ARGS_BY_PARTITION = {
@@ -831,6 +835,8 @@ def ProcessTargetFiles(input_tf_zip: zipfile.ZipFile, output_tf_zip, misc_info,
   # Rewrite the props in AVB signing args.
   if misc_info.get('avb_enable') == 'true':
     RewriteAvbProps(misc_info)
+    if OPTIONS.avb_rollback_index_override:
+      RewriteAvbRollbackIndex(misc_info)
 
   # Replace the GKI signing key for boot.img, if any.
   ReplaceGkiSigningKey(misc_info)
@@ -1049,9 +1055,9 @@ def RewriteProps(data):
           value.append("otatest")
           value.append(OPTIONS.otatest)
         value = " ".join(value)
-      elif key.startswith("ro.") and key.endswith(".build.date.utc") and OPTIONS.otatest:
+      elif key.startswith("ro.") and key.endswith(".build.date.utc") and (OPTIONS.otatest or OPTIONS.avb_rollback_index_override):
         value = str(int(value) + 1)
-      elif key.startswith("ro.") and key.endswith(".build.version.incremental") and OPTIONS.otatest:
+      elif key.startswith("ro.") and key.endswith(".build.version.incremental") and (OPTIONS.otatest or OPTIONS.avb_rollback_index_override):
         value = OPTIONS.otatest
       line = key + "=" + value
     if line != original_line:
@@ -1215,6 +1221,28 @@ def RewriteAvbProps(misc_info):
       print('  replace: {}'.format(args))
       print('     with: {}'.format(result))
       misc_info[args_key] = result
+
+
+def RewriteAvbRollbackIndex(misc_info):
+  """Rewrites the rollback index in AVB signing args."""
+  for partition, args_key in AVB_FOOTER_ARGS_BY_PARTITION.items():
+    args = misc_info.get(args_key)
+    if not args:
+      continue
+
+    rollback_key = 'rollback_index'
+    if not rollback_key in args:
+      continue
+
+    # Match typical rollback index values
+    pattern = "--rollback_index " + "[0-9]*"
+    repl = "--rollback_index " + OPTIONS.avb_rollback_index_override
+    new_args = re.sub(pattern, repl, args)
+
+    print('Rewriting AVB prop for {}:\n'.format(partition))
+    print('  replace: {}'.format(args))
+    print('     with: {}'.format(new_args))
+    misc_info[args_key] = new_args
 
 
 def ReplaceGkiSigningKey(misc_info):
@@ -1609,6 +1637,8 @@ def main(argv):
       OPTIONS.override_apex_keys = a
     elif o == "--otatest":
       OPTIONS.otatest = a
+    elif o == "--avb_rollback_index_override":
+      OPTIONS.avb_rollback_index_override = a
     else:
       return False
     return True
@@ -1670,7 +1700,8 @@ def main(argv):
           "allow_gsi_debug_sepolicy",
           "override_apk_keys=",
           "override_apex_keys=",
-          "otatest="
+          "otatest=",
+          "avb_rollback_index_override="
       ],
       extra_option_handler=[option_handler, payload_signer.signer_options])
 
