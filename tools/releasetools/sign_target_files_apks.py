@@ -175,9 +175,6 @@ Usage:  sign_target_files_apks [flags] input_target_files output_target_files
       represent the modulus. If it uses an EC key, this is the size of a
       DER-encoded ECDSA signature.
 
-  --otatest <build incremental>
-      Create an additional zip for OTA update testing, with the build date bumped
-      by 1 and the build's incremental version is replaced by the argument provided.
 """
 
 from __future__ import print_function
@@ -235,7 +232,6 @@ OPTIONS.vendor_otatools = None
 OPTIONS.allow_gsi_debug_sepolicy = False
 OPTIONS.override_apk_keys = None
 OPTIONS.override_apex_keys = None
-OPTIONS.otatest = ""
 
 
 AVB_FOOTER_ARGS_BY_PARTITION = {
@@ -1045,14 +1041,7 @@ def RewriteProps(data):
         value = value.split()
         if len(value) > 1 and value[-1].endswith("-keys"):
           value.pop()
-        if OPTIONS.otatest:
-          value.append("otatest")
-          value.append(OPTIONS.otatest)
         value = " ".join(value)
-      elif key.startswith("ro.") and key.endswith(".build.date.utc") and OPTIONS.otatest:
-        value = str(int(value) + 1)
-      elif key.startswith("ro.") and key.endswith(".build.version.incremental") and OPTIONS.otatest:
-        value = OPTIONS.otatest
       line = key + "=" + value
     if line != original_line:
       print("  replace: ", original_line)
@@ -1607,8 +1596,6 @@ def main(argv):
       OPTIONS.override_apk_keys = a
     elif o == "--override_apex_keys":
       OPTIONS.override_apex_keys = a
-    elif o == "--otatest":
-      OPTIONS.otatest = a
     else:
       return False
     return True
@@ -1670,7 +1657,6 @@ def main(argv):
           "allow_gsi_debug_sepolicy",
           "override_apk_keys=",
           "override_apex_keys=",
-          "otatest="
       ],
       extra_option_handler=[option_handler, payload_signer.signer_options])
 
