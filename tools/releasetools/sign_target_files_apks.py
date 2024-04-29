@@ -77,6 +77,10 @@ Usage:  sign_target_files_apks [flags] input_target_files output_target_files
       removed.  Changes are processed in the order they appear.
       Default value is "-test-keys,-dev-keys,+release-keys".
 
+  --bump_date_and_version <increment>
+      Increase the build date (in seconds), and the version shown to the user,
+      by the given amount
+
   --replace_verity_private_key <key>
       Replace the private key used for verity signing. It expects a filename
       WITHOUT the extension (e.g. verity_key).
@@ -220,6 +224,7 @@ OPTIONS.rebuild_recovery = False
 OPTIONS.replace_ota_keys = False
 OPTIONS.remove_avb_public_keys = None
 OPTIONS.tag_changes = ("-test-keys", "-dev-keys", "+release-keys")
+OPTIONS.bump_date_and_version = 0
 OPTIONS.avb_keys = {}
 OPTIONS.avb_algorithms = {}
 OPTIONS.avb_extra_args = {}
@@ -1042,6 +1047,10 @@ def RewriteProps(data):
         if len(value) > 1 and value[-1].endswith("-keys"):
           value.pop()
         value = " ".join(value)
+      elif key.startswith("ro.") and key.endswith(".build.date.utc") and OPTIONS.bump_date_and_version != 0:
+        value = str(int(value) + OPTIONS.bump_date_and_version)
+      elif key.startswith("ro.") and key.endswith(".build.version.incremental") and OPTIONS.bump_date_and_version != 0:
+        value = str(int(value) + OPTIONS.bump_date_and_version)
       line = key + "=" + value
     if line != original_line:
       print("  replace: ", original_line)
@@ -1495,6 +1504,8 @@ def main(argv):
           raise ValueError("Bad tag change '%s'" % (i,))
         new.append(i[0] + i[1:].strip())
       OPTIONS.tag_changes = tuple(new)
+    elif o == "--bump_date_and_version":
+      OPTIONS.bump_date_and_version = int(a)
     elif o == "--replace_verity_public_key":
       raise ValueError("--replace_verity_public_key is no longer supported,"
                        " please switch to AVB")
@@ -1611,6 +1622,7 @@ def main(argv):
           "key_mapping=",
           "replace_ota_keys",
           "tag_changes=",
+          "bump_date_and_version=",
           "replace_verity_public_key=",
           "replace_verity_private_key=",
           "replace_verity_keyid=",
