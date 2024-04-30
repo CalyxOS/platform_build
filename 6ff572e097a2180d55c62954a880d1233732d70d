@@ -33,6 +33,24 @@
       "message": "`ro.build.version.incremental` will be blank unless otatest is set, will rework that logic.",
       "revId": "6ff572e097a2180d55c62954a880d1233732d70d",
       "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "03cf0f36_adbd5087",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-04-30T15:37:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "46bf1b3c_24ed775e",
+      "revId": "6ff572e097a2180d55c62954a880d1233732d70d",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
     }
   ]
 }
