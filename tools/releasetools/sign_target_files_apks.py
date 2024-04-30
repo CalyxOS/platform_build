@@ -88,6 +88,9 @@ Usage:  sign_target_files_apks [flags] input_target_files output_target_files
   --avb_rollback_index_override <value>
       Override the AVB rollback index with the given value.
 
+  --avb_rollback_index_location_override <value>
+      Override the AVB rollback index location with the given value.
+
   --replace_verity_private_key <key>
       Replace the private key used for verity signing. It expects a filename
       WITHOUT the extension (e.g. verity_key).
@@ -234,6 +237,7 @@ OPTIONS.tag_changes = ("-test-keys", "-dev-keys", "+release-keys")
 OPTIONS.bump_date_and_version = 0
 OPTIONS.otatest = False
 OPTIONS.avb_rollback_index_override = None
+OPTIONS.avb_rollback_index_location_override = None
 OPTIONS.avb_keys = {}
 OPTIONS.avb_algorithms = {}
 OPTIONS.avb_extra_args = {}
@@ -843,6 +847,8 @@ def ProcessTargetFiles(input_tf_zip: zipfile.ZipFile, output_tf_zip, misc_info,
     RewriteAvbProps(misc_info)
     if OPTIONS.avb_rollback_index_override:
       RewriteAvbRollbackIndex(misc_info)
+    if OPTIONS.avb_rollback_index_location_override:
+      RewriteAvbRollbackIndexLocation(misc_info)
 
   # Replace the GKI signing key for boot.img, if any.
   ReplaceGkiSigningKey(misc_info)
@@ -1252,6 +1258,14 @@ def RewriteAvbRollbackIndex(misc_info):
     misc_info[args_key] = new_args
 
 
+def RewriteAvbRollbackLocationIndex(misc_info):
+  """Rewrites the rollback index location in AVB signing args."""
+  for partition, args_key in AVB_FOOTER_ARGS_BY_PARTITION.items():
+    args = misc_info.get(args_key)
+    if not args:
+      continue
+
+
 def ReplaceGkiSigningKey(misc_info):
   """Replaces the GKI signing key."""
 
@@ -1547,6 +1561,8 @@ def main(argv):
       OPTIONS.otatest = True
     elif o == "--avb_rollback_index_override":
       OPTIONS.avb_rollback_index_override = a
+    elif o == "--avb_rollback_index_location_override":
+      OPTIONS.avb_rollback_index_location_override = a
     elif o == "--replace_verity_public_key":
       raise ValueError("--replace_verity_public_key is no longer supported,"
                        " please switch to AVB")
@@ -1666,6 +1682,7 @@ def main(argv):
           "bump_date_and_version=",
           "otatest",
           "avb_rollback_index_override=",
+          "avb_rollback_index_location_override=",
           "replace_verity_public_key=",
           "replace_verity_private_key=",
           "replace_verity_keyid=",
@@ -1725,6 +1742,9 @@ def main(argv):
     raise ValueError("Missing --bump_date_and_version 1")
 
   if OPTIONS.avb_rollback_index_override and not OPTIONS.bump_date_and_version:
+    raise ValueError("Missing --bump_date_and_version 2")
+
+  if OPTIONS.avb_rollback_index_location_override and not OPTIONS.bump_date_and_version:
     raise ValueError("Missing --bump_date_and_version 2")
 
   input_zip = zipfile.ZipFile(args[0], "r", allowZip64=True)
