@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bcf0ee15_c5a6fd78",
+        "filename": "tools/releasetools/sign_target_files_apks.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 1236,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-04-30T19:42:53Z",
+      "side": 1,
+      "message": "This is `META/misc_info.txt` in a target-files.zip or $OUT",
+      "revId": "230387bca7e00011d533dbd43a87ba5ab345bafd",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    }
+  ]
+}
