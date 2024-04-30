@@ -81,6 +81,10 @@ Usage:  sign_target_files_apks [flags] input_target_files output_target_files
       Increase the build date (in seconds), and the version shown to the user,
       by the given amount
 
+  --otatest <build incremental>
+      Create an additional zip for OTA update testing, with the build date and
+      build incremental version is bumped by 1.
+
   --replace_verity_private_key <key>
       Replace the private key used for verity signing. It expects a filename
       WITHOUT the extension (e.g. verity_key).
@@ -217,6 +221,7 @@ OPTIONS.replace_ota_keys = False
 OPTIONS.remove_avb_public_keys = None
 OPTIONS.tag_changes = ("-test-keys", "-dev-keys", "+release-keys")
 OPTIONS.bump_date_and_version = 0
+OPTIONS.otatest = False
 OPTIONS.avb_keys = {}
 OPTIONS.avb_algorithms = {}
 OPTIONS.avb_extra_args = {}
@@ -1047,6 +1052,8 @@ def RewriteProps(data):
         if len(value) > 1 and value[-1].endswith("-keys"):
           value.pop()
         value = " ".join(value)
+        if OPTIONS.otatest:
+          value += " otatest"
       elif key.startswith("ro.") and key.endswith(".build.date.utc") and OPTIONS.bump_date_and_version != 0:
         value = str(int(value) + OPTIONS.bump_date_and_version)
       elif key.startswith("ro.") and key.endswith(".build.version.incremental") and OPTIONS.bump_date_and_version != 0:
@@ -1486,6 +1493,8 @@ def main(argv):
       OPTIONS.tag_changes = tuple(new)
     elif o == "--bump_date_and_version":
       OPTIONS.bump_date_and_version = int(a)
+    elif o == "--otatest":
+      OPTIONS.otatest = True
     elif o == "--replace_verity_public_key":
       raise ValueError("--replace_verity_public_key is no longer supported,"
                        " please switch to AVB")
@@ -1599,6 +1608,7 @@ def main(argv):
           "replace_ota_keys",
           "tag_changes=",
           "bump_date_and_version=",
+          "otatest",
           "replace_verity_public_key=",
           "replace_verity_private_key=",
           "replace_verity_keyid=",
@@ -1653,6 +1663,10 @@ def main(argv):
     sys.exit(1)
 
   common.InitLogging()
+
+  if OPTIONS.otatest and OPTIONS.bump_date_and_version == 0:
+    print("OTAtest, bumping date and version by 1")
+    OPTIONS.bump_date_and_version = 1
 
   input_zip = zipfile.ZipFile(args[0], "r", allowZip64=True)
   output_zip = zipfile.ZipFile(args[1], "w",
