@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3db0be2_f8b9d7f3",
+        "filename": "tools/releasetools/sign_target_files_apks.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-04-30T18:59:37Z",
+      "side": 1,
+      "message": "Need to update, there\u0027s no default",
+      "revId": "d72bc7b1089e76a4280d15ef42841a6a0ac299bc",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0025eb7_3d2f272f",
+        "filename": "tools/releasetools/sign_target_files_apks.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-04-30T18:59:37Z",
+      "side": 1,
+      "message": "Intentionally added here in the middle to avoid unnecessary conflicts every merge.",
+      "revId": "d72bc7b1089e76a4280d15ef42841a6a0ac299bc",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    }
+  ]
+}
