@@ -85,6 +85,9 @@ Usage:  sign_target_files_apks [flags] input_target_files output_target_files
       Create an additional zip for OTA update testing, with the build date and
       build incremental version is bumped by 1.
 
+  --avb_rollback_index_override <value>
+      Override the AVB rollback index with the given value.
+
   --replace_verity_private_key <key>
       Replace the private key used for verity signing. It expects a filename
       WITHOUT the extension (e.g. verity_key).
@@ -230,6 +233,7 @@ OPTIONS.remove_avb_public_keys = None
 OPTIONS.tag_changes = ("-test-keys", "-dev-keys", "+release-keys")
 OPTIONS.bump_date_and_version = 0
 OPTIONS.otatest = False
+OPTIONS.avb_rollback_index_override = None
 OPTIONS.avb_keys = {}
 OPTIONS.avb_algorithms = {}
 OPTIONS.avb_extra_args = {}
@@ -837,6 +841,8 @@ def ProcessTargetFiles(input_tf_zip: zipfile.ZipFile, output_tf_zip, misc_info,
   # Rewrite the props in AVB signing args.
   if misc_info.get('avb_enable') == 'true':
     RewriteAvbProps(misc_info)
+    if OPTIONS.avb_rollback_index_override:
+      RewriteAvbRollbackIndex(misc_info)
 
   # Replace the GKI signing key for boot.img, if any.
   ReplaceGkiSigningKey(misc_info)
@@ -1222,6 +1228,28 @@ def RewriteAvbProps(misc_info):
       misc_info[args_key] = result
 
 
+def RewriteAvbRollbackIndex(misc_info):
+  """Rewrites the rollback index in AVB signing args."""
+  for partition, args_key in AVB_FOOTER_ARGS_BY_PARTITION.items():
+    args = misc_info.get(args_key)
+    if not args:
+      continue
+
+    rollback_key = 'rollback_index'
+    if not rollback_key in args:
+      continue
+
+    # Match typical rollback index values
+    pattern = "--rollback_index " + "[0-9]*"
+    repl = "--rollback_index " + OPTIONS.avb_rollback_index_override
+    new_args = re.sub(pattern, repl, args)
+
+    print('Rewriting AVB prop for {}:\n'.format(partition))
+    print('  replace: {}'.format(args))
+    print('     with: {}'.format(new_args))
+    misc_info[args_key] = new_args
+
+
 def ReplaceGkiSigningKey(misc_info):
   """Replaces the GKI signing key."""
 
@@ -1515,6 +1543,8 @@ def main(argv):
       OPTIONS.bump_date_and_version = int(a)
     elif o == "--otatest":
       OPTIONS.otatest = True
+    elif o == "--avb_rollback_index_override":
+      OPTIONS.avb_rollback_index_override = str(a)
     elif o == "--replace_verity_public_key":
       raise ValueError("--replace_verity_public_key is no longer supported,"
                        " please switch to AVB")
@@ -1633,6 +1663,7 @@ def main(argv):
           "tag_changes=",
           "bump_date_and_version=",
           "otatest",
+          "avb_rollback_index_override=",
           "replace_verity_public_key=",
           "replace_verity_private_key=",
           "replace_verity_keyid=",
@@ -1691,6 +1722,10 @@ def main(argv):
   if OPTIONS.otatest and OPTIONS.bump_date_and_version == 0:
     print("OTAtest, bumping date and version by 1")
     OPTIONS.bump_date_and_version = 1
+
+  if OPTIONS.avb_rollback_index_override and OPTIONS.bump_date_and_version == 0:
+    print("AVB Rollback index override, bumping date and version by 2")
+    OPTIONS.bump_date_and_version = 2
 
   input_zip = zipfile.ZipFile(args[0], "r", allowZip64=True)
   output_zip = zipfile.ZipFile(args[1], "w",
