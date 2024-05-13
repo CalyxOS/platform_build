@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd1c60bc_c1e7a6c6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000062
+      },
+      "writtenOn": "2024-05-13T20:07:48Z",
+      "side": 1,
+      "message": "Glimpse overrides Gallery2, so would keeping this just mean that Glimpse would get included instead? If so, isn\u0027t that fine?",
+      "revId": "d9f153028cd2232606d00ae2fc3a7a83175c0183",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    }
+  ]
+}
