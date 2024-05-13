@@ -33,6 +33,24 @@
       "message": "Intentionally added here in the middle to avoid unnecessary conflicts every merge.",
       "revId": "d72bc7b1089e76a4280d15ef42841a6a0ac299bc",
       "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2a028c6_a7779b88",
+        "filename": "tools/releasetools/sign_target_files_apks.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-05-13T12:17:06Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "a0025eb7_3d2f272f",
+      "revId": "d72bc7b1089e76a4280d15ef42841a6a0ac299bc",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
     }
   ]
 }
