@@ -16,6 +16,24 @@
       "message": "Glimpse overrides Gallery2, so would keeping this just mean that Glimpse would get included instead? If so, isn\u0027t that fine?",
       "revId": "d9f153028cd2232606d00ae2fc3a7a83175c0183",
       "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ad0c44e_6013afe2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-05-14T15:18:53Z",
+      "side": 1,
+      "message": "The issue was without this since the Gallery2Editor rename, we got a build error, due to eppe.",
+      "parentUuid": "fd1c60bc_c1e7a6c6",
+      "revId": "d9f153028cd2232606d00ae2fc3a7a83175c0183",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
     }
   ]
 }
