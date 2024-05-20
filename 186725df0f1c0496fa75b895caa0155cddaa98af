@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d61d8e96_139608c5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-05-20T13:20:03Z",
+      "side": 1,
+      "message": "Verified output using `avbtool info_image`, looked for the new \"Rollback index:\"",
+      "revId": "186725df0f1c0496fa75b895caa0155cddaa98af",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    }
+  ]
+}
