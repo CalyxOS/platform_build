@@ -34,6 +34,24 @@
       "parentUuid": "e16805e9_9503a597",
       "revId": "41f20398872bf2c51dee5981b02e292e55a0ffa7",
       "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0aa4d10b_5da1ba39",
+        "filename": "tools/releasetools/sign_target_files_apks.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 1245,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-05-20T14:21:13Z",
+      "side": 1,
+      "message": "Yes we do, but it can be in a follow-up.\n\nYou can test just the matching in the interpreter directly, just use:\n\n$ prebuilts/build-tools/path/linux-x86/python\nPython 3.11.4\n\n\nTypical values on Fairphone are the ASB dates (so 5th of month), in seconds:\n\n`date -d \u0027TZ\u003d\"GMT\" 2024-05-05\u0027 +%s`\n\nFor Moto it\u0027s just an int, 17/18 etc.",
+      "parentUuid": "8e070808_305b1790",
+      "revId": "41f20398872bf2c51dee5981b02e292e55a0ffa7",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
     }
   ]
 }
