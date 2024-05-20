@@ -16,6 +16,52 @@
       "message": "Verified output using `avbtool info_image`, looked for the new \"Rollback index:\"",
       "revId": "186725df0f1c0496fa75b895caa0155cddaa98af",
       "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2b46fa2_4cd13349",
+        "filename": "tools/releasetools/sign_target_files_apks.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 1243,
+      "author": {
+        "id": 1000062
+      },
+      "writtenOn": "2024-05-20T14:11:33Z",
+      "side": 1,
+      "message": "```suggestion\n    pattern \u003d r\"--rollback_index ([0-9]+)\"\n```\n\nRaw strings for regular expressions. Match one or more numbers, capturing them.",
+      "range": {
+        "startLine": 1243,
+        "startChar": 14,
+        "endLine": 1243,
+        "endChar": 44
+      },
+      "revId": "186725df0f1c0496fa75b895caa0155cddaa98af",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c3c16ac_6eddd09d",
+        "filename": "tools/releasetools/sign_target_files_apks.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 1247,
+      "author": {
+        "id": 1000062
+      },
+      "writtenOn": "2024-05-20T14:11:33Z",
+      "side": 1,
+      "message": "```suggestion\n    print(\u0027Rewriting AVB rollback index for {}:\\n\u0027.format(partition))\n```",
+      "range": {
+        "startLine": 1247,
+        "startChar": 25,
+        "endLine": 1247,
+        "endChar": 29
+      },
+      "revId": "186725df0f1c0496fa75b895caa0155cddaa98af",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
     }
   ]
 }

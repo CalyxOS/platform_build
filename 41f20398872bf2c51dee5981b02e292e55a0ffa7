@@ -16,6 +16,24 @@
       "message": "I couldn\u0027t get it to work (or rather didn\u0027t try much), but there could be a capture group used here to get the previous value, and then make sure this new value being passed is higher.",
       "revId": "41f20398872bf2c51dee5981b02e292e55a0ffa7",
       "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e070808_305b1790",
+        "filename": "tools/releasetools/sign_target_files_apks.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 1245,
+      "author": {
+        "id": 1000062
+      },
+      "writtenOn": "2024-05-20T14:11:33Z",
+      "side": 1,
+      "message": "Do you still want to do that? `re.sub` can take a function for `repl` to which it provides a match object, could easily do a comparison there with `int(matchobj.group(1))`\n\nIf not then we don\u0027t need the capturing group I suggested above.",
+      "parentUuid": "e16805e9_9503a597",
+      "revId": "41f20398872bf2c51dee5981b02e292e55a0ffa7",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
     }
   ]
 }
