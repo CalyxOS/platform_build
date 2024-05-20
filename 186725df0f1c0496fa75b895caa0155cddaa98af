@@ -41,6 +41,30 @@
       "serverId": "35266860-6252-469c-a67d-185064479fc0"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5be0a6b8_d6ef471d",
+        "filename": "tools/releasetools/sign_target_files_apks.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 1243,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-05-20T14:18:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e2b46fa2_4cd13349",
+      "range": {
+        "startLine": 1243,
+        "startChar": 14,
+        "endLine": 1243,
+        "endChar": 44
+      },
+      "revId": "186725df0f1c0496fa75b895caa0155cddaa98af",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2c3c16ac_6eddd09d",
@@ -54,6 +78,30 @@
       "writtenOn": "2024-05-20T14:11:33Z",
       "side": 1,
       "message": "```suggestion\n    print(\u0027Rewriting AVB rollback index for {}:\\n\u0027.format(partition))\n```",
+      "range": {
+        "startLine": 1247,
+        "startChar": 25,
+        "endLine": 1247,
+        "endChar": 29
+      },
+      "revId": "186725df0f1c0496fa75b895caa0155cddaa98af",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b883ac9b_2ccaac45",
+        "filename": "tools/releasetools/sign_target_files_apks.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 1247,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-05-20T14:18:04Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "2c3c16ac_6eddd09d",
       "range": {
         "startLine": 1247,
         "startChar": 25,
