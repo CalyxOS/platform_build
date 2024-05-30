@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c8daefc_f8f0c9a5",
+        "filename": "target/product/handheld_product.mk",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000062
+      },
+      "writtenOn": "2024-05-30T14:01:19Z",
+      "side": 0,
+      "message": "Since we still need the editor, I think we should make this Gallery2Editor rather than remove it.",
+      "revId": "23889d9247f9a36e6781a00855eb15f4fb7b3389",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    }
+  ]
+}
