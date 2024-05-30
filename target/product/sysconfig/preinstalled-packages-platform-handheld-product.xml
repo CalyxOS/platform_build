@@ -53,8 +53,16 @@
         <do-not-install-in user-type="android.os.usertype.profile.CLONE" />
     </install-in-user-type>
 
-    <!--  Gallery (Gallery2) -->
+    <!--  Gallery2Editor -->
     <install-in-user-type package="com.android.gallery3d">
+        <install-in user-type="FULL" />
+        <install-in user-type="PROFILE" />
+        <do-not-install-in user-type="android.os.usertype.profile.CLONE" />
+        <do-not-install-in user-type="android.os.usertype.profile.PRIVATE" />
+    </install-in-user-type>
+
+    <!--  Glimpse (Gallery) -->
+    <install-in-user-type package="org.calyxos.glimpse">
         <install-in user-type="FULL" />
         <install-in user-type="PROFILE" />
         <do-not-install-in user-type="android.os.usertype.profile.CLONE" />
