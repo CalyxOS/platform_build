@@ -16,6 +16,24 @@
       "message": "Since we still need the editor, I think we should make this Gallery2Editor rather than remove it.",
       "revId": "23889d9247f9a36e6781a00855eb15f4fb7b3389",
       "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "efa5283e_7041d50f",
+        "filename": "target/product/handheld_product.mk",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000062
+      },
+      "writtenOn": "2024-05-30T14:02:53Z",
+      "side": 0,
+      "message": "Okay, I see we added it to this change: https://review.calyxos.org/c/CalyxOS/vendor_calyx/+/24563\n\nI guess that\u0027s fine.",
+      "parentUuid": "0c8daefc_f8f0c9a5",
+      "revId": "23889d9247f9a36e6781a00855eb15f4fb7b3389",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
     }
   ]
 }
