@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f5f9f2b6_c5a8e367",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000004
+      },
+      "writtenOn": "2024-06-12T15:38:15Z",
+      "side": 1,
+      "message": "https://android.googlesource.com/platform/build/+/3cff79686ff9535ee3a919318751b1a4fc4c53bd\n\nIgnore-AOSP-First: DeviceDiagnostics.apk is internally developed, not in\nAOSP",
+      "revId": "b49e3da3cb0eaea56bab68bbd72fefbb28ce6a72",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    }
+  ]
+}
