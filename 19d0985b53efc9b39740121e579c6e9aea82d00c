@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0420d8b_7cd92f92",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-06-14T22:16:05Z",
+      "side": 1,
+      "message": "bluejay build is fine.\n\nOnly user of this appears to be\n\n```\nbuild/make/core/art_config.mk\nconfig_enable_uffd_gc :\u003d \\\n  $(firstword $(OVERRIDE_ENABLE_UFFD_GC) $(PRODUCT_ENABLE_UFFD_GC) default)\n```\n\nSo in the end it works the same anyways",
+      "revId": "19d0985b53efc9b39740121e579c6e9aea82d00c",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    }
+  ]
+}
