@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "be615575_cf52d111",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000065
+      },
+      "writtenOn": "2024-06-17T08:58:19Z",
+      "side": 1,
+      "message": "Prefer: https://review.lineageos.org/c/LineageOS/android_packages_apps_Glimpse/+/393374 ?",
+      "revId": "e08bbba9ad9f724981c6d9dee66136a9261d9d6b",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    }
+  ]
+}
