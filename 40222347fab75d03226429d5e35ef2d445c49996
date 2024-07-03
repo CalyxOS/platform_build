@@ -16,6 +16,24 @@
       "message": "Long line here and above, trying to indent broke build.",
       "revId": "40222347fab75d03226429d5e35ef2d445c49996",
       "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5dfb3f58_38046052",
+        "filename": "tools/releasetools/sign_target_files_apks.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 1052,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-07-03T12:31:32Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "f327453f_fd7b25da",
+      "revId": "40222347fab75d03226429d5e35ef2d445c49996",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
     }
   ],
   "submitRequirementResults": [
