@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c700869_3e5a0c1d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-10-17T17:36:42Z",
+      "side": 1,
+      "message": "I see a `ANDROID_QUIET_BUILD` but that does more than just this.",
+      "revId": "84f4592e349f12bba37e3ebf94558bb7f106febc",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    }
+  ]
+}
