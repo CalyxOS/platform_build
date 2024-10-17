@@ -16,6 +16,23 @@
       "message": "/mnt/android/calyx-v/out/target/product/barbet/system/build.prop\n40:ro.build.version.security_patch\u003d2024-08-05\n41:ro.build.version.real_security_patch\u003d2024-10-05",
       "revId": "a7fa6f9524ea6fe02b5dbb03573bc5f6cccb35ea",
       "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "47de16ab_b926c7a5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000004
+      },
+      "writtenOn": "2024-10-17T17:56:00Z",
+      "side": 1,
+      "message": "Doesn\u0027t affect actively supported devices",
+      "revId": "a7fa6f9524ea6fe02b5dbb03573bc5f6cccb35ea",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
     }
   ]
 }
