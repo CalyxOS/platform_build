@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d3b9b42_39eb16c9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-04-15T22:44:05Z",
+      "side": 1,
+      "message": "Works. All devices sign fine now, and this function still works.\n\n```\notter     replace:  ro.build.description\u003dcalyx_otter-user 15 BP1A.250405.007 25606210 test-keys\notter        with:  ro.build.description\u003dcalyx_otter-user 15 BP1A.250405.007 25606210 release-keys\notter     replace:  ro.build.description\u003dcalyx_otter-user 15 BP1A.250405.007 25606210 test-keys\notter        with:  ro.build.description\u003dcalyx_otter-user 15 BP1A.250405.007 25606210 release-keys\nFP4       replace:  ro.build.description\u003dcalyx_FP4-user 15 BP1A.250405.007 25606210 test-keys\nFP4          with:  ro.build.description\u003dcalyx_FP4-user 15 BP1A.250405.007 25606210 release-keys\nFP4       replace:  ro.build.description\u003dcalyx_FP4-user 15 BP1A.250405.007 25606210 test-keys\nFP4          with:  ro.build.description\u003dcalyx_FP4-user 15 BP1A.250405.007 25606210 release-keys\nFP5       replace:  ro.build.description\u003dcalyx_FP5-user 15 BP1A.250405.007 25606210 test-keys\nFP5          with:  ro.build.description\u003dcalyx_FP5-user 15 BP1A.250405.007 25606210 release-keys\nFP5       replace:  ro.build.description\u003dcalyx_FP5-user 15 BP1A.250405.007 25606210 test-keys\nFP5          with:  ro.build.description\u003dcalyx_FP5-user 15 BP1A.250405.007 25606210 release-keys\n```",
+      "revId": "b0fd9834855ca0c60e26832f5080794b1f350b3c",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    }
+  ]
+}
