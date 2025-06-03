@@ -5982,6 +5982,7 @@ INTERNAL_OTATOOLS_MODULES += \
 
 ifneq ($(CALYX_BUILD),)
 INTERNAL_OTATOOLS_MODULES += \
+  gen_update_config \
   chromium_trichrome_patcher
 endif
 
