@@ -181,11 +181,11 @@ android_system_image {
         "EmergencyInfo",
 
         // handheld_product
-        "Calendar",
         "Contacts",
         "DeskClock",
-        "Gallery2",
-        "Music",
+        "Etar",
+        "Glimpse",
+        "Twelve",
         "preinstalled-packages-platform-handheld-product.xml",
         "QuickSearchBox",
         "SettingsIntelligence",
