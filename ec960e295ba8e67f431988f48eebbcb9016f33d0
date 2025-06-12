@@ -34,6 +34,23 @@
       "parentUuid": "ad615cc9_f5549a45",
       "revId": "ec960e295ba8e67f431988f48eebbcb9016f33d0",
       "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ceac1855_33bc8c92",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000004
+      },
+      "writtenOn": "2025-06-12T13:47:59Z",
+      "side": 1,
+      "message": "This is relevant, in 16, GSI build is soong-only: https://review.lineageos.org/q/topic:%22soong-lineage-gsi%22",
+      "revId": "ec960e295ba8e67f431988f48eebbcb9016f33d0",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
     }
   ]
 }
