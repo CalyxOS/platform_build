@@ -16,6 +16,24 @@
       "message": "Feels like this should not be touched here, and we have CalyxOS GSI stuff somewhere else. Do you know where?",
       "revId": "ec960e295ba8e67f431988f48eebbcb9016f33d0",
       "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3feb879f_8770c9ce",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000062
+      },
+      "writtenOn": "2025-06-12T13:25:45Z",
+      "side": 1,
+      "message": "Meant to say we should or could have CalyxOS GSI stuff somewhere else. Not sure if we do right now.",
+      "parentUuid": "ad615cc9_f5549a45",
+      "revId": "ec960e295ba8e67f431988f48eebbcb9016f33d0",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
     }
   ]
 }
