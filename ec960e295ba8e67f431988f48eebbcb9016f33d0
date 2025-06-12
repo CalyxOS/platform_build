@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad615cc9_f5549a45",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000062
+      },
+      "writtenOn": "2025-06-12T13:18:09Z",
+      "side": 1,
+      "message": "Feels like this should not be touched here, and we have CalyxOS GSI stuff somewhere else. Do you know where?",
+      "revId": "ec960e295ba8e67f431988f48eebbcb9016f33d0",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    }
+  ]
+}
