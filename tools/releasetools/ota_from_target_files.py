@@ -1160,7 +1160,7 @@ def GenerateAbOtaPackage(target_file, output_file, source_file=None):
   pw = OPTIONS.key_passwords[OPTIONS.package_key]
   payload_signer = PayloadSigner(
       OPTIONS.package_key, OPTIONS.private_key_suffix,
-      pw, OPTIONS.payload_signer)
+      pw, OPTIONS.payload_signer, OPTIONS.payload_signer_args)
   payload.Sign(payload_signer)
 
   # Write the payload into output zip.

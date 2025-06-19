@@ -179,6 +179,10 @@ Usage:  sign_target_files_apks [flags] input_target_files output_target_files
       If the signer uses a RSA key, this should be the number of bytes to
       represent the modulus. If it uses an EC key, this is the size of a
       DER-encoded ECDSA signature.
+
+  --extra_avbtool_signing_args <args>
+      If present, these args are passed along to each invocation of avbtool
+      that involves signing.
 """
 
 from __future__ import print_function
@@ -815,6 +819,8 @@ def ProcessTargetFiles(input_tf_zip: zipfile.ZipFile, output_tf_zip: zipfile.Zip
         print("           : %-*s payload   (%s)" % (
             maxsize, name, payload_key))
 
+        signing_args = OPTIONS.avb_extra_args.get('apex')
+
         signed_apex = apex_utils.SignApex(
             misc_info['avb_avbtool'],
             data,
@@ -824,7 +830,7 @@ def ProcessTargetFiles(input_tf_zip: zipfile.ZipFile, output_tf_zip: zipfile.Zip
             apk_keys,
             codename_to_api_level_map,
             no_hashtree=None,  # Let apex_util determine if hash tree is needed
-            signing_args=OPTIONS.avb_extra_args.get('apex'),
+            signing_args=signing_args,
             sign_tool=sign_tool)
         common.ZipWrite(output_tf_zip, signed_apex, filename)
 
@@ -1086,6 +1092,9 @@ def ReplaceKeyInAvbHashtreeFooter(image, new_key, new_algorithm, misc_info):
     '--do_not_generate_fec',
     '--image', image.name
   ]
+
+  if OPTIONS.extra_avbtool_signing_args:
+    cmd.extend(shlex.split(OPTIONS.extra_avbtool_signing_args))
 
   # Append properties into command
   props = map(lambda x: x.get("Prop"), filter(lambda x: "Prop" in x,
