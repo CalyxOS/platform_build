@@ -307,7 +307,8 @@ class SignApk {
         throw new Error(
             "Key "
                 + keyName
-                + " not found in the token provided by PKCS11 library!");
+                + " not found in the token provided by PKCS11 library! Found instead: "
+                + Collections.list(keyStore.aliases()));
         }
         return privateKeyEntry.getPrivateKey();
     }
