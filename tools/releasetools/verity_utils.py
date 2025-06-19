@@ -278,6 +278,8 @@ class VerifiedBootVersion2VerityImageBuilder(VerityImageBuilder):
     if self.salt:
       cmd.extend(["--salt", self.salt])
     cmd.extend(shlex.split(self.signing_args))
+    if OPTIONS.extra_avbtool_signing_args:
+      cmd.extend(shlex.split(OPTIONS.extra_avbtool_signing_args))
 
     if OPTIONS.signing_command_intermediary is not None:
       new_env = os.environ.copy()
