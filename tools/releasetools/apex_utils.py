@@ -155,6 +155,10 @@ class ApexApkSigner(object):
       # Pass avbtool to the custom signing tool
       cmd = [self.sign_tool, '--avbtool', self.avbtool]
       # Pass signing_args verbatim which will be forwarded to avbtool (e.g. --signing_helper=...)
+      if not signing_args:
+        signing_args = OPTIONS.extra_avbtool_signing_args
+      elif OPTIONS.extra_avbtool_signing_args:
+        signing_args = signing_args + " " + OPTIONS.extra_avbtool_signing_args
       if signing_args:
         cmd.extend(['--signing_args', signing_args])
       cmd.extend([payload_key, payload_dir])
@@ -194,6 +198,10 @@ class ApexApkSigner(object):
     for key, val in arguments_dict.items():
       generate_image_cmd.extend(['--' + key, val])
 
+    if not signing_args:
+      signing_args = OPTIONS.extra_avbtool_signing_args
+    elif OPTIONS.extra_avbtool_signing_args:
+      signing_args = signing_args + " " + OPTIONS.extra_avbtool_signing_args
     if signing_args:
       generate_image_cmd.extend(
           ['--signing_args', signing_args])
@@ -231,6 +239,8 @@ def SignApexPayload(avbtool, payload_file, payload_key_path, payload_key_name,
     cmd.append('--no_hashtree')
   if signing_args:
     cmd.extend(shlex.split(signing_args))
+  if OPTIONS.extra_avbtool_signing_args:
+    cmd.extend(shlex.split(OPTIONS.extra_avbtool_signing_args))
 
   try:
     common.RunAndCheckOutput(cmd)
