@@ -18,6 +18,7 @@ import common
 import logging
 import shlex
 import argparse
+import os
 import tempfile
 import zipfile
 import shutil
@@ -110,9 +111,11 @@ class PayloadSigner(object):
                           "-pkeyopt", "digest:sha256"]
       self.maximum_signature_size = self._GetMaximumSignatureSizeInBytes(
           signing_key)
+      self.package_key = None
     else:
       self.signer = payload_signer
       self.signer_args = payload_signer_args
+      self.package_key = package_key
       if payload_signer_maximum_signature_size:
         self.maximum_signature_size = int(
             payload_signer_maximum_signature_size)
@@ -170,6 +173,10 @@ class PayloadSigner(object):
     """Signs the given input file. Returns the output filename."""
     out_file = common.MakeTempFile(prefix="signed-", suffix=".bin")
     cmd = [self.signer] + self.signer_args + ['-in', in_file, '-out', out_file]
+    if OPTIONS.pkcs11_config is not None and self.package_key is not None:
+      cmd.extend(["-inkey", self.package_key])
+    elif self.package_key is not None:
+      cmd.extend(["-inkey", self.package_key + private_key_suffix])
     common.RunAndCheckOutput(cmd)
     return out_file
 

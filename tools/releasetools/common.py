@@ -87,6 +87,7 @@ class Options(object):
     self.android_jar_path = None
     self.public_key_suffix = ".x509.pem"
     self.private_key_suffix = ".pk8"
+    self.pkcs11_config = None
     # use otatools built boot_signer by default
     self.verbose = False
     self.tempfiles = []
@@ -100,6 +101,7 @@ class Options(object):
     self.cache_size = None
     self.stash_threshold = 0.8
     self.logfile = None
+    self.extra_avbtool_signing_args = None
 
 
 OPTIONS = Options()
@@ -1469,6 +1471,9 @@ def AppendAVBSigningArgs(cmd, partition, avb_salt=None):
   # make_vbmeta_image doesn't like "--salt" (and it's not needed).
   if avb_salt and not partition.startswith("vbmeta"):
     cmd.extend(["--salt", avb_salt])
+  # extra signing args, e.g. ["--signing_helper", "signer.sh"]
+  if OPTIONS.extra_avbtool_signing_args:
+    cmd.extend(shlex.split(OPTIONS.extra_avbtool_signing_args))
 
 
 def ResolveAVBSigningPathArgs(split_args):
@@ -2556,7 +2561,12 @@ def SignFile(input_name, output_name, key, password, min_api_level=None,
   java_library_path = os.path.join(
       OPTIONS.search_path, OPTIONS.signapk_shared_library_path)
 
-  cmd = ([OPTIONS.java_path] + OPTIONS.java_args +
+  java_args = OPTIONS.java_args
+  if OPTIONS.pkcs11_config is not None:
+    java_args = java_args + \
+      ["--add-exports=jdk.crypto.cryptoki/sun.security.pkcs11=ALL-UNNAMED"]
+
+  cmd = ([OPTIONS.java_path] + java_args +
          ["-Djava.library.path=" + java_library_path,
           "-jar", os.path.join(OPTIONS.search_path, OPTIONS.signapk_path)] +
          extra_signapk_args)
@@ -2571,9 +2581,20 @@ def SignFile(input_name, output_name, key, password, min_api_level=None,
   if min_sdk_version is not None:
     cmd.extend(["--min-sdk-version", str(min_sdk_version)])
 
-  cmd.extend([key + OPTIONS.public_key_suffix,
-              key + OPTIONS.private_key_suffix,
-              input_name, output_name])
+  if OPTIONS.pkcs11_config is not None:
+    key_dir = os.environ["KEY_DIR"] or ""
+    key_alias = key.removeprefix(key_dir)
+    cmd.extend(["-loadPrivateKeysFromKeyStore", "PKCS11",
+                "-keyStorePinFromEnv", "PKCS11_PIN",
+                "-providerClass", "sun.security.pkcs11.SunPKCS11",
+                "-providerArg", OPTIONS.pkcs11_config,
+                key + OPTIONS.public_key_suffix,
+                key_alias,
+                input_name, output_name])
+  else:
+    cmd.extend([key + OPTIONS.public_key_suffix,
+                key + OPTIONS.private_key_suffix,
+                input_name, output_name])
 
   proc = Run(cmd, stdin=subprocess.PIPE)
   if password is not None:
@@ -2773,7 +2794,8 @@ def ParseOptions(argv,
          "java_path=", "java_args=", "android_jar_path=", "public_key_suffix=",
          "private_key_suffix=", "boot_signer_path=", "boot_signer_args=",
          "verity_signer_path=", "verity_signer_args=", "device_specific=",
-         "extra=", "logfile="] + list(extra_long_opts))
+         "extra=", "logfile=", "extra_avbtool_signing_args=",
+         "pkcs11_config="] + list(extra_long_opts))
   except getopt.GetoptError as err:
     Usage(docstring)
     print("**", str(err), "**")
@@ -2824,6 +2846,10 @@ def ParseOptions(argv,
       OPTIONS.extras[key] = value
     elif o in ("--logfile",):
       OPTIONS.logfile = a
+    elif o in ("--extra_avbtool_signing_args",):
+      OPTIONS.extra_avbtool_signing_args = a
+    elif o in ("--pkcs11_config",):
+      OPTIONS.pkcs11_config = a
     else:
       if extra_option_handler is None:
         raise ValueError("unknown option \"%s\"" % (o,))
