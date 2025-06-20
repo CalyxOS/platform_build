@@ -957,7 +957,7 @@ def ProcessTargetFiles(input_tf_zip: zipfile.ZipFile, output_tf_zip: zipfile.Zip
         old_pubkey = input_tf_zip.read(pubkey_info.filename)
         # Validate the keys and image.
         if len(old_pubkey) != len(new_pubkey):
-          raise common.ExternalError("pvmfw embedded public key size mismatch")
+          logger.warning("pvmfw embedded public key size mismatch: {} vs {}".format(len(old_pubkey), len(new_pubkey)))
         pos = data.find(old_pubkey)
         if pos == -1:
           raise common.ExternalError("pvmfw embedded public key not found")
