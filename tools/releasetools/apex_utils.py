@@ -156,7 +156,7 @@ class ApexApkSigner(object):
       cmd = [self.sign_tool, '--avbtool', self.avbtool]
       # Pass signing_args verbatim which will be forwarded to avbtool (e.g. --signing_helper=...)
       if signing_args:
-        cmd.extend(['--signing_args', '"{}"'.format(signing_args)])
+        cmd.extend(['--signing_args', signing_args])
       cmd.extend([payload_key, payload_dir])
       common.RunAndCheckOutput(cmd)
       has_signed_content = True
@@ -194,11 +194,9 @@ class ApexApkSigner(object):
     for key, val in arguments_dict.items():
       generate_image_cmd.extend(['--' + key, val])
 
-    # Add quote to the signing_args as we will pass
-    # --signing_args "--signing_helper_with_files=%path" to apexer
     if signing_args:
       generate_image_cmd.extend(
-          ['--signing_args', '"{}"'.format(signing_args)])
+          ['--signing_args', signing_args])
 
     # optional arguments for apex repacking
     manifest_json = os.path.join(apex_dir, 'apex_manifest.json')
