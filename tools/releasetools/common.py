@@ -79,8 +79,10 @@ class Options(object):
     if not os.path.exists(os.path.join(self.search_path, self.signapk_path)):
       if "ANDROID_HOST_OUT" in os.environ:
         self.search_path = os.environ["ANDROID_HOST_OUT"]
+    self.apksigner_path = "framework/apksigner.jar"  # Relative to search_path
     self.signapk_shared_library_path = "lib64"   # Relative to search_path
     self.extra_signapk_args = []
+    self.extra_apksigner_args = []
     self.aapt2_path = "aapt2"
     self.java_path = "java"  # Use the one on the path by default.
     self.java_args = ["-Xmx4096m"]  # The default JVM args.
@@ -2534,7 +2536,7 @@ def GetMinSdkVersionInt(apk_name, codename_to_api_level_map):
 
 def SignFile(input_name, output_name, key, password, min_api_level=None,
              codename_to_api_level_map=None, whole_file=False,
-             extra_signapk_args=None):
+             extra_signapk_args=None, extra_apksigner_args=None):
   """Sign the input_name zip/jar/apk, producing output_name.  Use the
   given key and password (the latter may be None if the key does not
   have a password.
@@ -2551,12 +2553,15 @@ def SignFile(input_name, output_name, key, password, min_api_level=None,
   encountered as the APK's minSdkVersion.
 
   Caller may optionally specify extra args to be passed to SignApk, which
-  defaults to OPTIONS.extra_signapk_args if omitted.
+  defaults to OPTIONS.extra_signapk_args if omitted, or to apksigner, which
+  defaults to OPTIONS.extra_apksigner_args.
   """
   if codename_to_api_level_map is None:
     codename_to_api_level_map = {}
   if extra_signapk_args is None:
     extra_signapk_args = OPTIONS.extra_signapk_args
+  if extra_apksigner_args is None:
+    extra_apksigner_args = OPTIONS.extra_apksigner_args
 
   java_library_path = os.path.join(
       OPTIONS.search_path, OPTIONS.signapk_shared_library_path)
@@ -2565,11 +2570,18 @@ def SignFile(input_name, output_name, key, password, min_api_level=None,
   if OPTIONS.pkcs11_config is not None:
     java_args = java_args + \
       ["--add-exports=jdk.crypto.cryptoki/sun.security.pkcs11=ALL-UNNAMED"]
+  use_apksigner = not whole_file and os.getenv("USE_APKSIGNER") != "n"
 
-  cmd = ([OPTIONS.java_path] + java_args +
-         ["-Djava.library.path=" + java_library_path,
-          "-jar", os.path.join(OPTIONS.search_path, OPTIONS.signapk_path)] +
-         extra_signapk_args)
+  if use_apksigner:
+    cmd = ([OPTIONS.java_path] + java_args +
+        ["-Djava.library.path=" + java_library_path,
+        "-jar", os.path.join(OPTIONS.search_path, OPTIONS.apksigner_path),
+        "sign"] + extra_apksigner_args)
+  else:
+    cmd = ([OPTIONS.java_path] + java_args +
+           ["-Djava.library.path=" + java_library_path,
+            "-jar", os.path.join(OPTIONS.search_path, OPTIONS.signapk_path)] +
+           extra_signapk_args)
   if whole_file:
     cmd.append("-w")
 
@@ -2584,19 +2596,37 @@ def SignFile(input_name, output_name, key, password, min_api_level=None,
   if OPTIONS.pkcs11_config is not None:
     key_dir = os.environ["KEY_DIR"] or ""
     key_alias = key.removeprefix(key_dir)
-    cmd.extend(["-loadPrivateKeysFromKeyStore", "PKCS11",
-                "-keyStorePinFromEnv", "PKCS11_PIN",
-                "-providerClass", "sun.security.pkcs11.SunPKCS11",
-                "-providerArg", OPTIONS.pkcs11_config,
-                key + OPTIONS.public_key_suffix,
-                key_alias,
-                input_name, output_name])
-  else:
-    cmd.extend([key + OPTIONS.public_key_suffix,
-                key + OPTIONS.private_key_suffix,
-                input_name, output_name])
 
+  if use_apksigner:
+    if OPTIONS.pkcs11_config is not None:
+      cmd.extend(["--ks", "NONE",
+                  "--ks-type", "PKCS11",
+                  "--ks-pass", "env:PKCS11_PIN",
+                  "--provider-class", "sun.security.pkcs11.SunPKCS11",
+                  "--provider-arg", OPTIONS.pkcs11_config,
+                  "--ks-key-alias", key_alias,
+                  "--out", output_name,
+                  input_name])
+    else:
+      cmd.extend(["--key", key + OPTIONS.private_key_suffix,
+                  "--cert", key + OPTIONS.public_key_suffix,
+                  "--out", output_name,
+                  input_name])
+  else:
+    if OPTIONS.pkcs11_config is not None:
+      cmd.extend(["-loadPrivateKeysFromKeyStore", "PKCS11",
+                  "-keyStorePinFromEnv", "PKCS11_PIN",
+                  "-providerClass", "sun.security.pkcs11.SunPKCS11",
+                  "-providerArg", OPTIONS.pkcs11_config,
+                  key + OPTIONS.public_key_suffix,
+                  key_alias,
+                  input_name, output_name])
+    else:
+      cmd.extend([key + OPTIONS.public_key_suffix,
+                  key + OPTIONS.private_key_suffix,
+                  input_name, output_name])
   proc = Run(cmd, stdin=subprocess.PIPE)
+
   if password is not None:
     password += "\n"
   stdoutdata, _ = proc.communicate(password)
@@ -2795,7 +2825,7 @@ def ParseOptions(argv,
          "private_key_suffix=", "boot_signer_path=", "boot_signer_args=",
          "verity_signer_path=", "verity_signer_args=", "device_specific=",
          "extra=", "logfile=", "extra_avbtool_signing_args=",
-         "pkcs11_config="] + list(extra_long_opts))
+         "pkcs11_config=", "extra_apksigner_args="] + list(extra_long_opts))
   except getopt.GetoptError as err:
     Usage(docstring)
     print("**", str(err), "**")
@@ -2815,6 +2845,8 @@ def ParseOptions(argv,
       OPTIONS.signapk_shared_library_path = a
     elif o in ("--extra_signapk_args",):
       OPTIONS.extra_signapk_args = shlex.split(a)
+    elif o in ("--extra_apksigner_args",):
+      OPTIONS.extra_apksigner_args = shlex.split(a)
     elif o in ("--aapt2_path",):
       OPTIONS.aapt2_path = a
     elif o in ("--java_path",):
