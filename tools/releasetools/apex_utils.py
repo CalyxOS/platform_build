@@ -403,6 +403,10 @@ def SignUncompressedApex(avbtool, apex_file, payload_key, container_key,
   extra_signapk_args = OPTIONS.extra_signapk_args[:]
   extra_signapk_args.extend(['-a', '4096', '--align-file-size'])
 
+  # Specify the 4K alignment when calling apksigner.
+  extra_apksigner_args = OPTIONS.extra_apksigner_args[:]
+  extra_apksigner_args.extend(['-a', '4096', '--align-file-size'])
+
   password = container_pw.get(container_key) if container_pw else None
   common.SignFile(
       apex_file,
@@ -410,7 +414,8 @@ def SignUncompressedApex(avbtool, apex_file, payload_key, container_key,
       container_key,
       password,
       codename_to_api_level_map=codename_to_api_level_map,
-      extra_signapk_args=extra_signapk_args)
+      extra_signapk_args=extra_signapk_args,
+      extra_apksigner_args=extra_apksigner_args)
 
   return signed_apex
 
