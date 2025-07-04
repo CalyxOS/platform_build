@@ -5786,11 +5786,14 @@ ifneq ($(CALYX_BUILD),)
 INTERNAL_OTATOOLS_PACKAGE_FILES += \
   device/common/clear-factory-images-variables.sh \
   device/common/generate-factory-images-common.sh \
+  vendor/calyx/scripts/common.include.sh \
   vendor/calyx/scripts/generate_delta.sh \
   vendor/calyx/scripts/generate_metadata.py \
   vendor/calyx/scripts/release.sh \
   vendor/calyx/scripts/sign-app.sh \
-  vendor/calyx/scripts/metadata
+  $(sort $(shell find vendor/calyx/scripts -name "*keymapper*" \( -type f -o -type l \) )) \
+  $(sort $(shell find vendor/calyx/scripts -name "*metadata*" \( -type f -o -type l \) )) \
+  $(sort $(shell find vendor/calyx/scripts/pkcs11 \( -type f -o -type l \) -not -name '*keygen*' -and -not -name '.*'))
 
 INTERNAL_OTATOOLS_PACKAGE_FILES += \
   $(sort $(shell find external/calyx -type f -name "*.x509.pem" -o -name "*.pk8"))
@@ -5801,12 +5804,14 @@ INTERNAL_OTATOOLS_PACKAGE_FILES += \
 # Only for key creation
 INTERNAL_OTATOOLS_KEYS_PACKAGE_FILES := \
   $(INTERNAL_OTATOOLS_PACKAGE_FILES) \
+  calyx/scripts/vars/devices \
   development/tools/make_key \
   vendor/calyx/scripts/mkcommonkeys.sh \
   vendor/calyx/scripts/mkkey.sh \
   vendor/calyx/scripts/mkkeys.sh \
   vendor/calyx/scripts/updatecommonkeys.sh \
-  vendor/calyx/scripts/updatekeys.sh
+  vendor/calyx/scripts/updatekeys.sh \
+  $(sort $(shell find vendor/calyx/scripts/pkcs11 \( -type f -o -type l \) -name '*keygen*' -and -not -name '.*'))
 endif
 
 BUILT_OTATOOLS_PACKAGE := $(PRODUCT_OUT)/otatools.zip
