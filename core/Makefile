@@ -5790,7 +5790,8 @@ INTERNAL_OTATOOLS_PACKAGE_FILES += \
   vendor/calyx/scripts/generate_metadata.py \
   vendor/calyx/scripts/release.sh \
   vendor/calyx/scripts/sign-app.sh \
-  vendor/calyx/scripts/metadata
+  $(sort $(shell find vendor/calyx/scripts -name "*metadata*" -type f)) \
+  $(sort $(shell find vendor/calyx/scripts/pkcs11 -type f))
 
 INTERNAL_OTATOOLS_PACKAGE_FILES += \
   $(sort $(shell find external/calyx -type f -name "*.x509.pem" -o -name "*.pk8"))
