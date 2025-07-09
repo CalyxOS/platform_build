@@ -183,6 +183,9 @@ Usage:  sign_target_files_apks [flags] input_target_files output_target_files
   --apk_logging_on_success
       Whether to log output of APK signing on success. Default behavior skips
       logging output when signing an APK succeeds.
+
+  --no_cleanup_temp
+      Keep all temporary files on exit. Useful for debugging.
 """
 
 from __future__ import print_function

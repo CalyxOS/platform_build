@@ -100,6 +100,7 @@ class Options(object):
     self.cache_size = None
     self.stash_threshold = 0.8
     self.logfile = None
+    self.no_cleanup_temp = False
 
 
 OPTIONS = Options()
@@ -2790,7 +2791,7 @@ def ParseOptions(argv,
          "java_path=", "java_args=", "android_jar_path=", "public_key_suffix=",
          "private_key_suffix=", "boot_signer_path=", "boot_signer_args=",
          "verity_signer_path=", "verity_signer_args=", "device_specific=",
-         "extra=", "logfile="] + list(extra_long_opts))
+         "extra=", "logfile=", "no_cleanup_temp"] + list(extra_long_opts))
   except getopt.GetoptError as err:
     Usage(docstring)
     print("**", str(err), "**")
@@ -2841,6 +2842,8 @@ def ParseOptions(argv,
       OPTIONS.extras[key] = value
     elif o in ("--logfile",):
       OPTIONS.logfile = a
+    elif o in ("--no_cleanup_temp",):
+      OPTIONS.no_cleanup_temp = True
     else:
       if extra_option_handler is None:
         raise ValueError("unknown option \"%s\"" % (o,))
@@ -2885,6 +2888,8 @@ def MakeTempDir(prefix='tmp', suffix=''):
 
 
 def Cleanup():
+  if OPTIONS.no_cleanup_temp:
+    return None
   for i in OPTIONS.tempfiles:
     if not os.path.exists(i):
       continue
