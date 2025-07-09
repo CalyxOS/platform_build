@@ -901,7 +901,7 @@ def ProcessTargetFiles(input_tf_zip: zipfile.ZipFile, output_tf_zip: zipfile.Zip
       copy_pvmfw_verbatim = True
       namelist = input_tf_zip.namelist()
       apex_gen = (f for f in namelist if IsApexFile(f))
-      virt_apex_re = re.compile("^.*com\.([^\.]+\.)?android\.virt\.apex$")
+      virt_apex_re = re.compile(r"^.*com\.([^\.]+\.)?android\.virt\.apex$")
       virt_apex_path = next(
         (a for a in apex_gen if virt_apex_re.match(a)), None)
       if not virt_apex_path:
