@@ -179,6 +179,9 @@ Usage:  sign_target_files_apks [flags] input_target_files output_target_files
       If the signer uses a RSA key, this should be the number of bytes to
       represent the modulus. If it uses an EC key, this is the size of a
       DER-encoded ECDSA signature.
+
+  --no_cleanup_temp
+      Keep all temporary files on exit. Useful for debugging.
 """
 
 from __future__ import print_function
