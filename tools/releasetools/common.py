@@ -2928,6 +2928,8 @@ def MakeTempDir(prefix='tmp', suffix=''):
 
 
 def Cleanup():
+  if os.getenv("NO_CLEANUP") == "y":
+    return None
   for i in OPTIONS.tempfiles:
     if not os.path.exists(i):
       continue
