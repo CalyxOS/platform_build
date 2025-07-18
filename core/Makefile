@@ -5784,12 +5784,14 @@ INTERNAL_OTATOOLS_RELEASETOOLS := \
 
 ifneq ($(CALYX_BUILD),)
 INTERNAL_OTATOOLS_PACKAGE_FILES += \
+  calyx/scripts/vars/devices \
   device/common/clear-factory-images-variables.sh \
   device/common/generate-factory-images-common.sh \
   vendor/calyx/scripts/generate_delta.sh \
   vendor/calyx/scripts/generate_metadata.py \
   vendor/calyx/scripts/release.sh \
   vendor/calyx/scripts/sign-app.sh \
+  $(sort $(shell find vendor/calyx/scripts -name "*keymapper*" -type f)) \
   $(sort $(shell find vendor/calyx/scripts -name "*metadata*" -type f)) \
   $(sort $(shell find vendor/calyx/scripts/pkcs11 -type f))
 
