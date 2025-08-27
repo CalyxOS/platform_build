@@ -21,6 +21,7 @@ import argparse
 import tempfile
 import zipfile
 import shutil
+import os
 from common import OPTIONS, OptionHandler
 from ota_signing_utils import AddSigningArgumentParse
 
@@ -170,7 +171,13 @@ class PayloadSigner(object):
     """Signs the given input file. Returns the output filename."""
     out_file = common.MakeTempFile(prefix="signed-", suffix=".bin")
     cmd = [self.signer] + self.signer_args + ['-in', in_file, '-out', out_file]
-    common.RunAndCheckOutput(cmd)
+    if OPTIONS.signing_command_interceptor is not None:
+      new_env = os.environ.copy()
+      new_env["SIGNING_COMMAND"] = cmd[0]
+      cmd[0] = OPTIONS.signing_command_interceptor
+      common.RunAndCheckOutput(cmd, env=new_env)
+    else:
+      common.RunAndCheckOutput(cmd)
     return out_file
 
 def GeneratePayloadProperties(payload_file):
