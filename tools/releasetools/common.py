@@ -103,6 +103,7 @@ class Options(object):
     self.stash_threshold = 0.8
     self.logfile = None
     self.no_cleanup_temp = False
+    self.signing_command_interceptor = None
 
 
 OPTIONS = Options()
@@ -1468,8 +1469,11 @@ def RunHostInitVerifier(product_out, partition_map, tool="host_init_verifier"):
   return RunAndCheckOutput(cmd)
 
 
-def AppendAVBSigningArgs(cmd, partition, avb_salt=None):
-  """Append signing arguments for avbtool."""
+def AlterAVBSigningCommand(cmd, partition, avb_salt=None):
+  """Alter signing arguments, and potentially signing command, for avbtool.
+
+  The signing command will be altered if --signing_command_interceptor is specified.
+  If the signing command is altered, the replaced signing command is returned."""
   # e.g., "--key path/to/signing_key --algorithm SHA256_RSA4096"
   key_path = ResolveAVBSigningPathArgs(
       OPTIONS.info_dict.get("avb_" + partition + "_key_path"))
@@ -1481,6 +1485,10 @@ def AppendAVBSigningArgs(cmd, partition, avb_salt=None):
   # make_vbmeta_image doesn't like "--salt" (and it's not needed).
   if avb_salt and not partition.startswith("vbmeta"):
     cmd.extend(["--salt", avb_salt])
+  if OPTIONS.signing_command_interceptor is not None:
+    replaced_signing_command = cmd[0]
+    cmd[0] = OPTIONS.signing_command_interceptor
+    return replaced_signing_command
 
 
 def ResolveAVBSigningPathArgs(split_args):
@@ -1651,7 +1659,7 @@ def BuildVBMeta(image_path, partitions, name, needed_partitions,
   """
   avbtool = OPTIONS.info_dict["avb_avbtool"]
   cmd = [avbtool, "make_vbmeta_image", "--output", image_path]
-  AppendAVBSigningArgs(cmd, name)
+  replaced_signing_command = AlterAVBSigningCommand(cmd, name)
 
   custom_partitions = OPTIONS.info_dict.get("custom_images_partition_list", "").strip().split()
   custom_avb_partitions = OPTIONS.info_dict.get(
@@ -1701,7 +1709,12 @@ def BuildVBMeta(image_path, partitions, name, needed_partitions,
     split_args = ResolveAVBSigningPathArgs(split_args)
     cmd.extend(split_args)
 
-  RunAndCheckOutput(cmd)
+  if replaced_signing_command is not None:
+    new_env = os.environ.copy()
+    new_env["SIGNING_COMMAND"] = replaced_signing_command
+    RunAndCheckOutput(cmd, env=new_env)
+  else:
+    RunAndCheckOutput(cmd)
 
 
 def _MakeRamdisk(sourcedir, fs_config_file=None,
@@ -1860,12 +1873,17 @@ def _BuildBootableImage(image_name, sourcedir, fs_config_file,
     if kernel_path is not None:
       with open(kernel_path, "rb") as fp:
         salt = sha256(fp.read()).hexdigest()
-    AppendAVBSigningArgs(cmd, partition_name, salt)
+    replaced_signing_command = AlterAVBSigningCommand(cmd, partition_name, salt)
     args = info_dict.get("avb_" + partition_name + "_add_hash_footer_args")
     if args and args.strip():
       split_args = ResolveAVBSigningPathArgs(shlex.split(args))
       cmd.extend(split_args)
-    RunAndCheckOutput(cmd)
+    if replaced_signing_command is not None:
+      new_env = os.environ.copy()
+      new_env["SIGNING_COMMAND"] = replaced_signing_command
+      RunAndCheckOutput(cmd, env=new_env)
+    else:
+      RunAndCheckOutput(cmd)
 
   img.seek(os.SEEK_SET, 0)
   data = img.read()
@@ -1914,12 +1932,17 @@ def _SignBootableImage(image_path, prebuilt_name, partition_name,
           with open(path, "rb") as fp:
             salt = sha256(fp.read()).hexdigest()
             break
-    AppendAVBSigningArgs(cmd, partition_name, salt)
+    replaced_signing_command = AlterAVBSigningCommand(cmd, partition_name, salt)
     args = info_dict.get("avb_" + partition_name + "_add_hash_footer_args")
     if args and args.strip():
       split_args = ResolveAVBSigningPathArgs(shlex.split(args))
       cmd.extend(split_args)
-    RunAndCheckOutput(cmd)
+    if replaced_signing_command is not None:
+      new_env = os.environ.copy()
+      new_env["SIGNING_COMMAND"] = replaced_signing_command
+      RunAndCheckOutput(cmd, env=new_env)
+    else:
+      RunAndCheckOutput(cmd)
 
 
 def HasRamdisk(partition_name, info_dict=None):
@@ -2090,12 +2113,17 @@ def _BuildVendorBootImage(sourcedir, fs_config_file, partition_name, info_dict=N
     part_size = info_dict[f'{partition_name}_size']
     cmd = [avbtool, "add_hash_footer", "--image", img.name,
            "--partition_size", str(part_size), "--partition_name", partition_name]
-    AppendAVBSigningArgs(cmd, partition_name)
+    replaced_signing_command = AlterAVBSigningCommand(cmd, partition_name)
     args = info_dict.get(f'avb_{partition_name}_add_hash_footer_args')
     if args and args.strip():
       split_args = ResolveAVBSigningPathArgs(shlex.split(args))
       cmd.extend(split_args)
-    RunAndCheckOutput(cmd)
+    if replaced_signing_command is not None:
+      new_env = os.environ.copy()
+      new_env["SIGNING_COMMAND"] = replaced_signing_command
+      RunAndCheckOutput(cmd, env=new_env)
+    else:
+      RunAndCheckOutput(cmd)
 
   img.seek(os.SEEK_SET, 0)
   data = img.read()
@@ -2615,7 +2643,13 @@ def SignFile(input_name, output_name, key, password, min_api_level=None,
                 key + OPTIONS.private_key_suffix,
                 input_name, output_name])
 
-  proc = Run(cmd, stdin=subprocess.PIPE)
+  if OPTIONS.signing_command_interceptor is not None:
+    new_env = os.environ.copy()
+    new_env["SIGNING_COMMAND"] = cmd[0]
+    cmd[0] = OPTIONS.signing_command_interceptor
+    proc = Run(cmd, stdin=subprocess.PIPE, env=new_env)
+  else:
+    proc = Run(cmd, stdin=subprocess.PIPE)
   if password is not None:
     password += "\n"
   stdoutdata, _ = proc.communicate(password)
@@ -2817,6 +2851,7 @@ def ParseOptions(argv,
          "verity_signer_path=", "verity_signer_args=", "device_specific=",
          "extra=", "logfile=", "no_cleanup_temp",
          "extra_apksigner_args=",
+         "signing_command_interceptor=",
          ] + list(extra_long_opts))
   except getopt.GetoptError as err:
     Usage(docstring)
@@ -2872,6 +2907,8 @@ def ParseOptions(argv,
       OPTIONS.logfile = a
     elif o in ("--no_cleanup_temp",):
       OPTIONS.no_cleanup_temp = True
+    elif o in ("--signing_command_interceptor",):
+      OPTIONS.signing_command_interceptor = a
     else:
       if extra_option_handler is None:
         raise ValueError("unknown option \"%s\"" % (o,))

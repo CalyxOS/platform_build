@@ -279,7 +279,13 @@ class VerifiedBootVersion2VerityImageBuilder(VerityImageBuilder):
       cmd.extend(["--salt", self.salt])
     cmd.extend(shlex.split(self.signing_args))
 
-    proc = common.Run(cmd)
+    if OPTIONS.signing_command_interceptor is not None:
+      new_env = os.environ.copy()
+      new_env["SIGNING_COMMAND"] = cmd[0]
+      cmd[0] = OPTIONS.signing_command_interceptor
+      proc = common.Run(cmd, env=new_env)
+    else:
+      proc = common.Run(cmd)
     output, _ = proc.communicate()
     if proc.returncode != 0:
       raise BuildVerityImageError("Failed to add AVB footer: {}".format(output))

@@ -501,11 +501,16 @@ def AddDtbo(output_zip):
     # The AVB hash footer will be replaced if already present.
     cmd = [avbtool, "add_hash_footer", "--image", img.name,
            "--partition_size", str(part_size), "--partition_name", "dtbo"]
-    common.AppendAVBSigningArgs(cmd, "dtbo")
+    replaced_signing_command = common.AlterAVBSigningCommand(cmd, "dtbo")
     args = OPTIONS.info_dict.get("avb_dtbo_add_hash_footer_args")
     if args and args.strip():
       cmd.extend(shlex.split(args))
-    common.RunAndCheckOutput(cmd)
+    if replaced_signing_command is not None:
+      new_env = os.environ.copy()
+      new_env["SIGNING_COMMAND"] = replaced_signing_command
+      common.RunAndCheckOutput(cmd, env=new_env)
+    else:
+      common.RunAndCheckOutput(cmd)
 
   img.Write()
   return img.name
@@ -537,11 +542,16 @@ def AddPvmfw(output_zip):
     # The AVB hash footer will be replaced if already present.
     cmd = [avbtool, "add_hash_footer", "--image", img.name,
            "--partition_size", str(part_size), "--partition_name", "pvmfw"]
-    common.AppendAVBSigningArgs(cmd, "pvmfw")
+    replaced_signing_command = common.AlterAVBSigningCommand(cmd, "pvmfw")
     args = OPTIONS.info_dict.get("avb_pvmfw_add_hash_footer_args")
     if args and args.strip():
       cmd.extend(shlex.split(args))
-    common.RunAndCheckOutput(cmd)
+    if replaced_signing_command is not None:
+      new_env = os.environ.copy()
+      new_env["SIGNING_COMMAND"] = replaced_signing_command
+      common.RunAndCheckOutput(cmd, env=new_env)
+    else:
+      common.RunAndCheckOutput(cmd)
 
   img.Write()
   return img.name
