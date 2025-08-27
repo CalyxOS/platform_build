@@ -1106,6 +1106,10 @@ def ReplaceKeyInAvbHashtreeFooter(image, new_key, new_algorithm, misc_info):
     cmd.append('--prop')
     cmd.append(prop[0][0] + ':' + prop[0][1])
 
+  # Use sign command intermediary if any
+  if OPTIONS.sign_command_intermediary is not None:
+    cmd.insert(0, OPTIONS.sign_command_intermediary)
+
   # Replace Hashtree Footer with new key
   common.RunAndCheckOutput(cmd)
 
