@@ -104,6 +104,7 @@ class Options(object):
     self.stash_threshold = 0.8
     self.logfile = None
     self.extra_avbtool_signing_args = None
+    self.signing_command_intermediary = None
 
 
 OPTIONS = Options()
@@ -1460,8 +1461,11 @@ def RunHostInitVerifier(product_out, partition_map, tool="host_init_verifier"):
   return RunAndCheckOutput(cmd)
 
 
-def AppendAVBSigningArgs(cmd, partition, avb_salt=None):
-  """Append signing arguments for avbtool."""
+def AlterAVBSigningCommand(cmd, partition, avb_salt=None):
+  """Alter signing arguments, and potentially signing command, for avbtool.
+
+  The signing command will be altered if --signing_command_intermediary is specified.
+  If the signing command is altered, the replaced signing command is returned."""
   # e.g., "--key path/to/signing_key --algorithm SHA256_RSA4096"
   key_path = ResolveAVBSigningPathArgs(
       OPTIONS.info_dict.get("avb_" + partition + "_key_path"))
@@ -1476,6 +1480,10 @@ def AppendAVBSigningArgs(cmd, partition, avb_salt=None):
   # extra signing args, e.g. ["--signing_helper", "signer.sh"]
   if OPTIONS.extra_avbtool_signing_args:
     cmd.extend(shlex.split(OPTIONS.extra_avbtool_signing_args))
+  if OPTIONS.signing_command_intermediary is not None:
+    replaced_signing_command = cmd[0]
+    cmd[0] = OPTIONS.signing_command_intermediary
+    return replaced_signing_command
 
 
 def ResolveAVBSigningPathArgs(split_args):
@@ -1646,7 +1654,7 @@ def BuildVBMeta(image_path, partitions, name, needed_partitions,
   """
   avbtool = OPTIONS.info_dict["avb_avbtool"]
   cmd = [avbtool, "make_vbmeta_image", "--output", image_path]
-  AppendAVBSigningArgs(cmd, name)
+  replaced_signing_command = AlterAVBSigningArgs(cmd, name)
 
   custom_partitions = OPTIONS.info_dict.get(
       "avb_custom_images_partition_list", "").strip().split()
@@ -1694,6 +1702,12 @@ def BuildVBMeta(image_path, partitions, name, needed_partitions,
     split_args = ResolveAVBSigningPathArgs(split_args)
     cmd.extend(split_args)
 
+  if replaced_signing_command is not None:
+    new_env = os.environ.copy()
+    new_env["SIGNING_COMMAND"] = replaced_signing_command
+    RunAndCheckOutput(cmd, env=new_env)
+  else:
+    RunAndCheckOutput(cmd)
   RunAndCheckOutput(cmd)
 
 
@@ -1853,12 +1867,17 @@ def _BuildBootableImage(image_name, sourcedir, fs_config_file,
     if kernel_path is not None:
       with open(kernel_path, "rb") as fp:
         salt = sha256(fp.read()).hexdigest()
-    AppendAVBSigningArgs(cmd, partition_name, salt)
+    replaced_signing_command = AlterAVBSigningCommand(cmd, partition_name, salt)
     args = info_dict.get("avb_" + partition_name + "_add_hash_footer_args")
     if args and args.strip():
       split_args = ResolveAVBSigningPathArgs(shlex.split(args))
       cmd.extend(split_args)
-    RunAndCheckOutput(cmd)
+    if replaced_signing_command is not None:
+      new_env = os.environ.copy()
+      new_env["SIGNING_COMMAND"] = replaced_signing_command
+      RunAndCheckOutput(cmd, env=new_env)
+    else:
+      RunAndCheckOutput(cmd)
 
   img.seek(os.SEEK_SET, 0)
   data = img.read()
@@ -1906,12 +1925,17 @@ def _SignBootableImage(image_path, prebuilt_name, partition_name,
           with open(path, "rb") as fp:
             salt = sha256(fp.read()).hexdigest()
             break
-    AppendAVBSigningArgs(cmd, partition_name, salt)
+    replaced_signing_command = AlterAVBSigningCommand(cmd, partition_name, salt)
     args = info_dict.get("avb_" + partition_name + "_add_hash_footer_args")
     if args and args.strip():
       split_args = ResolveAVBSigningPathArgs(shlex.split(args))
       cmd.extend(split_args)
-    RunAndCheckOutput(cmd)
+    if replaced_signing_command is not None:
+      new_env = os.environ.copy()
+      new_env["SIGNING_COMMAND"] = replaced_signing_command
+      RunAndCheckOutput(cmd, env=new_env)
+    else:
+      RunAndCheckOutput(cmd)
 
 
 def HasRamdisk(partition_name, info_dict=None):
@@ -2082,12 +2106,17 @@ def _BuildVendorBootImage(sourcedir, fs_config_file, partition_name, info_dict=N
     part_size = info_dict[f'{partition_name}_size']
     cmd = [avbtool, "add_hash_footer", "--image", img.name,
            "--partition_size", str(part_size), "--partition_name", partition_name]
-    AppendAVBSigningArgs(cmd, partition_name)
+    replaced_signing_command = AlterAVBSigningCommand(cmd, partition_name)
     args = info_dict.get(f'avb_{partition_name}_add_hash_footer_args')
     if args and args.strip():
       split_args = ResolveAVBSigningPathArgs(shlex.split(args))
       cmd.extend(split_args)
-    RunAndCheckOutput(cmd)
+    if replaced_signing_command is not None:
+      new_env = os.environ.copy()
+      new_env["SIGNING_COMMAND"] = replaced_signing_command
+      RunAndCheckOutput(cmd, env=new_env)
+    else:
+      RunAndCheckOutput(cmd)
 
   img.seek(os.SEEK_SET, 0)
   data = img.read()
@@ -2625,7 +2654,13 @@ def SignFile(input_name, output_name, key, password, min_api_level=None,
       cmd.extend([key + OPTIONS.public_key_suffix,
                   key + OPTIONS.private_key_suffix,
                   input_name, output_name])
-  proc = Run(cmd, stdin=subprocess.PIPE)
+  if OPTIONS.signing_command_intermediary is not None:
+    new_env = os.environ.copy()
+    new_env["SIGNING_COMMAND"] = cmd[0]
+    cmd[0] = OPTIONS.signing_command_intermediary
+    proc = Run(cmd, stdin=subprocess.PIPE, env=new_env)
+  else:
+    proc = Run(cmd, stdin=subprocess.PIPE)
 
   if password is not None:
     password += "\n"
@@ -2825,7 +2860,8 @@ def ParseOptions(argv,
          "private_key_suffix=", "boot_signer_path=", "boot_signer_args=",
          "verity_signer_path=", "verity_signer_args=", "device_specific=",
          "extra=", "logfile=", "extra_avbtool_signing_args=",
-         "pkcs11_config=", "extra_apksigner_args="] + list(extra_long_opts))
+         "pkcs11_config=", "extra_apksigner_args=",
+         "signing_command_intermediary="] + list(extra_long_opts))
   except getopt.GetoptError as err:
     Usage(docstring)
     print("**", str(err), "**")
@@ -2880,6 +2916,8 @@ def ParseOptions(argv,
       OPTIONS.logfile = a
     elif o in ("--extra_avbtool_signing_args",):
       OPTIONS.extra_avbtool_signing_args = a
+    elif o in ("--signing_command_intermediary",):
+      OPTIONS.signing_command_intermediary = a
     elif o in ("--pkcs11_config",):
       OPTIONS.pkcs11_config = a
     else:
