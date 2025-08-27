@@ -177,6 +177,8 @@ class PayloadSigner(object):
       cmd.extend(["-inkey", self.package_key])
     elif self.package_key is not None:
       cmd.extend(["-inkey", self.package_key + private_key_suffix])
+    if OPTIONS.sign_command_intermediary is not None:
+      cmd = [OPTIONS.sign_command_intermediary] + cmd
     common.RunAndCheckOutput(cmd)
     return out_file
 
