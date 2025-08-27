@@ -162,6 +162,8 @@ class ApexApkSigner(object):
       if signing_args:
         cmd.extend(['--signing_args', signing_args])
       cmd.extend([payload_key, payload_dir])
+      if OPTIONS.sign_command_intermediary is not None:
+        cmd = [OPTIONS.sign_command_intermediary] + cmd
       common.RunAndCheckOutput(cmd)
       has_signed_content = True
 
@@ -213,6 +215,8 @@ class ApexApkSigner(object):
     generate_image_cmd.extend([payload_dir, payload_img])
     if OPTIONS.verbose:
       generate_image_cmd.append('-v')
+    if OPTIONS.sign_command_intermediary is not None:
+      generate_image_cmd = [OPTIONS.sign_command_intermediary] + generate_image_cmd
     common.RunAndCheckOutput(generate_image_cmd)
 
     # Add the payload image back to the apex file.
@@ -241,6 +245,9 @@ def SignApexPayload(avbtool, payload_file, payload_key_path, payload_key_name,
     cmd.extend(shlex.split(signing_args))
   if OPTIONS.extra_avbtool_signing_args:
     cmd.extend(shlex.split(OPTIONS.extra_avbtool_signing_args))
+
+  if OPTIONS.sign_command_intermediary is not None:
+    cmd = [OPTIONS.sign_command_intermediary] + cmd
 
   try:
     common.RunAndCheckOutput(cmd)
