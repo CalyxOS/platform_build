@@ -157,11 +157,20 @@ class ApexApkSigner(object):
       elif OPTIONS.extra_avbtool_signing_args:
         signing_args = signing_args + " " + OPTIONS.extra_avbtool_signing_args
       # Pass avbtool to the custom signing tool
-      cmd = [self.sign_tool, '--avbtool', self.avbtool]
+      if OPTIONS.sign_command_intermediary is not None:
+        cmd = [self.sign_tool, '--avbtool', OPTIONS.sign_command_intermediary]
+        if not signing_args:
+          signing_args = shlex.join([self.avbtool])
+        else:
+          signing_args = shlex.join([self.avbtool]) + " " + signing_args
+      else:
+        cmd = [self.sign_tool, '--avbtool', self.avbtool]
       # Pass signing_args verbatim which will be forwarded to avbtool (e.g. --signing_helper=...)
       if signing_args:
         cmd.extend(['--signing_args', signing_args])
       cmd.extend([payload_key, payload_dir])
+      if OPTIONS.sign_command_intermediary is not None:
+        cmd.insert(0, OPTIONS.sign_command_intermediary)
       common.RunAndCheckOutput(cmd)
       has_signed_content = True
 
@@ -210,6 +219,8 @@ class ApexApkSigner(object):
     manifest_json = os.path.join(apex_dir, 'apex_manifest.json')
     if os.path.exists(manifest_json):
       generate_image_cmd.extend(['--manifest_json', manifest_json])
+    if OPTIONS.sign_command_intermediary is not None:
+      generate_image_cmd.extend(['--sign_command_intermediary', OPTIONS.sign_command_intermediary])
     generate_image_cmd.extend([payload_dir, payload_img])
     if OPTIONS.verbose:
       generate_image_cmd.append('-v')
@@ -241,6 +252,9 @@ def SignApexPayload(avbtool, payload_file, payload_key_path, payload_key_name,
     cmd.extend(shlex.split(signing_args))
   if OPTIONS.extra_avbtool_signing_args:
     cmd.extend(shlex.split(OPTIONS.extra_avbtool_signing_args))
+
+  if OPTIONS.sign_command_intermediary is not None:
+    cmd.insert(0, OPTIONS.sign_command_intermediary)
 
   try:
     common.RunAndCheckOutput(cmd)
