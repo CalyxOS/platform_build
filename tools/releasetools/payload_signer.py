@@ -177,7 +177,13 @@ class PayloadSigner(object):
       cmd.extend(["-inkey", self.package_key])
     elif self.package_key is not None:
       cmd.extend(["-inkey", self.package_key + private_key_suffix])
-    common.RunAndCheckOutput(cmd)
+    if OPTIONS.signing_command_intermediary is not None:
+      new_env = os.environ.copy()
+      new_env["SIGNING_COMMAND"] = cmd[0]
+      cmd[0] = OPTIONS.signing_command_intermediary
+      common.RunAndCheckOutput(cmd, env=new_env)
+    else:
+      common.RunAndCheckOutput(cmd)
     return out_file
 
 def GeneratePayloadProperties(payload_file):

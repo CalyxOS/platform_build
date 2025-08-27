@@ -157,12 +157,20 @@ class ApexApkSigner(object):
       elif OPTIONS.extra_avbtool_signing_args:
         signing_args = signing_args + " " + OPTIONS.extra_avbtool_signing_args
       # Pass avbtool to the custom signing tool
-      cmd = [self.sign_tool, '--avbtool', self.avbtool]
+      if OPTIONS.signing_command_intermediary is not None:
+        cmd = [self.sign_tool, '--avbtool', OPTIONS.signing_command_intermediary]
+      else:
+        cmd = [self.sign_tool, '--avbtool', self.avbtool]
       # Pass signing_args verbatim which will be forwarded to avbtool (e.g. --signing_helper=...)
       if signing_args:
         cmd.extend(['--signing_args', signing_args])
       cmd.extend([payload_key, payload_dir])
-      common.RunAndCheckOutput(cmd)
+      if OPTIONS.signing_command_intermediary is not None:
+        new_env = os.environ.copy()
+        new_env["SIGNING_COMMAND"] = self.avbtool
+        common.RunAndCheckOutput(cmd, env=new_env)
+      else:
+        common.RunAndCheckOutput(cmd)
       has_signed_content = True
 
     return has_signed_content
@@ -210,6 +218,8 @@ class ApexApkSigner(object):
     manifest_json = os.path.join(apex_dir, 'apex_manifest.json')
     if os.path.exists(manifest_json):
       generate_image_cmd.extend(['--manifest_json', manifest_json])
+    if OPTIONS.signing_command_intermediary is not None:
+      generate_image_cmd.extend(['--signing_command_intermediary', OPTIONS.signing_command_intermediary])
     generate_image_cmd.extend([payload_dir, payload_img])
     if OPTIONS.verbose:
       generate_image_cmd.append('-v')
@@ -243,7 +253,13 @@ def SignApexPayload(avbtool, payload_file, payload_key_path, payload_key_name,
     cmd.extend(shlex.split(OPTIONS.extra_avbtool_signing_args))
 
   try:
-    common.RunAndCheckOutput(cmd)
+    if OPTIONS.signing_command_intermediary is not None:
+      new_env = os.environ.copy()
+      new_env["SIGNING_COMMAND"] = cmd[0]
+      cmd[0] = OPTIONS.signing_command_intermediary
+      common.RunAndCheckOutput(cmd, env=new_env)
+    else:
+      common.RunAndCheckOutput(cmd)
   except common.ExternalError as e:
     raise ApexSigningError(
         'Failed to sign APEX payload {} with {}:\n{}'.format(
