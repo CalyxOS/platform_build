@@ -104,6 +104,7 @@ class Options(object):
     self.stash_threshold = 0.8
     self.logfile = None
     self.extra_avbtool_signing_args = None
+    self.sign_command_intermediary = None
 
 
 OPTIONS = Options()
@@ -1476,6 +1477,9 @@ def AppendAVBSigningArgs(cmd, partition, avb_salt=None):
   # extra signing args, e.g. ["--signing_helper", "signer.sh"]
   if OPTIONS.extra_avbtool_signing_args:
     cmd.extend(shlex.split(OPTIONS.extra_avbtool_signing_args))
+  # Abuse the "Append" terminology in this function name by incorporating the intermediary.
+  if OPTIONS.sign_command_intermediary is not None:
+    cmd.insert(0, OPTIONS.sign_command_intermediary)
 
 
 def ResolveAVBSigningPathArgs(split_args):
@@ -2625,6 +2629,8 @@ def SignFile(input_name, output_name, key, password, min_api_level=None,
       cmd.extend([key + OPTIONS.public_key_suffix,
                   key + OPTIONS.private_key_suffix,
                   input_name, output_name])
+  if OPTIONS.sign_command_intermediary is not None:
+    cmd.insert(0, OPTIONS.sign_command_intermediary)
   proc = Run(cmd, stdin=subprocess.PIPE)
 
   if password is not None:
@@ -2825,7 +2831,8 @@ def ParseOptions(argv,
          "private_key_suffix=", "boot_signer_path=", "boot_signer_args=",
          "verity_signer_path=", "verity_signer_args=", "device_specific=",
          "extra=", "logfile=", "extra_avbtool_signing_args=",
-         "pkcs11_config=", "extra_apksigner_args="] + list(extra_long_opts))
+         "pkcs11_config=", "extra_apksigner_args=",
+         "sign_command_intermediary="] + list(extra_long_opts))
   except getopt.GetoptError as err:
     Usage(docstring)
     print("**", str(err), "**")
@@ -2880,6 +2887,8 @@ def ParseOptions(argv,
       OPTIONS.logfile = a
     elif o in ("--extra_avbtool_signing_args",):
       OPTIONS.extra_avbtool_signing_args = a
+    elif o in ("--sign_command_intermediary",):
+      OPTIONS.sign_command_intermediary = a
     elif o in ("--pkcs11_config",):
       OPTIONS.pkcs11_config = a
     else:
