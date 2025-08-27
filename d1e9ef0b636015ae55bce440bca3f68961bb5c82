@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4dd28f8f_9213cb33",
+        "filename": "tools/releasetools/common.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 2615,
+      "author": {
+        "id": 1000062
+      },
+      "writtenOn": "2025-08-27T15:24:52Z",
+      "side": 1,
+      "message": "This is no longer needed.",
+      "revId": "d1e9ef0b636015ae55bce440bca3f68961bb5c82",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    }
+  ]
+}
