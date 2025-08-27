@@ -1200,7 +1200,13 @@ def ReplaceKeyInAvbHashtreeFooter(image, new_key, new_algorithm, misc_info):
     cmd.append(prop[0][0] + ':' + prop[0][1])
 
   # Replace Hashtree Footer with new key
-  common.RunAndCheckOutput(cmd)
+  if OPTIONS.signing_command_interceptor is not None:
+    new_env = os.environ.copy()
+    new_env["SIGNING_COMMAND"] = cmd[0]
+    cmd[0] = OPTIONS.signing_command_interceptor
+    common.RunAndCheckOutput(cmd, env=new_env)
+  else:
+    common.RunAndCheckOutput(cmd)
 
   # Check root digest is not changed
   new_info = GetAvbInfo(avbtool, image.name)
