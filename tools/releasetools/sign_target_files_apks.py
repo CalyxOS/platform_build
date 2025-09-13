@@ -1543,8 +1543,7 @@ def ReplaceOtaKeys(input_tf_zip: zipfile.ZipFile, output_tf_dir: str, misc_info)
     print("using:\n   ", "\n   ".join(mapped_keys))
     print("for OTA package verification")
   else:
-    devkey = misc_info.get("default_system_dev_certificate",
-                           "build/make/target/product/security/testkey")
+    devkey = OPTIONS.package_key
     mapped_devkey = OPTIONS.key_map.get(devkey, devkey)
     if mapped_devkey != devkey:
       misc_info["default_system_dev_certificate"] = mapped_devkey
