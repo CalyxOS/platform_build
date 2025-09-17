@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fbfff27b_5156c9f0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2025-09-17T14:31:45Z",
+      "side": 1,
+      "message": "This sounds like there would already be an existing hook (signing helper) we could use, but it somehow isn\u0027t practical to use, so you prefer changing the code?\n\nI assume you\u0027ve thought about the trade-off between having to modify upstream code (e.g. potential conflicts in the future) vs. using existing hooks.",
+      "revId": "58470594dc9c1fbc4669e681483e789e4ae3d785",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ddf4d6ac_d7d25ca2",
         "filename": "tools/releasetools/sign_target_files_apks.py",
         "patchSetId": 4
