@@ -16,6 +16,24 @@
       "message": "should we document this somewhere? it would also be interesting to see how this gets used in practice. sounds like it is more \"interceptor\" than \"intermediary\"",
       "revId": "1bb638e0df7cb9121c7f8e7e774accb5c3f2afb0",
       "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80f7ae1a_7f74fd33",
+        "filename": "tools/releasetools/common.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 2836,
+      "author": {
+        "id": 1000062
+      },
+      "writtenOn": "2025-09-17T14:41:00Z",
+      "side": 1,
+      "message": "That is true, it should be renamed.",
+      "parentUuid": "eea5968b_99571196",
+      "revId": "1bb638e0df7cb9121c7f8e7e774accb5c3f2afb0",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
     }
   ]
 }
