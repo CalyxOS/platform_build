@@ -16,6 +16,24 @@
       "message": "Could you explain a bit more what broke with those spaces? Do you have an example?",
       "revId": "8edda0893d5460189eb39995350d5f98aa0c2569",
       "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b9f4559_84572a91",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000062
+      },
+      "writtenOn": "2025-09-17T14:52:11Z",
+      "side": 1,
+      "message": "No, sorry. It can be tested again with this change reverted to observe the breakage and report the error here when time allows.\n\nAll I recall is that upstream\u0027s way of handling it made no sense when I thought about it, and this fixed it.",
+      "parentUuid": "38bda089_40af8f8a",
+      "revId": "8edda0893d5460189eb39995350d5f98aa0c2569",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
     }
   ]
 }
