@@ -16,6 +16,24 @@
       "message": "According to https://source.android.com/docs/core/ota/sign_builds#signatures-sideloading isn\u0027t this what the `-o` switch is for? Or do I misunderstand this?",
       "revId": "7a03e793e3bfa084b928c78cb5e05967b97e8167",
       "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "adb41a0a_905c1abc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000062
+      },
+      "writtenOn": "2025-09-17T14:22:36Z",
+      "side": 1,
+      "message": "\u003e Replace the certificate (public key) used by OTA package verification\n\u003e with the ones specified in the input target_files zip (in the\n\u003e META/otakeys.txt file) [...]\n\nMost of the signing process doesn\u0027t require altering the build side, but doing that *would*.\n\nIn my testing with rotating the OTA key, I did have to make changes on the build side, but that\u0027s a rare enough and separate occurrence.\n\nIt\u0027s also just weird that ota_from_target_files has and uses --package_key, but sign_from_target_files doesn\u0027t. I was getting output with mismatched OTA keys, meaning I couldn\u0027t sideload an OTA.",
+      "parentUuid": "43fce0aa_4546c367",
+      "revId": "7a03e793e3bfa084b928c78cb5e05967b97e8167",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
     }
   ]
 }
