@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6e415c3d_4a038f70",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000062
+      },
+      "writtenOn": "2025-09-17T14:39:05Z",
+      "side": 1,
+      "message": "Yes, I have though about it.\n\n\u003e  --avb_{apex,init_boot,boot,recovery,system,system_other,vendor,dtbo,vbmeta,\n\u003e         vbmeta_system,vbmeta_vendor}_extra_args \u003cargs\u003e\n\u003e      Specify any additional args that are needed to AVB-sign the image\n\u003e      (e.g. \"--signing_helper /path/to/helper\"). The args will be appended to\n\u003e      the existing ones in info dict.\n\nWe would need to supply the same signing_helper command line to every single one of those, and keep track of any new ones in the future.\n\nOn the other hand, in my current changes, we do have all these partitions in vendor/calyx/scripts/metadata under keys_avb already, so we could possibly do it, but would still need to \"keep track of any new ones in the future\".\n\nGenerally speaking, if minimal changes to soon-to-be-closed-source upstream code (based on my read of Google\u0027s new approach to Android) is the absolute priority, then we could probably keep just the [signing intermediary change](https://review.calyxos.org/c/CalyxOS/platform_build/+/41369), get rid of most of the rest of the releasetools changes, and adapt the signing intermediaries to rewrite all commands to do what we want with PKCS#11, rather than do it here. I don\u0027t think it\u0027s worthwhile for me to do so at the moment, as it might take a chunk of time and more testing, but someone else could try if they really think it\u0027s that important.",
+      "parentUuid": "fbfff27b_5156c9f0",
+      "revId": "58470594dc9c1fbc4669e681483e789e4ae3d785",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ddf4d6ac_d7d25ca2",
         "filename": "tools/releasetools/sign_target_files_apks.py",
         "patchSetId": 4
