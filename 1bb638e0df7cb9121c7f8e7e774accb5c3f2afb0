@@ -34,6 +34,24 @@
       "parentUuid": "eea5968b_99571196",
       "revId": "1bb638e0df7cb9121c7f8e7e774accb5c3f2afb0",
       "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63fb780c_2ae0d9b8",
+        "filename": "tools/releasetools/common.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 2836,
+      "author": {
+        "id": 1000062
+      },
+      "writtenOn": "2025-09-17T15:24:27Z",
+      "side": 1,
+      "message": "Renamed now, in vendor/calyx/scripts as well. Not documented yet.",
+      "parentUuid": "80f7ae1a_7f74fd33",
+      "revId": "1bb638e0df7cb9121c7f8e7e774accb5c3f2afb0",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
     }
   ]
 }
