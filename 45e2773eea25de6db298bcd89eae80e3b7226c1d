@@ -16,6 +16,24 @@
       "message": "Nitpick only: Are there so many files that we can\u0027t spell them out without complicated sort and find syntax?",
       "revId": "45e2773eea25de6db298bcd89eae80e3b7226c1d",
       "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b654a16_6e38c417",
+        "filename": "core/Makefile",
+        "patchSetId": 7
+      },
+      "lineNbr": 5796,
+      "author": {
+        "id": 1000062
+      },
+      "writtenOn": "2025-09-17T14:47:12Z",
+      "side": 1,
+      "message": "Feel free to spell them out when the other work is wrapped up. I have been burned multiple times when trying to do so in development and it was wasting a lot of time.",
+      "parentUuid": "183b21ff_a9600317",
+      "revId": "45e2773eea25de6db298bcd89eae80e3b7226c1d",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
     }
   ]
 }
