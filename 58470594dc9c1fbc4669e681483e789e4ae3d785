@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ddf4d6ac_d7d25ca2",
+        "filename": "tools/releasetools/sign_target_files_apks.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2025-09-17T14:28:57Z",
+      "side": 1,
+      "message": "Should we add docs here for `--pkcs11_config` as well or do I misunderstand where that option is being used?",
+      "revId": "58470594dc9c1fbc4669e681483e789e4ae3d785",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5d846a5_43eb143d",
+        "filename": "tools/signapk/src/com/android/signapk/SignApk.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1132,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2025-09-17T14:28:57Z",
+      "side": 1,
+      "message": "should we error out if this option is used together with `-keyStorePin`?",
+      "revId": "58470594dc9c1fbc4669e681483e789e4ae3d785",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    }
+  ]
+}
