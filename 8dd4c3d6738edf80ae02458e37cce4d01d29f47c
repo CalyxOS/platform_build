@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b77fc9f8_1d4bd5a0",
+        "filename": "tools/releasetools/common.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 2565,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2025-09-17T14:45:35Z",
+      "side": 1,
+      "message": "is `whole_file` sufficient for identifying APEXes? or is there a chance we\u0027d use apksigner in places where signapk should still be used instead?\n\nwhy is there even two things? and google decided to use one but not the other?",
+      "revId": "8dd4c3d6738edf80ae02458e37cce4d01d29f47c",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    }
+  ]
+}
