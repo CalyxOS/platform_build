@@ -34,6 +34,24 @@
       "parentUuid": "183b21ff_a9600317",
       "revId": "45e2773eea25de6db298bcd89eae80e3b7226c1d",
       "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2237531a_960bf04c",
+        "filename": "core/Makefile",
+        "patchSetId": 7
+      },
+      "lineNbr": 5796,
+      "author": {
+        "id": 1000062
+      },
+      "writtenOn": "2025-09-17T22:01:57Z",
+      "side": 1,
+      "message": "(Speaking of which, I just needed to edit it again, since generate_keymap.sh wasn\u0027t covered by any of the `find` stuff...)",
+      "parentUuid": "9b654a16_6e38c417",
+      "revId": "45e2773eea25de6db298bcd89eae80e3b7226c1d",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
     }
   ]
 }
