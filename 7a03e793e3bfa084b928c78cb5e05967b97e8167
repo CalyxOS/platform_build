@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43fce0aa_4546c367",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2025-09-17T14:15:08Z",
+      "side": 1,
+      "message": "According to https://source.android.com/docs/core/ota/sign_builds#signatures-sideloading isn\u0027t this what the `-o` switch is for? Or do I misunderstand this?",
+      "revId": "7a03e793e3bfa084b928c78cb5e05967b97e8167",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    }
+  ]
+}
