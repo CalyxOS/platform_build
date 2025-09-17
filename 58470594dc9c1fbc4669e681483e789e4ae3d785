@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "85a897f4_c9dbcf6c",
+        "filename": "tools/releasetools/sign_target_files_apks.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1000062
+      },
+      "writtenOn": "2025-09-17T14:32:34Z",
+      "side": 1,
+      "message": "We could add docs, you\u0027re not misunderstanding.",
+      "parentUuid": "ddf4d6ac_d7d25ca2",
+      "revId": "58470594dc9c1fbc4669e681483e789e4ae3d785",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d5d846a5_43eb143d",
         "filename": "tools/signapk/src/com/android/signapk/SignApk.java",
         "patchSetId": 4
@@ -48,6 +66,24 @@
       "writtenOn": "2025-09-17T14:28:57Z",
       "side": 1,
       "message": "should we error out if this option is used together with `-keyStorePin`?",
+      "revId": "58470594dc9c1fbc4669e681483e789e4ae3d785",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b770adf_26d7df12",
+        "filename": "tools/signapk/src/com/android/signapk/SignApk.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1132,
+      "author": {
+        "id": 1000062
+      },
+      "writtenOn": "2025-09-17T14:32:34Z",
+      "side": 1,
+      "message": "Maybe not. I\u0027m not sure if it\u0027s worth it for signapk.\n\nLooks like most of these arguments can already be specified multiple times, since I don\u0027t see checking for that. This would mean later arguments override prior arguments. That\u0027s probably fine enough for a tool like this.\n\nSince the switch to apksigner, we only use this for signing whole files, its `-w` argument.",
+      "parentUuid": "d5d846a5_43eb143d",
       "revId": "58470594dc9c1fbc4669e681483e789e4ae3d785",
       "serverId": "35266860-6252-469c-a67d-185064479fc0"
     }
