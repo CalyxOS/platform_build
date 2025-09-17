@@ -34,6 +34,24 @@
       "parentUuid": "43fce0aa_4546c367",
       "revId": "7a03e793e3bfa084b928c78cb5e05967b97e8167",
       "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ef231e6_4371df82",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000062
+      },
+      "writtenOn": "2025-09-17T14:25:52Z",
+      "side": 1,
+      "message": "(We do pass `-o` to sign_target_files_apks already, by the way; it just defaults to using the devkey rather than preferring --package_key, [unlike ota_from_target_files](https://cs.android.com/android/platform/superproject/+/android-latest-release:build/make/tools/releasetools/ota_from_target_files.py;l\u003d1492?q\u003dota_from_target_files\u0026ss\u003dandroid%2Fplatform%2Fsuperproject).)",
+      "parentUuid": "adb41a0a_905c1abc",
+      "revId": "7a03e793e3bfa084b928c78cb5e05967b97e8167",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
     }
   ]
 }
