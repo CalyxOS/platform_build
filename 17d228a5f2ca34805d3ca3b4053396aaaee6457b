@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eed7f842_7e598c0f",
+        "filename": "tools/releasetools/ota_from_target_files.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 1163,
+      "author": {
+        "id": 1000062
+      },
+      "writtenOn": "2025-09-22T18:29:09Z",
+      "side": 1,
+      "message": "Does this need to be here? If you look at payload_signer.py, it looks like a no-op. (Torsten pointed this out.)",
+      "revId": "17d228a5f2ca34805d3ca3b4053396aaaee6457b",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    }
+  ]
+}
