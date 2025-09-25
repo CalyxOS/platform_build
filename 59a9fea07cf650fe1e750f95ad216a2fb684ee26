@@ -16,6 +16,24 @@
       "message": "These two lines look like they don\u0027t belong here.\n\nThey should be removed.",
       "revId": "59a9fea07cf650fe1e750f95ad216a2fb684ee26",
       "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c494c07_c6b0500e",
+        "filename": "tools/releasetools/payload_signer.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1000062
+      },
+      "writtenOn": "2025-09-25T17:51:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "03541321_197fb9dd",
+      "revId": "59a9fea07cf650fe1e750f95ad216a2fb684ee26",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
     }
   ]
 }
