@@ -16,6 +16,24 @@
       "message": "is `whole_file` sufficient for identifying APEXes? or is there a chance we\u0027d use apksigner in places where signapk should still be used instead?\n\nwhy is there even two things? and google decided to use one but not the other?",
       "revId": "8dd4c3d6738edf80ae02458e37cce4d01d29f47c",
       "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "197a4887_0f22b4f0",
+        "filename": "tools/releasetools/common.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 2565,
+      "author": {
+        "id": 1000062
+      },
+      "writtenOn": "2025-09-25T17:36:56Z",
+      "side": 1,
+      "message": "whole_file is used by ota_from_target_files near the end of the whole signing process only, nothing to do with APEX.\n\nI don\u0027t know the details exactly but it\u0027s related to OTAs.",
+      "parentUuid": "b77fc9f8_1d4bd5a0",
+      "revId": "8dd4c3d6738edf80ae02458e37cce4d01d29f47c",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
     }
   ]
 }
