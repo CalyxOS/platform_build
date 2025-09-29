@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19b5e4c9_852ed81f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2025-09-29T12:59:42Z",
+      "side": 1,
+      "message": "Could you plz explain why this was needed and why it doesn\u0027t need to get merged?",
+      "revId": "d5297880fbbfab33ea21ec0f76f76117a4953181",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    }
+  ]
+}
