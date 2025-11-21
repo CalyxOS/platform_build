@@ -34,6 +34,24 @@
       "parentUuid": "b77fc9f8_1d4bd5a0",
       "revId": "8dd4c3d6738edf80ae02458e37cce4d01d29f47c",
       "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d732bbdd_2eddf4ae",
+        "filename": "tools/releasetools/common.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 2565,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2025-11-21T13:05:19Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "197a4887_0f22b4f0",
+      "revId": "8dd4c3d6738edf80ae02458e37cce4d01d29f47c",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
     }
   ]
 }
