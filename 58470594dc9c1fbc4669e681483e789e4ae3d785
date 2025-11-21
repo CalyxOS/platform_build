@@ -36,6 +36,24 @@
       "serverId": "35266860-6252-469c-a67d-185064479fc0"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f638095d_51add775",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2025-11-21T13:09:26Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "6e415c3d_4a038f70",
+      "revId": "58470594dc9c1fbc4669e681483e789e4ae3d785",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ddf4d6ac_d7d25ca2",
@@ -71,6 +89,24 @@
       "serverId": "35266860-6252-469c-a67d-185064479fc0"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ec26f41_efcde613",
+        "filename": "tools/releasetools/sign_target_files_apks.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2025-11-21T13:09:26Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "85a897f4_c9dbcf6c",
+      "revId": "58470594dc9c1fbc4669e681483e789e4ae3d785",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d5d846a5_43eb143d",
@@ -102,6 +138,24 @@
       "side": 1,
       "message": "Maybe not. I\u0027m not sure if it\u0027s worth it for signapk.\n\nLooks like most of these arguments can already be specified multiple times, since I don\u0027t see checking for that. This would mean later arguments override prior arguments. That\u0027s probably fine enough for a tool like this.\n\nSince the switch to apksigner, we only use this for signing whole files, its `-w` argument.",
       "parentUuid": "d5d846a5_43eb143d",
+      "revId": "58470594dc9c1fbc4669e681483e789e4ae3d785",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a95de42d_013db2ef",
+        "filename": "tools/signapk/src/com/android/signapk/SignApk.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1132,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2025-11-21T13:09:26Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "0b770adf_26d7df12",
       "revId": "58470594dc9c1fbc4669e681483e789e4ae3d785",
       "serverId": "35266860-6252-469c-a67d-185064479fc0"
     }

@@ -16,6 +16,24 @@
       "message": "Does this need to be here? If you look at payload_signer.py, it looks like a no-op. (Torsten pointed this out.)",
       "revId": "17d228a5f2ca34805d3ca3b4053396aaaee6457b",
       "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "103276a6_8141b035",
+        "filename": "tools/releasetools/ota_from_target_files.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 1163,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2025-11-21T13:09:26Z",
+      "side": 1,
+      "message": "I\u0027d say not a priority right now to remove this and test.",
+      "parentUuid": "eed7f842_7e598c0f",
+      "revId": "17d228a5f2ca34805d3ca3b4053396aaaee6457b",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
     }
   ]
 }
