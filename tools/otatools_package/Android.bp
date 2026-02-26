@@ -233,6 +233,25 @@ java_genrule_host {
     },
 }
 
+java_genrule_host {
+    name: "otatools-keys-package",
+    defaults: ["otatools_package_defaults"],
+    tools: ["merge_zips"],
+    compile_multilib: "first",
+    cmd: "$(location merge_zips) $(out) $(in)",
+    srcs: [
+        ":otatools-package",
+        ":otatools_package_calyx_vars",
+        ":otatools_package_calyx_keys_scripts",
+    ],
+    out: ["otatools-keys.zip"],
+    dist: {
+        targets: [
+            "otatools-keys-package",
+        ],
+    },
+}
+
 otatools_package_cert_files {
     name: "otatools_package_cert_files",
 }
