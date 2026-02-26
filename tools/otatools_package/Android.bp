@@ -215,6 +215,7 @@ java_genrule_host {
     compile_multilib: "first",
     cmd: "$(location merge_zips) $(out) $(in)",
     srcs: [
+        ":otatools_package_calyx_files",
         ":otatools_package_cert_files",
         ":otatools_package_dep_bins",
         ":otatools_package_dep_jars",
@@ -228,6 +229,28 @@ java_genrule_host {
             "otatools-package",
         ],
     },
+}
+
+genrule {
+    name: "otatools_package_calyx_files",
+    tools: ["soong_zip"],
+    srcs: [
+        "device/common/clear-factory-images-variables.sh",
+        "device/common/generate-factory-images-common.sh",
+        "vendor/calyx/scripts/common.include.sh",
+        "vendor/calyx/scripts/generate_delta.sh",
+        "vendor/calyx/scripts/generate_keymap.sh",
+        "vendor/calyx/scripts/generate_metadata.py",
+        "vendor/calyx/scripts/release.sh",
+        "vendor/calyx/scripts/sign.sh",
+        "vendor/calyx/scripts/sign-app.sh",
+        "vendor/calyx/scripts/**/*keymapper*",
+        "vendor/calyx/scripts/**/*metadata*",
+        "vendor/calyx/scripts/pkcs11/**/*",
+    ],
+    cmd: "echo $(in) | tr ' ' '\\n' | grep -v 'keygen' | grep -v '/\\.' | sort > $(genDir)/files.txt && " +
+         "$(location soong_zip) -o $(out) -l $(genDir)/files.txt",
+    out: ["otatools_package_calyx_files.zip"],
 }
 
 otatools_package_cert_files {
