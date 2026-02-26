@@ -231,6 +231,24 @@ java_genrule_host {
     },
 }
 
+java_genrule_host {
+    name: "otatools-keys-package",
+    defaults: ["otatools_package_defaults"],
+    tools: ["merge_zips"],
+    compile_multilib: "first",
+    cmd: "$(location merge_zips) $(out) $(in)",
+    srcs: [
+        ":otatools-package",
+        ":otatools_keys_package_files",
+    ],
+    out: ["otatools-keys.zip"],
+    dist: {
+        targets: [
+            "otatools-keys-package",
+        ],
+    },
+}
+
 genrule {
     name: "otatools_package_calyx_files",
     tools: ["soong_zip"],
@@ -251,6 +269,24 @@ genrule {
     cmd: "echo $(in) | tr ' ' '\\n' | grep -v 'keygen' | grep -v '/\\.' | sort > $(genDir)/files.txt && " +
          "$(location soong_zip) -o $(out) -l $(genDir)/files.txt",
     out: ["otatools_package_calyx_files.zip"],
+}
+
+genrule {
+    name: "otatools_keys_package_files",
+    tools: ["soong_zip"],
+    srcs: [
+        "calyx/scripts/vars/devices",
+        "development/tools/make_key",
+        "vendor/calyx/scripts/mkcommonkeys.sh",
+        "vendor/calyx/scripts/mkkey.sh",
+        "vendor/calyx/scripts/mkkeys.sh",
+        "vendor/calyx/scripts/updatecommonkeys.sh",
+        "vendor/calyx/scripts/updatekeys.sh",
+        "vendor/calyx/scripts/pkcs11/**/*keygen*",
+    ],
+    cmd: "echo $(in) | tr ' ' '\\n' | grep -v '/\\.' | sort > $(genDir)/keys_files.txt && " +
+         "$(location soong_zip) -o $(out) -l $(genDir)/keys_files.txt",
+    out: ["otatools_keys_package_files.zip"],
 }
 
 otatools_package_cert_files {
