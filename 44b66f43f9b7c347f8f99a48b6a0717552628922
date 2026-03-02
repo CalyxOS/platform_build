@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9fc4f9a_54337e27",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000004
+      },
+      "writtenOn": "2026-03-02T13:10:14Z",
+      "side": 1,
+      "message": "Sadly it won\u0027t work like this, soong can\u0027t access files outside the current path.",
+      "revId": "44b66f43f9b7c347f8f99a48b6a0717552628922",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    }
+  ]
+}
