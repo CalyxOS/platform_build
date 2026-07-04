@@ -1395,6 +1395,10 @@ def RewriteProps(data):
         value = str(int(value) + OPTIONS.bump_date_and_version)
       elif key.startswith("ro.") and key.endswith(".build.version.incremental") and OPTIONS.bump_date_and_version != 0:
         value = str(int(value) + OPTIONS.bump_date_and_version)
+      elif key.startswith("ro.") and key.endswith(".calyxos.version") and OPTIONS.bump_date_and_version != 0:
+        version_parts = value.split('.')
+        version_parts[-1] = str(int(version_parts[-1]) + OPTIONS.bump_date_and_version)
+        value = '.'.join(version_parts)
       line = key + "=" + value
     if line != original_line:
       print("  replace: ", original_line)
