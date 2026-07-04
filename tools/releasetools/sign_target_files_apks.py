@@ -1440,12 +1440,20 @@ def RewriteProps(data):
         if len(value) > 1 and value[-1].endswith("-keys"):
           value.pop()
         value = " ".join(value)
+        if OPTIONS.bump_date_and_version != 0:
+          display_parts = value.split('.')
+          display_parts[-1] = str(int(display_parts[-1]) + OPTIONS.bump_date_and_version)
+          value = '.'.join(display_parts)
         if OPTIONS.otatest:
           value += " otatest"
       elif key.startswith("ro.") and key.endswith(".build.date.utc") and OPTIONS.bump_date_and_version != 0:
         value = str(int(value) + OPTIONS.bump_date_and_version)
       elif key.startswith("ro.") and key.endswith(".build.version.incremental") and OPTIONS.bump_date_and_version != 0:
         value = str(int(value) + OPTIONS.bump_date_and_version)
+      elif key == "ro.calyxos.version" and OPTIONS.bump_date_and_version != 0:
+        version_parts = value.split('.')
+        version_parts[-1] = str(int(version_parts[-1]) + OPTIONS.bump_date_and_version)
+        value = '.'.join(version_parts)
       line = key + "=" + value
     if line != original_line:
       print("  replace: ", original_line)
