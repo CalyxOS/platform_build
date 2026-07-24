@@ -3846,9 +3846,10 @@ def MakeRecoveryPatch(input_dir, output_sink, recovery_img, boot_img,
   else:
     include_recovery_dtbo = info_dict.get("include_recovery_dtbo") == "true"
     include_recovery_acpio = info_dict.get("include_recovery_acpio") == "true"
+    exclude_kernel_from_recovery_image = info_dict.get("exclude_kernel_from_recovery_image") == "true"
     path = os.path.join(input_dir, recovery_resource_dat_path)
     # Use bsdiff to handle mismatching entries (Bug: 72731506)
-    if include_recovery_dtbo or include_recovery_acpio:
+    if include_recovery_dtbo or include_recovery_acpio or exclude_kernel_from_recovery_image:
       diff_program = ["bsdiff"]
       bonus_args = ""
       assert not os.path.exists(path)
