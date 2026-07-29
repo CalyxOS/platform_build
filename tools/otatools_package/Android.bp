@@ -243,6 +243,7 @@ java_genrule_host {
     srcs: [
         ":otatools-package",
         ":otatools_package_calyx_keys_scripts",
+        ":otatools_package_make_key",
     ],
     out: ["otatools-keys.zip"],
     dist: {
