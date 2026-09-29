@@ -1940,17 +1940,14 @@ def IsCompressedApex(filename):
   return False
 
 def CollectDirToZip(directory, zfp: str):
-  # rm -rf the output zip first, as zip command would try to re-use existing
-  # zip file
-  try:
-    os.unlink(zfp)
-  except OSError:
-    pass
   precompressed = []
   compressed_extensions = [".capex", ".apk", ".gz", ".png", ".ogg", ".mp3", ".zip", ".amr", ".prof", ".leveldb", ".jpg"]
-  for root, _, files in os.walk(directory):
+  entries = []
+  for root, dirs, files in os.walk(directory):
+    entries.extend(os.path.join(root, name) for name in dirs)
     for filename in files:
       src = os.path.join(root, filename)
+      entries.append(src)
 
       rel_path = os.path.relpath(src, directory)
       if any([rel_path.endswith(ext) for ext in compressed_extensions]):
@@ -1960,17 +1957,14 @@ def CollectDirToZip(directory, zfp: str):
       elif filename.endswith(".apex") and IsCompressedApex(src):
         precompressed.append(rel_path)
 
-  # Need to use absolute path, as we change current working directory when
-  # running external zip binary
-  zfp = os.path.abspath(zfp)
-  with tempfile.NamedTemporaryFile(prefix="precompressed_list_") as tmpfile:
-    for line in precompressed:
-      tmpfile.write(line.encode() + b"\n")
+  with tempfile.NamedTemporaryFile("w", prefix="target_files_list_") as tmpfile:
+    tmpfile.writelines(entry + "\n" for entry in entries)
     tmpfile.flush()
-    # First add all other files to zip with compression
-    common.RunAndCheckOutput(["zip", zfp, "-y", "-r", ".", "-x@" + tmpfile.name], cwd=directory)
-    # Then add pre-compressed files without compression to save CPU cycle
-    common.RunAndCheckOutput(["zip", zfp, "-y", "-0", "-r", ".", "-i@" + tmpfile.name], cwd=directory)
+    cmd = ["soong_zip", "-o", os.path.abspath(zfp), "-L", "6", "-d",
+           "-C", directory, "-r", tmpfile.name, "-sha256"]
+    for rel_path in precompressed:
+      cmd.extend(["-s", rel_path])
+    common.RunAndCheckOutput(cmd)
 
 
 def main(argv):
