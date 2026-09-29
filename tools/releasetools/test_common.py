@@ -2256,7 +2256,8 @@ class SignFileTest(test_utils.ReleaseToolsTestCase):
   def setUp(self):
     self.saved_options = {
         name: getattr(common.OPTIONS, name)
-        for name in ('pkcs11_config', 'signapk_external_signer')}
+        for name in ('pkcs11_config', 'signapk_external_signer',
+                     'apksigner_kms_type')}
     self.environ = mock.patch.dict(
         os.environ, {'KEY_DIR': '/keys/', 'USE_APKSIGNER': 'y'})
     self.environ.start()
@@ -2290,3 +2291,25 @@ class SignFileTest(test_utils.ReleaseToolsTestCase):
     common.OPTIONS.pkcs11_config = None
     common.OPTIONS.signapk_external_signer = '/bin/payload_signer'
     self.assertRaises(ValueError, self._SignFile, whole_file=True)
+
+  def test_SignFile_apksignerKmsType(self):
+    common.OPTIONS.pkcs11_config = '/pkcs11.cfg'
+    common.OPTIONS.apksigner_kms_type = 'external'
+    cmd = self._SignFile(min_api_level=29)
+    self.assertEqual(
+        ['--kms-type', 'external', '--kms-key-alias', 'releasekey',
+         '--cert', '/keys/releasekey.x509.pem',
+         '--out', 'out.zip', 'in.zip'],
+        cmd[-9:])
+    self.assertNotIn('--ks', cmd)
+
+  def test_SignFile_apksignerKmsTypeWithoutPkcs11Config(self):
+    common.OPTIONS.pkcs11_config = None
+    common.OPTIONS.apksigner_kms_type = 'external'
+    self.assertRaises(ValueError, self._SignFile, min_api_level=29)
+
+  def test_SignFile_apksignerKmsTypeWithoutApksigner(self):
+    common.OPTIONS.pkcs11_config = '/pkcs11.cfg'
+    common.OPTIONS.apksigner_kms_type = 'external'
+    with mock.patch.dict(os.environ, {'USE_APKSIGNER': 'n'}):
+      self.assertRaises(ValueError, self._SignFile, min_api_level=29)
