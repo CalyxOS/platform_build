@@ -91,6 +91,7 @@ class Options(object):
     self.private_key_suffix = ".pk8"
     self.pkcs11_config = None
     self.signapk_external_signer = None
+    self.apksigner_kms_type = None
     # use otatools built boot_signer by default
     self.verbose = False
     self.tempfiles = []
@@ -2605,6 +2606,8 @@ def SignFile(input_name, output_name, key, password, min_api_level=None,
   if OPTIONS.pkcs11_config is None:
     if OPTIONS.signapk_external_signer is not None:
       raise ValueError("--signapk_external_signer requires --pkcs11_config")
+    if OPTIONS.apksigner_kms_type is not None:
+      raise ValueError("--apksigner_kms_type requires --pkcs11_config")
   if codename_to_api_level_map is None:
     codename_to_api_level_map = {}
   if extra_signapk_args is None:
@@ -2620,6 +2623,10 @@ def SignFile(input_name, output_name, key, password, min_api_level=None,
     java_args = java_args + \
       ["--add-exports=jdk.crypto.cryptoki/sun.security.pkcs11=ALL-UNNAMED"]
   use_apksigner = not whole_file and os.getenv("USE_APKSIGNER") != "n"
+  if (OPTIONS.apksigner_kms_type is not None and not whole_file and
+      not use_apksigner):
+    raise ValueError(
+        "--apksigner_kms_type requires apksigner, not USE_APKSIGNER=n")
 
   if use_apksigner:
     cmd = ([OPTIONS.java_path] + java_args +
@@ -2652,7 +2659,13 @@ def SignFile(input_name, output_name, key, password, min_api_level=None,
     key_alias = key.removeprefix(key_dir)
 
   if use_apksigner:
-    if OPTIONS.pkcs11_config is not None:
+    if OPTIONS.apksigner_kms_type is not None:
+      cmd.extend(["--kms-type", OPTIONS.apksigner_kms_type,
+                  "--kms-key-alias", key_alias,
+                  "--cert", key + OPTIONS.public_key_suffix,
+                  "--out", output_name,
+                  input_name])
+    elif OPTIONS.pkcs11_config is not None:
       cmd.extend(["--ks", "NONE",
                   "--ks-type", "PKCS11",
                   "--ks-pass", "env:PKCS11_PIN",
@@ -2897,6 +2910,7 @@ def ParseOptions(argv,
          "extra_avbtool_signing_args=",
          "pkcs11_config=",
          "signapk_external_signer=",
+         "apksigner_kms_type=",
          ] + list(extra_long_opts))
   except getopt.GetoptError as err:
     Usage(docstring)
@@ -2960,6 +2974,8 @@ def ParseOptions(argv,
       OPTIONS.pkcs11_config = a
     elif o in ("--signapk_external_signer",):
       OPTIONS.signapk_external_signer = a
+    elif o in ("--apksigner_kms_type",):
+      OPTIONS.apksigner_kms_type = a
     else:
       if extra_option_handler is None:
         raise ValueError("unknown option \"%s\"" % (o,))
