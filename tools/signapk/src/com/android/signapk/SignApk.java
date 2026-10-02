@@ -18,9 +18,14 @@ package com.android.signapk;
 
 import org.bouncycastle.asn1.ASN1InputStream;
 import org.bouncycastle.asn1.ASN1ObjectIdentifier;
+import org.bouncycastle.asn1.DERNull;
 import org.bouncycastle.asn1.DEROutputStream;
 import org.bouncycastle.asn1.cms.CMSObjectIdentifiers;
+import org.bouncycastle.asn1.nist.NISTObjectIdentifiers;
+import org.bouncycastle.asn1.oiw.OIWObjectIdentifiers;
 import org.bouncycastle.asn1.pkcs.PrivateKeyInfo;
+import org.bouncycastle.asn1.x509.AlgorithmIdentifier;
+import org.bouncycastle.asn1.x509.DigestInfo;
 import org.bouncycastle.cert.jcajce.JcaCertStore;
 import org.bouncycastle.cms.CMSException;
 import org.bouncycastle.cms.CMSSignedData;
@@ -29,6 +34,7 @@ import org.bouncycastle.cms.CMSTypedData;
 import org.bouncycastle.cms.jcajce.JcaSignerInfoGeneratorBuilder;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.operator.ContentSigner;
+import org.bouncycastle.operator.DefaultSignatureAlgorithmIdentifierFinder;
 import org.bouncycastle.operator.OperatorCreationException;
 import org.bouncycastle.operator.jcajce.JcaContentSignerBuilder;
 import org.bouncycastle.operator.jcajce.JcaDigestCalculatorProviderBuilder;
@@ -63,7 +69,9 @@ import java.lang.reflect.Constructor;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.charset.StandardCharsets;
+import java.security.DigestOutputStream;
 import java.security.GeneralSecurityException;
+import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.Key;
 import java.security.KeyFactory;
@@ -73,6 +81,7 @@ import java.security.KeyStore.PrivateKeyEntry;
 import java.security.PrivateKey;
 import java.security.Provider;
 import java.security.Security;
+import java.security.Signature;
 import java.security.UnrecoverableEntryException;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateEncodingException;
@@ -342,6 +351,79 @@ class SignApk {
     }
 
 
+    /** Discards everything written to it, including after close(). */
+    private static final OutputStream ALWAYS_OPEN_DISCARDING_STREAM = new OutputStream() {
+        @Override
+        public void write(int b) {}
+        @Override
+        public void write(byte[] b, int off, int len) {}
+        @Override
+        public void close() {}
+    };
+
+    /**
+     * A {@link ContentSigner} that digests the content with a {@link MessageDigest} and signs
+     * only the resulting {@link DigestInfo}. SunPKCS11's P11Signature counts processed bytes
+     * in an {@code int} and fails past 2 GiB, which the whole-file signature of a large OTA
+     * package exceeds.
+     */
+    private static class DigestThenSignRsaContentSigner implements ContentSigner {
+        private final AlgorithmIdentifier sigAlgId;
+        private final AlgorithmIdentifier digAlgId;
+        private final PrivateKey privateKey;
+        private final MessageDigest digest;
+        private final OutputStream digestOut;
+
+        DigestThenSignRsaContentSigner(String jcaSignatureAlgorithm, PrivateKey privateKey)
+                throws GeneralSecurityException {
+            this.privateKey = privateKey;
+            this.sigAlgId = new DefaultSignatureAlgorithmIdentifierFinder().find(jcaSignatureAlgorithm);
+            String upperAlgorithm = jcaSignatureAlgorithm.toUpperCase(Locale.US);
+            String digestJcaName;
+            if (upperAlgorithm.startsWith("SHA256")) {
+                digestJcaName = "SHA-256";
+                digAlgId = new AlgorithmIdentifier(NISTObjectIdentifiers.id_sha256, DERNull.INSTANCE);
+            } else if (upperAlgorithm.startsWith("SHA1")) {
+                digestJcaName = "SHA-1";
+                digAlgId = new AlgorithmIdentifier(OIWObjectIdentifiers.idSHA1, DERNull.INSTANCE);
+            } else {
+                throw new IllegalArgumentException(
+                        "Unsupported digest for digest-then-sign RSA signing: "
+                        + jcaSignatureAlgorithm);
+            }
+            this.digest = MessageDigest.getInstance(digestJcaName);
+            // WholeFileSignerOutputStream.finish() writes the footer after this stream is
+            // closed, which OutputStream.nullOutputStream() rejects.
+            this.digestOut = new DigestOutputStream(ALWAYS_OPEN_DISCARDING_STREAM, digest);
+        }
+
+        @Override
+        public AlgorithmIdentifier getAlgorithmIdentifier() {
+            return sigAlgId;
+        }
+
+        @Override
+        public OutputStream getOutputStream() {
+            return digestOut;
+        }
+
+        @Override
+        public byte[] getSignature() {
+            try {
+                byte[] digestBytes = digest.digest();
+                byte[] digestInfo = new DigestInfo(digAlgId, digestBytes).getEncoded("DER");
+                // No provider, as with JcaContentSignerBuilder below, so that JCA picks
+                // the one that accepts the key.
+                Signature rawSign = Signature.getInstance("NONEwithRSA");
+                rawSign.initSign(privateKey);
+                rawSign.update(digestInfo);
+                return rawSign.sign();
+            } catch (GeneralSecurityException | IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
     /** Sign data and write the digital signature to 'out'. */
     private static void writeSignatureBlock(
         CMSTypedData data, X509Certificate publicKey, PrivateKey privateKey, int hash,
@@ -349,16 +431,21 @@ class SignApk {
         throws IOException,
                CertificateEncodingException,
                OperatorCreationException,
+               GeneralSecurityException,
                CMSException {
         ArrayList<X509Certificate> certList = new ArrayList<X509Certificate>(1);
         certList.add(publicKey);
         JcaCertStore certs = new JcaCertStore(certList);
 
+        String jcaSignatureAlgorithm = getJcaSignatureAlgorithmForOta(publicKey, hash);
+        ContentSigner signer;
+        if ("RSA".equalsIgnoreCase(publicKey.getPublicKey().getAlgorithm())) {
+            signer = new DigestThenSignRsaContentSigner(jcaSignatureAlgorithm, privateKey);
+        } else {
+            signer = new JcaContentSignerBuilder(jcaSignatureAlgorithm).build(privateKey);
+        }
+
         CMSSignedDataGenerator gen = new CMSSignedDataGenerator();
-        ContentSigner signer =
-                new JcaContentSignerBuilder(
-                        getJcaSignatureAlgorithmForOta(publicKey, hash))
-                        .build(privateKey);
         gen.addSignerInfoGenerator(
             new JcaSignerInfoGeneratorBuilder(
                 new JcaDigestCalculatorProviderBuilder()
@@ -823,6 +910,7 @@ class SignApk {
             throws IOException,
                    CertificateEncodingException,
                    OperatorCreationException,
+                   GeneralSecurityException,
                    CMSException {
             SignApk.writeSignatureBlock(this, publicKey, privateKey, hash, temp);
         }
