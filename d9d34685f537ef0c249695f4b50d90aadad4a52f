@@ -51,6 +51,24 @@
       "parentUuid": "5cf7c17f_d811b96b",
       "revId": "d9d34685f537ef0c249695f4b50d90aadad4a52f",
       "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "43f994e2_cb55c579",
+        "filename": "tools/signapk/src/com/android/signapk/SignApk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 1000004
+      },
+      "writtenOn": "2026-10-05T18:24:56Z",
+      "side": 1,
+      "message": "Keeping the same logic will also make it easier to test for those who sign the old fashioned way.",
+      "parentUuid": "e29342aa_a6b07b50",
+      "revId": "d9d34685f537ef0c249695f4b50d90aadad4a52f",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
     }
   ]
 }
