@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "29055821_62c80e31",
+        "filename": "tools/signapk/src/com/android/signapk/SignApk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 1000004
+      },
+      "writtenOn": "2026-10-05T18:28:01Z",
+      "side": 1,
+      "message": "This file has 20 commits in 10 years from upstream, so maybe not worth it?",
+      "parentUuid": "7ecd4412_f9660159",
+      "revId": "d9d34685f537ef0c249695f4b50d90aadad4a52f",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5cf7c17f_d811b96b",
         "filename": "tools/signapk/src/com/android/signapk/SignApk.java",
         "patchSetId": 1
