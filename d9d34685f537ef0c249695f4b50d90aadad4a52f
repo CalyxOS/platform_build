@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ecd4412_f9660159",
+        "filename": "tools/signapk/src/com/android/signapk/SignApk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2026-10-05T13:21:48Z",
+      "side": 1,
+      "message": "I wonder if for maintainability reasons, we shouldn\u0027t keep the added lines above in a separate file.",
+      "revId": "d9d34685f537ef0c249695f4b50d90aadad4a52f",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5cf7c17f_d811b96b",
+        "filename": "tools/signapk/src/com/android/signapk/SignApk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2026-10-05T13:21:48Z",
+      "side": 1,
+      "message": "Should we also check if PKCS#11 is involved or is this a modification that even optimizes plain file signing and there should also get used there?",
+      "revId": "d9d34685f537ef0c249695f4b50d90aadad4a52f",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    }
+  ]
+}
