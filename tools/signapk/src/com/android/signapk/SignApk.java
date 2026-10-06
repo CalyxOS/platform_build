@@ -69,6 +69,8 @@ import java.lang.reflect.Constructor;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.security.DigestOutputStream;
 import java.security.GeneralSecurityException;
 import java.security.MessageDigest;
@@ -80,8 +82,10 @@ import java.security.KeyStoreException;
 import java.security.KeyStore.PrivateKeyEntry;
 import java.security.PrivateKey;
 import java.security.Provider;
+import java.security.PublicKey;
 import java.security.Security;
 import java.security.Signature;
+import java.security.SignatureException;
 import java.security.UnrecoverableEntryException;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateEncodingException;
@@ -362,6 +366,62 @@ class SignApk {
     };
 
     /**
+     * A command with the contract of ota_from_target_files' --payload_signer: it is run as
+     * {@code <command> -in <digest> -out <signature> -inkey <key>} with a file holding the
+     * SHA-256 digest, and writes the RSA PKCS#1 v1.5 signature over it. The signature must
+     * verify against {@code publicKey}.
+     */
+    private static final class ExternalSigner {
+        private final String command;
+        private final String key;
+        private final PublicKey publicKey;
+
+        ExternalSigner(String command, String key, PublicKey publicKey) {
+            this.command = command;
+            this.key = key;
+            this.publicKey = publicKey;
+        }
+
+        byte[] sign(byte[] digestBytes, byte[] digestInfo)
+                throws GeneralSecurityException, IOException, InterruptedException {
+            Path digestFile = Files.createTempFile("signapk-digest", ".bin");
+            Path signatureFile = Files.createTempFile("signapk-signature", ".bin");
+            try {
+                Files.write(digestFile, digestBytes);
+                Process process = new ProcessBuilder(
+                        command,
+                        "-in", digestFile.toString(),
+                        "-out", signatureFile.toString(),
+                        "-inkey", key)
+                        .inheritIO()
+                        .start();
+                int exitCode = process.waitFor();
+                if (exitCode != 0) {
+                    throw new IOException(command + " exited with " + exitCode);
+                }
+                byte[] signature = Files.readAllBytes(signatureFile);
+                Signature verifier = Signature.getInstance("NONEwithRSA");
+                verifier.initVerify(publicKey);
+                verifier.update(digestInfo);
+                boolean verified;
+                try {
+                    verified = verifier.verify(signature);
+                } catch (SignatureException e) {
+                    verified = false;
+                }
+                if (!verified) {
+                    throw new IOException(command + " wrote a signature that does not"
+                            + " verify against the certificate");
+                }
+                return signature;
+            } finally {
+                Files.deleteIfExists(digestFile);
+                Files.deleteIfExists(signatureFile);
+            }
+        }
+    }
+
+    /**
      * A {@link ContentSigner} that digests the content with a {@link MessageDigest} and signs
      * only the resulting {@link DigestInfo}. SunPKCS11's P11Signature counts processed bytes
      * in an {@code int} and fails past 2 GiB, which the whole-file signature of a large OTA
@@ -371,12 +431,15 @@ class SignApk {
         private final AlgorithmIdentifier sigAlgId;
         private final AlgorithmIdentifier digAlgId;
         private final PrivateKey privateKey;
+        private final ExternalSigner externalSigner;
         private final MessageDigest digest;
         private final OutputStream digestOut;
 
-        DigestThenSignRsaContentSigner(String jcaSignatureAlgorithm, PrivateKey privateKey)
-                throws GeneralSecurityException {
+        /** Signs through {@code externalSigner} when it is not null, else with {@code privateKey}. */
+        DigestThenSignRsaContentSigner(String jcaSignatureAlgorithm, PrivateKey privateKey,
+                ExternalSigner externalSigner) throws GeneralSecurityException {
             this.privateKey = privateKey;
+            this.externalSigner = externalSigner;
             this.sigAlgId = new DefaultSignatureAlgorithmIdentifierFinder().find(jcaSignatureAlgorithm);
             String upperAlgorithm = jcaSignatureAlgorithm.toUpperCase(Locale.US);
             String digestJcaName;
@@ -412,13 +475,16 @@ class SignApk {
             try {
                 byte[] digestBytes = digest.digest();
                 byte[] digestInfo = new DigestInfo(digAlgId, digestBytes).getEncoded("DER");
+                if (externalSigner != null) {
+                    return externalSigner.sign(digestBytes, digestInfo);
+                }
                 // No provider, as with JcaContentSignerBuilder below, so that JCA picks
                 // the one that accepts the key.
                 Signature rawSign = Signature.getInstance("NONEwithRSA");
                 rawSign.initSign(privateKey);
                 rawSign.update(digestInfo);
                 return rawSign.sign();
-            } catch (GeneralSecurityException | IOException e) {
+            } catch (GeneralSecurityException | IOException | InterruptedException e) {
                 throw new RuntimeException(e);
             }
         }
@@ -426,8 +492,8 @@ class SignApk {
 
     /** Sign data and write the digital signature to 'out'. */
     private static void writeSignatureBlock(
-        CMSTypedData data, X509Certificate publicKey, PrivateKey privateKey, int hash,
-        OutputStream out)
+        CMSTypedData data, X509Certificate publicKey, PrivateKey privateKey,
+        ExternalSigner externalSigner, int hash, OutputStream out)
         throws IOException,
                CertificateEncodingException,
                OperatorCreationException,
@@ -439,8 +505,10 @@ class SignApk {
 
         String jcaSignatureAlgorithm = getJcaSignatureAlgorithmForOta(publicKey, hash);
         ContentSigner signer;
-        if ("RSA".equalsIgnoreCase(publicKey.getPublicKey().getAlgorithm())) {
-            signer = new DigestThenSignRsaContentSigner(jcaSignatureAlgorithm, privateKey);
+        if (externalSigner != null
+                || "RSA".equalsIgnoreCase(publicKey.getPublicKey().getAlgorithm())) {
+            signer = new DigestThenSignRsaContentSigner(jcaSignatureAlgorithm, privateKey,
+                    externalSigner);
         } else {
             signer = new JcaContentSignerBuilder(jcaSignatureAlgorithm).build(privateKey);
         }
@@ -848,6 +916,7 @@ class SignApk {
         private final File publicKeyFile;
         private final X509Certificate publicKey;
         private final PrivateKey privateKey;
+        private final ExternalSigner externalSigner;
         private final int hash;
         private final long timestamp;
         private final OutputStream outputStream;
@@ -860,12 +929,14 @@ class SignApk {
                         + Pattern.quote(JarFile.MANIFEST_NAME) + ")$");
 
         public CMSSigner(JarFile inputJar, File publicKeyFile,
-                         X509Certificate publicKey, PrivateKey privateKey, int hash,
+                         X509Certificate publicKey, PrivateKey privateKey,
+                         ExternalSigner externalSigner, int hash,
                          long timestamp, OutputStream outputStream) {
             this.inputJar = inputJar;
             this.publicKeyFile = publicKeyFile;
             this.publicKey = publicKey;
             this.privateKey = privateKey;
+            this.externalSigner = externalSigner;
             this.hash = hash;
             this.timestamp = timestamp;
             this.outputStream = outputStream;
@@ -912,7 +983,8 @@ class SignApk {
                    OperatorCreationException,
                    GeneralSecurityException,
                    CMSException {
-            SignApk.writeSignatureBlock(this, publicKey, privateKey, hash, temp);
+            SignApk.writeSignatureBlock(this, publicKey, privateKey, externalSigner, hash,
+                    temp);
         }
 
         public WholeFileSignerOutputStream getSigner() {
@@ -922,10 +994,11 @@ class SignApk {
 
     private static void signWholeFile(JarFile inputJar, File publicKeyFile,
                                       X509Certificate publicKey, PrivateKey privateKey,
+                                      ExternalSigner externalSigner,
                                       int hash, long timestamp,
                                       OutputStream outputStream) throws Exception {
-        CMSSigner cmsOut = new CMSSigner(inputJar, publicKeyFile,
-                publicKey, privateKey, hash, timestamp, outputStream);
+        CMSSigner cmsOut = new CMSSigner(inputJar, publicKeyFile, publicKey, privateKey,
+                externalSigner, hash, timestamp, outputStream);
 
         ByteArrayOutputStream temp = new ByteArrayOutputStream();
 
@@ -1156,6 +1229,7 @@ class SignApk {
                            "[-loadPrivateKeysFromKeyStore <keyStoreName>]" +
                            "[-keyStorePin <pin>]" +
                            "[-keyStorePinFromEnv <environmentVariableName>] " +
+                           "[-externalSigner <command>] " +
                            "[--min-sdk-version <n>] " +
                            "[--disable-v1] " +
                            "[--disable-v2] " +
@@ -1182,6 +1256,7 @@ class SignApk {
         String providerArg = null;
         String keyStoreName = null;
         String keyStorePin = null;
+        String externalSignerCommand = null;
         int alignment = 4;
         boolean alignFileSize = false;
         Integer minSdkVersionOverride = null;
@@ -1226,6 +1301,12 @@ class SignApk {
                     usage();
                 }
                 keyStorePin = System.getenv(args[++argstart]);
+                ++argstart;
+            } else if ("-externalSigner".equals(args[argstart])) {
+                if (argstart + 1 >= args.length) {
+                    usage();
+                }
+                externalSignerCommand = args[++argstart];
                 ++argstart;
             } else if ("-a".equals(args[argstart])) {
                 alignment = Integer.parseInt(args[++argstart]);
@@ -1319,12 +1400,28 @@ class SignApk {
             // timestamp using the current timezone. We thus adjust the milliseconds since epoch
             // value to end up with MS-DOS timestamp of Jan 1 2009 00:00:00.
             timestamp -= TimeZone.getDefault().getOffset(timestamp);
+            ExternalSigner externalSigner = null;
+            if (externalSignerCommand != null) {
+                if (!signWholeFile || numKeys != 1 || keyStoreName != null) {
+                    System.err.println("-externalSigner requires -w and exactly one key,"
+                            + " and no -loadPrivateKeysFromKeyStore");
+                    System.exit(2);
+                }
+                if (!"RSA".equalsIgnoreCase(publicKey[0].getPublicKey().getAlgorithm())
+                        || getDigestAlgorithmForOta(publicKey[0]) != USE_SHA256) {
+                    System.err.println("-externalSigner requires an RSA key with a SHA-256"
+                            + " certificate");
+                    System.exit(2);
+                }
+                externalSigner = new ExternalSigner(externalSignerCommand, args[argstart + 1],
+                        publicKey[0].getPublicKey());
+            }
             KeyStore keyStore = null;
             if (keyStoreName != null) {
                 keyStore = createKeyStore(keyStoreName, keyStorePin);
             }
             PrivateKey[] privateKey = new PrivateKey[numKeys];
-            for (int i = 0; i < numKeys; ++i) {
+            for (int i = 0; externalSigner == null && i < numKeys; ++i) {
                 int argNum = argstart + i*2 + 1;
                 if (keyStore == null) {
                     privateKey[i] = readPrivateKey(new File(args[argNum]));
@@ -1342,7 +1439,8 @@ class SignApk {
             if (signWholeFile) {
                 int digestAlgorithm = getDigestAlgorithmForOta(publicKey[0]);
                 signWholeFile(inputJar, firstPublicKeyFile,
-                        publicKey[0], privateKey[0], digestAlgorithm,
+                        publicKey[0], privateKey[0], externalSigner,
+                        digestAlgorithm,
                         timestamp,
                         outputFile);
             } else {
