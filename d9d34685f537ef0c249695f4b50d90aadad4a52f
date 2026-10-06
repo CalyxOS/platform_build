@@ -36,6 +36,24 @@
       "serverId": "35266860-6252-469c-a67d-185064479fc0"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c207c5e_3c4e2520",
+        "filename": "tools/signapk/src/com/android/signapk/SignApk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 1000004
+      },
+      "writtenOn": "2026-10-06T13:01:43Z",
+      "side": 1,
+      "message": "Let\u0027s go with this for now, we can improve things later/in Android 18 if this becomes an issue.",
+      "parentUuid": "29055821_62c80e31",
+      "revId": "d9d34685f537ef0c249695f4b50d90aadad4a52f",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5cf7c17f_d811b96b",
