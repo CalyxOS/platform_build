@@ -90,6 +90,7 @@ class Options(object):
     self.public_key_suffix = ".x509.pem"
     self.private_key_suffix = ".pk8"
     self.pkcs11_config = None
+    self.signapk_external_signer = None
     # use otatools built boot_signer by default
     self.verbose = False
     self.tempfiles = []
@@ -2601,6 +2602,9 @@ def SignFile(input_name, output_name, key, password, min_api_level=None,
   log_on_success can be provided to log output of signing file on success,
   default behavior is to skip logging when signing is successful.
   """
+  if OPTIONS.pkcs11_config is None:
+    if OPTIONS.signapk_external_signer is not None:
+      raise ValueError("--signapk_external_signer requires --pkcs11_config")
   if codename_to_api_level_map is None:
     codename_to_api_level_map = {}
   if extra_signapk_args is None:
@@ -2663,7 +2667,12 @@ def SignFile(input_name, output_name, key, password, min_api_level=None,
                   "--out", output_name,
                   input_name])
   else:
-    if OPTIONS.pkcs11_config is not None:
+    if whole_file and OPTIONS.signapk_external_signer is not None:
+      cmd.extend(["-externalSigner", OPTIONS.signapk_external_signer,
+                  key + OPTIONS.public_key_suffix,
+                  key,
+                  input_name, output_name])
+    elif OPTIONS.pkcs11_config is not None:
       cmd.extend(["-loadPrivateKeysFromKeyStore", "PKCS11",
                   "-keyStorePinFromEnv", "PKCS11_PIN",
                   "-providerClass", "sun.security.pkcs11.SunPKCS11",
@@ -2887,6 +2896,7 @@ def ParseOptions(argv,
          "signing_command_interceptor=",
          "extra_avbtool_signing_args=",
          "pkcs11_config=",
+         "signapk_external_signer=",
          ] + list(extra_long_opts))
   except getopt.GetoptError as err:
     Usage(docstring)
@@ -2948,6 +2958,8 @@ def ParseOptions(argv,
       OPTIONS.extra_avbtool_signing_args = a
     elif o in ("--pkcs11_config",):
       OPTIONS.pkcs11_config = a
+    elif o in ("--signapk_external_signer",):
+      OPTIONS.signapk_external_signer = a
     else:
       if extra_option_handler is None:
         raise ValueError("unknown option \"%s\"" % (o,))

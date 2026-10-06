@@ -22,6 +22,7 @@ import unittest
 import zipfile
 from hashlib import sha1
 from typing import BinaryIO
+from unittest import mock
 
 import common
 import test_utils
@@ -2248,3 +2249,44 @@ class DeviceSpecificParamsTest(test_utils.ReleaseToolsTestCase):
     common.OPTIONS.device_specific = '/does_not_exist'
     ds = DeviceSpecificParams()
     self.assertIsNone(ds.module)
+
+
+class SignFileTest(test_utils.ReleaseToolsTestCase):
+
+  def setUp(self):
+    self.saved_options = {
+        name: getattr(common.OPTIONS, name)
+        for name in ('pkcs11_config', 'signapk_external_signer')}
+    self.environ = mock.patch.dict(
+        os.environ, {'KEY_DIR': '/keys/', 'USE_APKSIGNER': 'y'})
+    self.environ.start()
+
+  def tearDown(self):
+    self.environ.stop()
+    for name, value in self.saved_options.items():
+      setattr(common.OPTIONS, name, value)
+    super().tearDown()
+
+  @staticmethod
+  def _SignFile(**kwargs):
+    proc = mock.Mock(returncode=0)
+    proc.communicate.return_value = ('', None)
+    with mock.patch.object(common, 'Run', return_value=proc) as run:
+      common.SignFile('in.zip', 'out.zip', '/keys/releasekey', None, **kwargs)
+    return run.call_args[0][0]
+
+  def test_SignFile_signapkExternalSigner(self):
+    common.OPTIONS.pkcs11_config = '/pkcs11.cfg'
+    common.OPTIONS.signapk_external_signer = '/bin/payload_signer'
+    cmd = self._SignFile(whole_file=True)
+    self.assertEqual(
+        ['-w', '-externalSigner', '/bin/payload_signer',
+         '/keys/releasekey.x509.pem', '/keys/releasekey',
+         'in.zip', 'out.zip'],
+        cmd[-7:])
+    self.assertNotIn('-loadPrivateKeysFromKeyStore', cmd)
+
+  def test_SignFile_signapkExternalSignerWithoutPkcs11Config(self):
+    common.OPTIONS.pkcs11_config = None
+    common.OPTIONS.signapk_external_signer = '/bin/payload_signer'
+    self.assertRaises(ValueError, self._SignFile, whole_file=True)
