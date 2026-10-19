@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56a52bac_f5426374",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2026-10-19T12:50:23Z",
+      "side": 1,
+      "message": "Do you know why batch mode didn\u0027t speed this up? It was supposed to keep keys in memory, so the enumeration should only happen once and not with every invocation.",
+      "revId": "32f31ca0a2ad8866bd2be9ea391cb11a78c78df1",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    }
+  ]
+}
