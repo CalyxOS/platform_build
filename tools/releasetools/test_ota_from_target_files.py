@@ -19,6 +19,7 @@ import os
 import os.path
 import tempfile
 import zipfile
+from unittest import mock
 
 import common
 import ota_metadata_pb2
@@ -1272,6 +1273,15 @@ class PayloadSignerTest(test_utils.ReleaseToolsTestCase):
 
     verify_file = os.path.join(self.testdata_dir, self.SIGNED_SIGFILE)
     self._assertFilesEqual(verify_file, signed_file)
+
+  def test_Sign_withExternalSigner_inkey(self):
+    common.OPTIONS.payload_signer_args = []
+    payload_signer = PayloadSigner(
+        '/keys/releasekey', '.pk8', payload_signer='/bin/payload_signer')
+    with mock.patch.object(common, 'RunAndCheckOutput') as run:
+      payload_signer.SignHashFile('in.bin')
+    self.assertEqual(['-inkey', '/keys/releasekey.pk8'],
+                     run.call_args[0][0][-2:])
 
 
 class PayloadTest(test_utils.ReleaseToolsTestCase):

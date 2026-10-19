@@ -116,6 +116,7 @@ class PayloadSigner(object):
       self.signer = payload_signer
       self.signer_args = payload_signer_args
       self.package_key = package_key
+      self.private_key_suffix = private_key_suffix
       if payload_signer_maximum_signature_size:
         self.maximum_signature_size = int(
             payload_signer_maximum_signature_size)
@@ -176,7 +177,7 @@ class PayloadSigner(object):
     if OPTIONS.pkcs11_config is not None and self.package_key is not None:
       cmd.extend(["-inkey", self.package_key])
     elif self.package_key is not None:
-      cmd.extend(["-inkey", self.package_key + private_key_suffix])
+      cmd.extend(["-inkey", self.package_key + self.private_key_suffix])
     if OPTIONS.signing_command_interceptor is not None:
       new_env = os.environ.copy()
       new_env["SIGNING_COMMAND"] = cmd[0]
