@@ -16,6 +16,24 @@
       "message": "Do you know why batch mode didn\u0027t speed this up? It was supposed to keep keys in memory, so the enumeration should only happen once and not with every invocation.",
       "revId": "32f31ca0a2ad8866bd2be9ea391cb11a78c78df1",
       "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91c72e12_c09243bd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000248
+      },
+      "writtenOn": "2026-10-19T13:16:55Z",
+      "side": 1,
+      "message": "Batch mode does speed it up, there are no issues with the original implementation.\n\nThis change moves the signing into the per-release signing server we host, so apksigner no longer opens its own HSM connection or loads a SunPKCS11 KeyStore, which used to enumerate every object on the token (and took about 24.6 seconds).\n\nThe signing server already holds an HSM session, so that works isn\u0027t needed. Together with the other changes, every signature in a release now goes through the signing server.",
+      "parentUuid": "56a52bac_f5426374",
+      "revId": "32f31ca0a2ad8866bd2be9ea391cb11a78c78df1",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
     }
   ]
 }
