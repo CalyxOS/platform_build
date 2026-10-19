@@ -1228,7 +1228,6 @@ class SignApk {
                            "[-providerArg <configureArg>] " +
                            "[-loadPrivateKeysFromKeyStore <keyStoreName>]" +
                            "[-keyStorePin <pin>]" +
-                           "[-keyStorePinFromEnv <environmentVariableName>] " +
                            "[-externalSigner <command>] " +
                            "[--min-sdk-version <n>] " +
                            "[--disable-v1] " +
@@ -1294,13 +1293,6 @@ class SignApk {
                     usage();
                 }
                 keyStorePin = args[++argstart];
-                ++argstart;
-            } else if ("-keyStorePinFromEnv".equals(args[argstart])) {
-                // This is a bit less bad than providing the PIN directly on the command line.
-                if (argstart + 1 >= args.length) {
-                    usage();
-                }
-                keyStorePin = System.getenv(args[++argstart]);
                 ++argstart;
             } else if ("-externalSigner".equals(args[argstart])) {
                 if (argstart + 1 >= args.length) {
