@@ -89,7 +89,6 @@ class Options(object):
     self.android_jar_path = None
     self.public_key_suffix = ".x509.pem"
     self.private_key_suffix = ".pk8"
-    self.pkcs11_config = None
     self.signapk_external_signer = None
     self.apksigner_kms_type = None
     # use otatools built boot_signer by default
@@ -2603,11 +2602,6 @@ def SignFile(input_name, output_name, key, password, min_api_level=None,
   log_on_success can be provided to log output of signing file on success,
   default behavior is to skip logging when signing is successful.
   """
-  if OPTIONS.pkcs11_config is None:
-    if OPTIONS.signapk_external_signer is not None:
-      raise ValueError("--signapk_external_signer requires --pkcs11_config")
-    if OPTIONS.apksigner_kms_type is not None:
-      raise ValueError("--apksigner_kms_type requires --pkcs11_config")
   if codename_to_api_level_map is None:
     codename_to_api_level_map = {}
   if extra_signapk_args is None:
@@ -2618,10 +2612,6 @@ def SignFile(input_name, output_name, key, password, min_api_level=None,
   java_library_path = os.path.join(
       OPTIONS.search_path, OPTIONS.signapk_shared_library_path)
 
-  java_args = OPTIONS.java_args
-  if OPTIONS.pkcs11_config is not None:
-    java_args = java_args + \
-      ["--add-exports=jdk.crypto.cryptoki/sun.security.pkcs11=ALL-UNNAMED"]
   use_apksigner = not whole_file and os.getenv("USE_APKSIGNER") != "n"
   if (OPTIONS.apksigner_kms_type is not None and not whole_file and
       not use_apksigner):
@@ -2629,7 +2619,7 @@ def SignFile(input_name, output_name, key, password, min_api_level=None,
         "--apksigner_kms_type requires apksigner, not USE_APKSIGNER=n")
 
   if use_apksigner:
-    cmd = ([OPTIONS.java_path] + java_args +
+    cmd = ([OPTIONS.java_path] + OPTIONS.java_args +
         ["-Djava.library.path=" + java_library_path,
         "-jar", os.path.join(OPTIONS.search_path, OPTIONS.apksigner_path),
         "sign",
@@ -2637,9 +2627,8 @@ def SignFile(input_name, output_name, key, password, min_api_level=None,
         # and otherwise leave an unused mess lying around.
         '--v4-signing-enabled=false',
         ] + extra_apksigner_args)
-
   else:
-    cmd = ([OPTIONS.java_path] + java_args +
+    cmd = ([OPTIONS.java_path] + OPTIONS.java_args +
            ["-Djava.library.path=" + java_library_path,
             "-jar", os.path.join(OPTIONS.search_path, OPTIONS.signapk_path)] +
            extra_signapk_args)
@@ -2654,24 +2643,12 @@ def SignFile(input_name, output_name, key, password, min_api_level=None,
   if min_sdk_version is not None:
     cmd.extend(["--min-sdk-version", str(min_sdk_version)])
 
-  if OPTIONS.pkcs11_config is not None:
-    key_dir = os.environ["KEY_DIR"] or ""
-    key_alias = key.removeprefix(key_dir)
-
   if use_apksigner:
     if OPTIONS.apksigner_kms_type is not None:
+      key_alias = key.removeprefix(os.environ["KEY_DIR"] or "")
       cmd.extend(["--kms-type", OPTIONS.apksigner_kms_type,
                   "--kms-key-alias", key_alias,
                   "--cert", key + OPTIONS.public_key_suffix,
-                  "--out", output_name,
-                  input_name])
-    elif OPTIONS.pkcs11_config is not None:
-      cmd.extend(["--ks", "NONE",
-                  "--ks-type", "PKCS11",
-                  "--ks-pass", "env:PKCS11_PIN",
-                  "--provider-class", "sun.security.pkcs11.SunPKCS11",
-                  "--provider-arg", OPTIONS.pkcs11_config,
-                  "--ks-key-alias", key_alias,
                   "--out", output_name,
                   input_name])
     else:
@@ -2684,14 +2661,6 @@ def SignFile(input_name, output_name, key, password, min_api_level=None,
       cmd.extend(["-externalSigner", OPTIONS.signapk_external_signer,
                   key + OPTIONS.public_key_suffix,
                   key,
-                  input_name, output_name])
-    elif OPTIONS.pkcs11_config is not None:
-      cmd.extend(["-loadPrivateKeysFromKeyStore", "PKCS11",
-                  "-keyStorePinFromEnv", "PKCS11_PIN",
-                  "-providerClass", "sun.security.pkcs11.SunPKCS11",
-                  "-providerArg", OPTIONS.pkcs11_config,
-                  key + OPTIONS.public_key_suffix,
-                  key_alias,
                   input_name, output_name])
     else:
       cmd.extend([key + OPTIONS.public_key_suffix,
@@ -2908,7 +2877,6 @@ def ParseOptions(argv,
          "extra_apksigner_args=",
          "signing_command_interceptor=",
          "extra_avbtool_signing_args=",
-         "pkcs11_config=",
          "signapk_external_signer=",
          "apksigner_kms_type=",
          ] + list(extra_long_opts))
@@ -2970,8 +2938,6 @@ def ParseOptions(argv,
       OPTIONS.signing_command_interceptor = a
     elif o in ("--extra_avbtool_signing_args",):
       OPTIONS.extra_avbtool_signing_args = a
-    elif o in ("--pkcs11_config",):
-      OPTIONS.pkcs11_config = a
     elif o in ("--signapk_external_signer",):
       OPTIONS.signapk_external_signer = a
     elif o in ("--apksigner_kms_type",):

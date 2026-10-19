@@ -174,9 +174,7 @@ class PayloadSigner(object):
     """Signs the given input file. Returns the output filename."""
     out_file = common.MakeTempFile(prefix="signed-", suffix=".bin")
     cmd = [self.signer] + self.signer_args + ['-in', in_file, '-out', out_file]
-    if OPTIONS.pkcs11_config is not None and self.package_key is not None:
-      cmd.extend(["-inkey", self.package_key])
-    elif self.package_key is not None:
+    if self.package_key is not None:
       cmd.extend(["-inkey", self.package_key + self.private_key_suffix])
     if OPTIONS.signing_command_interceptor is not None:
       new_env = os.environ.copy()
