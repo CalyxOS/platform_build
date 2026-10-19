@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2ec08332_d483a89c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000248
+      },
+      "writtenOn": "2026-10-19T13:32:22Z",
+      "side": 1,
+      "message": "Yep, the entries and their contents end up the same, just their metadata changes, but that ends up making ZIPs reproducible.\n\nFor context, on an FP6 signed target-files of ~9.7 GB, the old zip path takes 203s and soong_zip about 11s on 32 threads.",
+      "parentUuid": "8d824786_494c1bd7",
+      "revId": "a23a753cbc153725328acadd5c1579abedd1f112",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "102d970f_1af3685e",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
