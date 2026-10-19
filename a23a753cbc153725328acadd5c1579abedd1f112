@@ -16,6 +16,23 @@
       "message": "So if I understand this right, you replace the existing zip mechanism with a new one using the existing `soong_zip` tool which produces exactly the same result, except that it is much faster and changes zip metadata, so the resulting ZIPs should be reproducible?",
       "revId": "a23a753cbc153725328acadd5c1579abedd1f112",
       "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "102d970f_1af3685e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2026-10-19T13:14:23Z",
+      "side": 1,
+      "message": "Could we send this upstream?",
+      "revId": "a23a753cbc153725328acadd5c1579abedd1f112",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
     }
   ]
 }
